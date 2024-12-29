@@ -20,17 +20,28 @@ public class Employee extends User{
 	}
 	
 	
-	public void approveEvent(/*Event anEvent?? ApprovalRequest request??*/)
+	public void approveEvent(ApprovalRequest aRequest)
 	{
+		
 		/*
-		 * An uparxei approvalRequest kane set to status tis se approved
-		 * to idio kai sto status tis Event
 		 * 
-		 * Kalese th registerEvent tis EventManager gia na kaneis
-		 * to neo Event
+		 * We use the "status" field on the ApprovalRequest class so that we know
+		 * if an Event is awaiting approval. The employee utilizes that to 
+		 * register the Event.
 		 * 
-		 * An den uparxei approvalRequest den mporeis na kaneis tipota
 		 */
+			if (aRequest == null)
+			{
+				System.out.println("The organizer hasn't made a request for"
+						+ "the registration of this Event");
+			}
+			else if(aRequest.getStatus().equals("pending"))
+			{
+				aRequest.handleRequest(true, this, "The event is now approved");
+				EventManager.getInstance().registerEvent(aRequest.getAnEvent());
+				System.out.println("You have successfully approved and registered the event");
+			}
+			
 	}
 	
 	public void deleteEvent(/*Event anEvent?? ApprovalRequest request??*/)
