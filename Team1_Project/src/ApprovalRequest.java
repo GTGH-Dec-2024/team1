@@ -1,47 +1,71 @@
 
+import java.time.LocalDateTime;
+
 public class ApprovalRequest {
 	private String type; //isws ennoei an einai gia add h delete
-	private String status; // einai pending, approved h rejected
-	private String createdAt; //tsekare paketo me meres/wres
-	private String closedAt; //tsekare paketo me meres/wres
-	private String handledBy; //den exw idea, isws null h onoma ypallilou
+	private String status; //is it pending, approved or not-approved
+	private LocalDateTime createdAt; //tsekare paketo me meres/wres
+	private LocalDateTime closedAt; //dinei twrini imerominia kai wra
+	private Employee handledBy; 
 	private String comments;
 	
 	private Organizer submittedBy;
 	private Event anEvent;
 	
 	
-	public ApprovalRequest(String type, String status, String createdAt, String closedAt, String handledBy,
-			String comments, Organizer submittedBy, Event anEvent) {
+	public ApprovalRequest(String type, LocalDateTime createdAt,
+			Organizer submittedBy, Event anEvent, String comments) {
 		this.type = type;
-		this.status = "pending"; 
-		/*o organizer kanei to request opote by default pending
-		 * pending/approved/not-approved
-		 */
 		this.createdAt = createdAt;
-		this.closedAt = null;
-		this.handledBy = null;
-		//otan ginetai submit to request den ta kserw auta
-		this.comments = comments;
 		this.submittedBy = submittedBy;
 		this.anEvent = anEvent;
+		this.comments = "Organizer's comment: " + comments;
+		this.status = "pending"; //by default, since the organizer makes the request
+		this.closedAt = null; //based on when the employee handles it
+		this.handledBy = null; //based on which employee handles it
 	}
 	
 	
-	public void handleRequest(Event anEvent)
+/*
+ * Changes the status of the request and the event.
+ * Updates the "closed-at" and "handled by" fields
+ */
+	
+	public void handleRequest(boolean isApproved, Employee employee, String comment)
 	{
-		/*
-		 * thn xrisimopoiei o Employee gia na pei oti to request
-		 * einai approved h oxi
-		 * 
-		 * Enimerwnw ta katallila pedia (apo poion egine handled,
-		 * pote ekleise klp)
-		 * 
-		 * enimerwnw kai to pedio status tou event me setter
-		 * 
-		 */
+		if (isApproved)
+		{
+			this.status = "approved";
+			anEvent.setStatus("approved");
+		}
+			
+		else
+		{
+			this.status = "not-approved";
+			anEvent.setStatus("not-approved");
+		}		
+		
+		closedAt = LocalDateTime.now();
+		handledBy = employee;
+		
+		if (!comment.isBlank()) {
+		    this.comments += "\nEmployee's comment: " + comment;
+		}
+
+		
+	}
+
+
+	public String getStatus() 
+	{
+		return status;
+	}
+
+
+	public Event getAnEvent() {
+		return anEvent;
 	}
 	
-
-
+	
+	
 }
