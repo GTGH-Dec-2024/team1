@@ -14,13 +14,13 @@ public class Organizer extends User{
 		this.events = new ArrayList<Event>();
 	}
 	
-	/*
-	 * Methodos createEvent, tin kalei o organizer
-	 * kai ftiaxnei to Event, to opoio den tha einai approved
-	 * akoma
-	 * 
-	 * kalei automata th registerRequest??
-	 */
+	public Event createEvent(String title, String theme, String description, String location, int maxCapacity, int day, int month, int year, int hour, int minutes, int duration) {
+		Event event = new Event(title, theme, description, location, maxCapacity, day, month, year, hour, minutes, duration, this);
+		events.add(event);
+		EventManager.getInstance().addEvent(event);
+		return event;
+	}
+	
 	
 	private void registerRequest(Event anEvent)
 	{
@@ -61,9 +61,30 @@ public class Organizer extends User{
 		 * 
 		 */
 	}
-	
-	
-	
+
+	public String getAfm() {
+		return afm;
+	}
+
+	public void setAfm(String afm) {
+		this.afm = afm;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public ArrayList<Event> getEvents() {
+		return events;
+	}
+
+	public void setEvents(ArrayList<Event> events) {
+		this.events = events;
+	}
 	
 
 }
