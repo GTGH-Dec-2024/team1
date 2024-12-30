@@ -1,10 +1,12 @@
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 
-public class Organizer extends User{
+public class Organizer extends User {
 
 	private String afm;
 	private String description;
-	
+
 	private ArrayList<Event> events;
 
 	public Organizer(String name, String surname, String afm, String description, ArrayList<Event> events) {
@@ -13,51 +15,39 @@ public class Organizer extends User{
 		this.description = description;
 		this.events = new ArrayList<Event>();
 	}
-	
-	public Event createEvent(String title, String theme, String description, String location, int maxCapacity, int day, int month, int year, int hour, int minutes, int duration) {
-		Event event = new Event(title, theme, description, location, maxCapacity, day, month, year, hour, minutes, duration, this);
+
+	LocalDateTime timestamp = LocalDateTime.now();
+
+	public Event registerRequest(Event event, Employee employee) {
 		events.add(event);
 		EventManager.getInstance().addEvent(event);
+		ApprovalRequest request = new ApprovalRequest("Request for event approval.", timestamp, this, event, "Accept the request for this event.");
+		employee.approveRequest(request); 
 		return event;
 	}
-	
-	
-	private void registerRequest(Event anEvent)
-	{
-		/*
-		 * Ftiaxnei antikeimeno approvalRequest,
-		 * kanei aithsh gia na ginei kappoio event
-		 * 
-		 */
+
+	// ok now in the same program the organizer can have the ability to delete an
+	// event of theirs. First they request from the employee for the deletion and
+	// after they get the ok (or the not ok) the event gets deleted (if deletion not
+	// approved) from the arrayList of the eventList list.
+	public void removalRequest(Event anEvent) {
+		ApprovalRequest request = new ApprovalRequest("Request for event approval.", timestamp, this, event, "Accept the request for this event.");
 		
-		
-	}
-	
-	
-	public void removalRequest(Event anEvent)
-	{
-		/*
-		 * Kanei ena approvalRequest gia diagrafi
-		 * kapoiou event
-		 */
 	}
 	/*
-	 * Isws registerRequest kai removalRequest na ginoun mia
-	 * klasi kai analoga me to an thelw creation i deletion
-	 * na pernaei san parametros sthn approvalRequest? 
+	 * Isws registerRequest kai removalRequest na ginoun mia klasi kai analoga me to
+	 * an thelw creation i deletion na pernaei san parametros sthn approvalRequest?
 	 * (logika me to type sthn approvalRequest)
 	 * 
 	 */
-	
-	
-	public void seeParticipants()
-	{
+
+	public void seeParticipants() {
 		/*
 		 * Blepei tous participants se ola ta event tou
 		 * 
 		 * 
-		 * opws k na xei prepei kapou na exw mia lista me ta
-		 * reservations (stin Event?? h se alli klasi??)
+		 * opws k na xei prepei kapou na exw mia lista me ta reservations (stin Event??
+		 * h se alli klasi??)
 		 * 
 		 */
 	}
@@ -85,6 +75,5 @@ public class Organizer extends User{
 	public void setEvents(ArrayList<Event> events) {
 		this.events = events;
 	}
-	
 
 }
