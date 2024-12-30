@@ -197,12 +197,12 @@ public class Event {
 			this.duration = duration;
 		}
 
-		public Organizer getOrgnzr() {
+		public Organizer getOrganizer() {
 			return organizer;
 		}
 
-		public void setOrgnzr(Organizer orgnzr) {
-			this.organizer = orgnzr;
+		public void setOrganizer(Organizer organizer) {
+			this.organizer = organizer;
 		}
 
 		public String getStatus() {
