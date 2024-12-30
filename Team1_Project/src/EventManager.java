@@ -3,6 +3,7 @@
  * Edw mporw na kanw search, 
  */
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class EventManager {
@@ -30,7 +31,7 @@ public class EventManager {
     			
     			 /*
     			 * if the approvalRequest for it's
-    			 * deletion has been approved then delete it
+    			 * deletion has been approved, then delete it
     			 */
     		 }
     		 else
@@ -44,14 +45,21 @@ public class EventManager {
     	 
     }
     
- /*   public Event searchEvent()
+  public Event searchEvent(LocalDateTime date, String location, String theme)
     {
-    	*
-    	 * Nomizw pairnei imerominia, thema klp
-    	 * kai epistrefei antikeimeno typou event(?)
-    	 
+    	
+	  for (Event i : events)
+    	 {
+    		 if (i.getDate().equals(date) && i.getLocation().equals(location)
+    				 && i.getTheme().equals(theme))
+    		 {
+    			return i;
+    		 }
+    	 }
+	  
     }
-*/
+
+
 
 	public static EventManager getInstance() {
 		return instance;
