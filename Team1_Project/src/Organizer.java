@@ -22,7 +22,7 @@ public class Organizer extends User {
 		events.add(event);
 		EventManager.getInstance().addEvent(event);
 		ApprovalRequest request = new ApprovalRequest("Request for event approval.", timestamp, this, event, "Accept the request for this event.");
-		employee.approveEvent(request); 
+		employee.approveRequest(request); 
 		return event;
 	}
 
