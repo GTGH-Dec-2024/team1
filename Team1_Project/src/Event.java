@@ -19,7 +19,7 @@ public class Event {
 	private int hour;
 	private int minutes;
 	private int duration;
-	private Organizer orgnzr;
+	private Organizer organizer;
 	private String status; 
 	private int currentCapacity;
 	
@@ -41,7 +41,7 @@ public class Event {
 		this.hour = hour;
 		this.minutes = minutes;
 		this.duration = duration;
-		this.orgnzr = orgnzr;
+		this.organizer = organizer;
 		this.status = "Pending";
 	}
 	
@@ -198,11 +198,11 @@ public class Event {
 		}
 
 		public Organizer getOrgnzr() {
-			return orgnzr;
+			return organizer;
 		}
 
 		public void setOrgnzr(Organizer orgnzr) {
-			this.orgnzr = orgnzr;
+			this.organizer = orgnzr;
 		}
 
 		public String getStatus() {
@@ -229,7 +229,7 @@ public class Event {
 		public String toString() {
 			return "Event [title=" + title + ", theme=" + theme + ", description=" + description + ", location="
 					+ location + ", maxCapacity=" + maxCapacity + ", day=" + day + ", month=" + month + ", year=" + year
-					+ ", hour=" + hour + ", minutes=" + minutes + ", duration=" + duration + ", orgnzr=" + orgnzr
+					+ ", hour=" + hour + ", minutes=" + minutes + ", duration=" + duration + ", organizer=" + organizer
 					+ ", status=" + status + ", currentCapacity=" + currentCapacity + ", reservations=" + reservations
 					+ "]";
 		}
