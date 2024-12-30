@@ -16,19 +16,32 @@ public class EventManager {
     	events.add(anEvent);
     }
     
-    public void deleteEvent(Event event) 
+    public void deleteEvent(Event anEvent, User caller) 
     {
-        /*
-         * An to event uparxei sti lista me ta events
-         * svisto
-         * 
-         * PREPEI NA DIAXWRISW AN TO KANEI O ORGANIZER
-         * (KAI DHLADH THA THELEI NA XEI APPROVAL) H
-         * O IPALLILOS
-         * 
-         * Kati vrika online oti isws ginetai me StackTrace 
-         * kai streams klp klp, wste na doume poios tin kalese
-         */
+    	 if (events.contains(anEvent))
+    	 {
+    		 if (caller instanceof Employee)
+    		 {
+    			 events.remove(anEvent);
+    			 anEvent.setStatus("cancelled");
+    		 }
+    		 else if (caller instanceof Organizer)
+    		 {
+    			
+    			 /*
+    			 * if the approvalRequest for it's
+    			 * deletion has been approved then delete it
+    			 */
+    		 }
+    		 else
+    			 System.out.println("You have no right to make"
+    			 		+ "changes to events!");
+    		 
+    	 }
+    	 else
+    		 System.out.println("The event is not even registered,"
+    		 		+ "so it can't be deleted!");
+    	 
     }
     
  /*   public Event searchEvent()
