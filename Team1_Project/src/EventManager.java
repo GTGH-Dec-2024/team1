@@ -7,11 +7,15 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class EventManager {
-	private ArrayList<Event> events;
+	private ArrayList<Event> events= new ArrayList<>();
     private static EventManager instance;
 	
-	
-    public void registerEvent(Event anEvent)
+    
+    public EventManager(ArrayList<Event> events) {
+		this.events = events;
+	}
+
+	public void registerEvent(Event anEvent)
     {   	
     	//no check necessary, called by the employee 
     	events.add(anEvent);
@@ -45,7 +49,9 @@ public class EventManager {
     	 
     }
     
-  public Event searchEvent(LocalDateTime date, String location, String theme)
+ 
+    
+   public Event searchEvent(LocalDateTime date, String location, String theme)
     {
     	
 	  for (Event i : events)
@@ -64,6 +70,12 @@ public class EventManager {
 	public static EventManager getInstance() {
 		return instance;
 	}
+
+	public ArrayList<Event> getEvents() {
+		return events;
+	}
+	
+	
 
 
 }

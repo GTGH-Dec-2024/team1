@@ -2,10 +2,11 @@
 import java.time.LocalDateTime;
 
 public class ApprovalRequest {
-	private String type; //isws ennoei an einai gia add h delete
-	private String status; //is it pending, approved or not-approved
-	private LocalDateTime createdAt; //tsekare paketo me meres/wres
-	private LocalDateTime closedAt; //dinei twrini imerominia kai wra
+	private String type; //is it to register or delete event
+	private String status; 
+	//is it open(waiting for answer from employee) or closed (employee has answered)
+	private LocalDateTime createdAt;
+	private LocalDateTime closedAt; 
 	private Employee handledBy; 
 	private String comments;
 	
@@ -20,9 +21,10 @@ public class ApprovalRequest {
 		this.submittedBy = submittedBy;
 		this.anEvent = anEvent;
 		this.comments = "Organizer's comment: " + comments;
-		this.status = "pending"; //by default, since the organizer makes the request
+		this.status = "open"; //by default, since the organizer makes the request
 		this.closedAt = null; //based on when the employee handles it
 		this.handledBy = null; //based on which employee handles it
+		
 	}
 	
 	
@@ -35,16 +37,15 @@ public class ApprovalRequest {
 	{
 		if (isApproved)
 		{
-			this.status = "approved";
 			anEvent.setStatus("approved");
 		}
 			
 		else
 		{
-			this.status = "not-approved";
 			anEvent.setStatus("not-approved");
-		}		
+		}
 		
+		this.status = "closed";
 		closedAt = LocalDateTime.now();
 		handledBy = employee;
 		
@@ -64,6 +65,11 @@ public class ApprovalRequest {
 
 	public Event getAnEvent() {
 		return anEvent;
+	}
+
+
+	public String getType() {
+		return type;
 	}
 	
 	

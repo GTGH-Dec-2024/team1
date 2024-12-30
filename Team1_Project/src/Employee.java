@@ -1,4 +1,3 @@
-
 /*
  * PROSEXW: O Employee mporei na diagrapsei monos tou Events!
  * Den mporei na ftiajei!
@@ -20,7 +19,7 @@ public class Employee extends User{
 	}
 	
 	
-	public void approveEvent(ApprovalRequest aRequest)
+	public void approveRequest(ApprovalRequest aRequest)
 	{
 		
 		/*
@@ -32,45 +31,58 @@ public class Employee extends User{
 		 */
 			if (aRequest == null)
 			{
-				System.out.println("The organizer hasn't made a request for"
-						+ "the registration of this Event");
+				System.out.println("The organizer hasn't made a request for the event");
 			}
-			else if(aRequest.getStatus().equals("pending"))
+			else if(aRequest.getStatus().equals("open"))
 			{
 				aRequest.handleRequest(true, this, "The event is now approved");
-				EventManager.getInstance().registerEvent(aRequest.getAnEvent());
-				
-				System.out.println("You have successfully approved and registered the event");
+				System.out.println("You have given permission to " +aRequest.getType()+
+						" the event.");
+//			Nomizw o Employee apla kanei approve to request, meta to ftiaxnei
+//			h to diagrafei o organizer	
+//			EventManager.getInstance().registerEvent(aRequest.getAnEvent());
+			}
+			else
+			{
+				System.out.println("The request has already been handled");
 			}
 			
 	}
 	
-	public void deleteEvent(/*Event anEvent?? ApprovalRequest request??*/)
-	{
-		/*
-		 * Edw den xreiazetai na uparxei request.
-		 * 
-		 * An uparxei to kaneis approved klp klp,
-		 * alla eite uparxei eite oxi sigoura
-		 * diagrafeis apo ti lista to Event tis EventManager
-		 * 
-		 * 
-		 */
-	}
-	/*
-	 * ISWS approveEvent kai deleteEvent na enwthoun????
-	 * kai na ginoun px approveRequest??
-	 * to vlepoyme
-	 */
-	
-	 public void rejectRequest(ApprovalRequest request) 
+	 public void rejectRequest(ApprovalRequest aRequest) 
 	 {
-		 /*
-		  * An  kanw reject prepei na exw auth th methodo
-		  * pou tha enimerwnei oti to request einai closed
-		  * 
-		  */
+		 if (aRequest == null)
+			{
+				System.out.println("The organizer hasn't made a request for the event");
+			}
+			else if(aRequest.getStatus().equals("open"))
+			{
+				aRequest.handleRequest(false, this, "The event is now not-approved");
+				System.out.println("You have NOT given permission to " +aRequest.getType()+
+						" the event.");
+			}
+			else
+			{
+				System.out.println("The request has already been handled");
+			}
 	 }
+	 
+	 
+	
+	public void deleteEvent(Event anEvent)
+	{
+		if (EventManager.getInstance().getEvents().contains(anEvent))
+		{
+			EventManager.getInstance().getEvents().remove(anEvent);
+			System.out.println("The event " +anEvent+ " has been deleted");
+			anEvent.setStatus("cancelled");
+		}
+		else
+		{
+			System.out.println("The event is not in the list of"
+					+ "registered events!");
+		}
+	}
 	
 
 	
