@@ -17,9 +17,35 @@ public class EventManager {
 
 	public void registerEvent(Event anEvent)
     {   	
-    	//no check necessary, called by the employee 
-    	events.add(anEvent);
-    }
+    	/*
+    	 * Called by the Organizer. Checks if the event has been approved
+    	 * (checks the event-status) and if yes it adds it to the list
+    	 * 
+    	 */
+		switch (anEvent.getStatus()) {
+	    case "approved":
+	        events.add(anEvent);
+	        System.out.println("The event has been registered successfully!");
+	        break;
+	    case "not-approved": 
+	        System.out.println("The event cannot be registered because it "
+	        		+ "was not approved.");
+	        break;     
+	    case "created":
+	        System.out.println("The event cannot be registered. You need to"
+	        		+ "make an approval request first");
+	        break;
+	    case "pending":
+	        System.out.println("The event cannot be registered. It is awaiting"
+	        		+ "approval from an Employee");
+	        break;  
+	    case "cancelled":
+	        System.out.println("The event has been cancelled and therefore"
+	        		+ "cannot be registered.");
+	        break;    
+	    
+		}
+	}
     
     public void deleteEvent(Event anEvent, User caller) 
     {
@@ -29,6 +55,7 @@ public class EventManager {
     		 {
     			 events.remove(anEvent);
     			 anEvent.setStatus("cancelled");
+    			 System.out.println("The event " +anEvent+ " has been deleted");
     		 }
     		 else if (caller instanceof Organizer)
     		 {

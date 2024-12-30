@@ -15,6 +15,8 @@ public class ApprovalRequestManager {
 	private ArrayList<ApprovalRequest> allApprovalRequests = new ArrayList<>();
 
 	
+	
+	
 	public void createApprovalRequest(Event anEvent, String type, Organizer submittedBy, String comments)
 		{
 			ApprovalRequest aRequest = new ApprovalRequest(type, LocalDateTime.now(), 
@@ -26,16 +28,18 @@ public class ApprovalRequestManager {
 		}
 
         
-		
-    public ApprovalRequest findApprovalRequest(Event anEvent) 
-    {
-        for (ApprovalRequest i : allApprovalRequests) {
-            if (i.getAnEvent().equals(anEvent)) {
-                return i;
-            }
-        }
-        return null;
-    }
+//		
+//	NOMIZW PREPEI NA MPEI STHN EVENT!!
+//	
+//    public ApprovalRequest findApprovalRequest(Event anEvent) 
+//    {
+//        for (ApprovalRequest i : allApprovalRequests) {
+//            if (i.getAnEvent().equals(anEvent)) {
+//                return i;
+//            }
+//        }
+//        return null;
+//    }
 	
 
 }

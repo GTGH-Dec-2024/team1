@@ -25,8 +25,12 @@ public class Employee extends User{
 		/*
 		 * 
 		 * We use the "status" field on the ApprovalRequest class so that we know
-		 * if an Event is awaiting approval. The employee utilizes that to 
-		 * register the Event.
+		 * if an Event is awaiting approval.
+		 * 
+		 * The employee approves the request, giving permission to
+		 * the Organizer to continue with the making/deletion of
+		 * the Event
+		 * 
 		 * 
 		 */
 			if (aRequest == null)
@@ -38,10 +42,8 @@ public class Employee extends User{
 				aRequest.handleRequest(true, this, "The event is now approved");
 				System.out.println("You have given permission to " +aRequest.getType()+
 						" the event.");
-//			Nomizw o Employee apla kanei approve to request, meta to ftiaxnei
-//			h to diagrafei o organizer	
-//			EventManager.getInstance().registerEvent(aRequest.getAnEvent());
 			}
+
 			else
 			{
 				System.out.println("The request has already been handled");
@@ -49,7 +51,9 @@ public class Employee extends User{
 			
 	}
 	
-	 public void rejectRequest(ApprovalRequest aRequest) 
+	
+	
+	public void rejectRequest(ApprovalRequest aRequest) 
 	 {
 		 if (aRequest == null)
 			{
@@ -71,17 +75,7 @@ public class Employee extends User{
 	
 	public void deleteEvent(Event anEvent)
 	{
-		if (EventManager.getInstance().getEvents().contains(anEvent))
-		{
-			EventManager.getInstance().getEvents().remove(anEvent);
-			System.out.println("The event " +anEvent+ " has been deleted");
-			anEvent.setStatus("cancelled");
-		}
-		else
-		{
-			System.out.println("The event is not in the list of"
-					+ "registered events!");
-		}
+		EventManager.getInstance().deleteEvent(anEvent, this);
 	}
 	
 
