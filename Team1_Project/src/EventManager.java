@@ -3,48 +3,67 @@
  * Edw mporw na kanw search, 
  */
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class EventManager {
 	private ArrayList<Event> events;
-    
+    private static EventManager instance;
+	
+	
     public void registerEvent(Event anEvent)
-    {
-    	/*
-    	 * Vale to event sti lista me ta events
-    	 * 
-    	 * De xreiazetai na tsekarw status, afou kaleitai mono
-    	 * apo ton ipallilo
-    	 * 
-    	 * Tsekarw an to kalese o Employee?
-    	 * An px thn kalesei o organizer deixnw minima oti
-    	 * to status einai allo
-    	 * 
-    	 */
+    {   	
+    	//no check necessary, called by the employee 
+    	events.add(anEvent);
     }
     
-    public void deleteEvent(Event event) 
+    public void deleteEvent(Event anEvent, User caller) 
     {
-        /*
-         * An to event uparxei sti lista me ta events
-         * svisto
-         * 
-         * PREPEI NA DIAXWRISW AN TO KANEI O ORGANIZER
-         * (KAI DHLADH THA THELEI NA XEI APPROVAL) H
-         * O IPALLILOS
-         * 
-         * Kati vrika online oti isws ginetai me StackTrace 
-         * kai streams klp klp, wste na doume poios tin kalese
-         */
+    	 if (events.contains(anEvent))
+    	 {
+    		 if (caller instanceof Employee)
+    		 {
+    			 events.remove(anEvent);
+    			 anEvent.setStatus("cancelled");
+    		 }
+    		 else if (caller instanceof Organizer)
+    		 {
+    			
+    			 /*
+    			 * if the approvalRequest for it's
+    			 * deletion has been approved, then delete it
+    			 */
+    		 }
+    		 else
+    			 System.out.println("You have no right to make"
+    			 		+ "changes to events!");
+    		 
+    	 }
+    	 else
+    		 System.out.println("The event is not even registered,"
+    		 		+ "so it can't be deleted!");
+    	 
     }
     
-    public Event searchEvent()
+  public Event searchEvent(LocalDateTime date, String location, String theme)
     {
-    	/*
-    	 * Nomizw pairnei imerominia, thema klp
-    	 * kai epistrefei antikeimeno typou event(?)
-    	 */
+    	
+	  for (Event i : events)
+    	 {
+    		 if (i.getDate().equals(date) && i.getLocation().equals(location)
+    				 && i.getTheme().equals(theme))
+    		 {
+    			return i;
+    		 }
+    	 }
+	  
     }
+
+
+
+	public static EventManager getInstance() {
+		return instance;
+	}
 
 
 }
