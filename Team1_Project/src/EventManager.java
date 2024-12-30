@@ -7,20 +7,13 @@ import java.util.ArrayList;
 
 public class EventManager {
 	private ArrayList<Event> events;
-    
+    private static EventManager instance;
+	
+	
     public void registerEvent(Event anEvent)
-    {
-    	/*
-    	 * Vale to event sti lista me ta events
-    	 * 
-    	 * De xreiazetai na tsekarw status, afou kaleitai mono
-    	 * apo ton ipallilo
-    	 * 
-    	 * Tsekarw an to kalese o Employee?
-    	 * An px thn kalesei o organizer deixnw minima oti
-    	 * to status einai allo
-    	 * 
-    	 */
+    {   	
+    	//no check necessary, called by the employee 
+    	events.add(anEvent);
     }
     
     public void deleteEvent(Event event) 
@@ -38,13 +31,18 @@ public class EventManager {
          */
     }
     
-    public Event searchEvent()
+ /*   public Event searchEvent()
     {
-    	/*
+    	*
     	 * Nomizw pairnei imerominia, thema klp
     	 * kai epistrefei antikeimeno typou event(?)
-    	 */
+    	 
     }
+*/
+
+	public static EventManager getInstance() {
+		return instance;
+	}
 
 
 }

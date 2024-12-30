@@ -39,6 +39,7 @@ public class Employee extends User{
 			{
 				aRequest.handleRequest(true, this, "The event is now approved");
 				EventManager.getInstance().registerEvent(aRequest.getAnEvent());
+				
 				System.out.println("You have successfully approved and registered the event");
 			}
 			
