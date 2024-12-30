@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 public class ApprovalRequest {
 	private String type; //is it to register or delete event
 	private String status; 
-	//is it open(waiting for answer from employee) or closed (employee has answered)
+	//is it open (waiting for answer from employee) or closed (employee has answered)
 	private LocalDateTime createdAt;
 	private LocalDateTime closedAt; 
 	private Employee handledBy; 

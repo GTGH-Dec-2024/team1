@@ -46,6 +46,15 @@ public class EventManager {
 	    
 		}
 	}
+	
+	
+	/*
+	 * isws 2 deleteEvent? Mia na tin kalei o organizer
+	 * kai mia na tin kalei o ypallilos?
+	 * 
+	 * Giati o upallilos mporei na svisei apla ena event
+	 * enw o organizer prepei na xei approval
+	 */
     
     public void deleteEvent(Event anEvent, User caller) 
     {
