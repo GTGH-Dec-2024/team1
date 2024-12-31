@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 public class ApprovalRequest {
 	private String type; //is it to register or delete event
 	private String status; 
-	//is it open(waiting for answer from employee) or closed (employee has answered)
+	//is it open (waiting for answer from employee) or closed (employee has answered)
 	private LocalDateTime createdAt;
 	private LocalDateTime closedAt; 
 	private Employee handledBy; 
@@ -32,8 +32,18 @@ public class ApprovalRequest {
  * Changes the status of the request and the event.
  * Updates the "closed-at" and "handled by" fields
  */
+
 	
-	public void handleRequest(String type, boolean isApproved, Employee employee, String comment)
+	/*
+	 * Na pairnei ws orisma gia ti pragma einai to request. An
+	 * einai request gia add h gia delete
+	 * 
+	 * 
+	 * an einai gia delete kai exw kalesei tin approved,
+	 * tote kaleitai i delete tis employee kai svinetai aytomata to event
+	 * 
+	 */
+	public void handleRequest(boolean isApproved, Employee employee, String comment)
 	{
 		if (isApproved)
 		{

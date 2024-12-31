@@ -25,9 +25,7 @@ public class Event {
 	private ArrayList<Visitor> visitors;
 	
 	/*
-	 * ???fantazomai created/pending/approved/not-approved/cancelled ????
-	 * Na rwthsoume :'(
-	 * ??????????
+	 * ???fantazomai pending/approved/not-approved/deleted 
 	 */
 	
 	public Event(String title, String theme, String description, String location,int maxCapacity, int day, int month, int year, int hour, int minutes, int duration, Organizer organizer) {
