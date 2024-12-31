@@ -25,11 +25,9 @@ public class Employee extends User{
 		/*
 		 * 
 		 * We use the "status" field on the ApprovalRequest class so that we know
-		 * if an Event is awaiting approval.
+		 * if an Event is awaiting approval (status equals "open").
 		 * 
-		 * The employee approves the request, giving permission to
-		 * the Organizer to continue with the making/deletion of
-		 * the Event
+		 * The employee approves the request, making the event "approved"
 		 * 
 		 * 
 		 */
@@ -42,6 +40,7 @@ public class Employee extends User{
 				aRequest.handleRequest(true, this, "The event is now approved");
 				System.out.println("You have given permission to " +aRequest.getType()+
 						" the event.");
+				//bale to onoma tou event sto print
 			}
 
 			else
@@ -75,7 +74,7 @@ public class Employee extends User{
 	
 	public void deleteEvent(Event anEvent)
 	{
-		EventManager.getInstance().deleteEvent(anEvent, this);
+		//kanoume to event status deleted den to bgazoume apo ti lista!
 	}
 	
 

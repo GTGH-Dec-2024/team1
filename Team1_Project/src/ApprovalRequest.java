@@ -33,6 +33,15 @@ public class ApprovalRequest {
  * Updates the "closed-at" and "handled by" fields
  */
 	
+	/*
+	 * Na pairnei ws orisma gia ti pragma einai to request. An
+	 * einai request gia add h gia delete
+	 * 
+	 * 
+	 * an einai gia delete kai exw kalesei tin approved,
+	 * tote kaleitai i delete tis employee kai svinetai aytomata to event
+	 * 
+	 */
 	public void handleRequest(boolean isApproved, Employee employee, String comment)
 	{
 		if (isApproved)

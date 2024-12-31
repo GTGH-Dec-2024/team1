@@ -15,36 +15,10 @@ public class EventManager {
 		this.events = events;
 	}
 
-	public void registerEvent(Event anEvent)
+	public void addEvent(Event anEvent)
     {   	
-    	/*
-    	 * Called by the Organizer. Checks if the event has been approved
-    	 * (checks the event-status) and if yes it adds it to the list
-    	 * 
-    	 */
-		switch (anEvent.getStatus()) {
-	    case "approved":
-	        events.add(anEvent);
-	        System.out.println("The event has been registered successfully!");
-	        break;
-	    case "not-approved": 
-	        System.out.println("The event cannot be registered because it "
-	        		+ "was not approved.");
-	        break;     
-	    case "created":
-	        System.out.println("The event cannot be registered. You need to"
-	        		+ "make an approval request first");
-	        break;
-	    case "pending":
-	        System.out.println("The event cannot be registered. It is awaiting"
-	        		+ "approval from an Employee");
-	        break;  
-	    case "cancelled":
-	        System.out.println("The event has been cancelled and therefore"
-	        		+ "cannot be registered.");
-	        break;    
-	    
-		}
+    	events.add(anEvent);
+    	//adds an event to the list, no matter the status of the event
 	}
 	
 	
@@ -86,8 +60,9 @@ public class EventManager {
     }
     
  
-    
-   public Event searchEvent(LocalDateTime date, String location, String theme)
+ //NA TH FTIAKSW NA EPISTREFEI LISTA
+    // EPISIS NA KANW NA PAIRNW INT DAY, MONTH, YEAR
+   public List<Events> findEvents(LocalDateTime date, String location, String theme)
     {
     	
 	  for (Event i : events)
