@@ -29,7 +29,7 @@ public class EventManager {
 	 * Giati o upallilos mporei na svisei apla ena event
 	 * enw o organizer prepei na xei approval
 	 */
-    
+ /*   
     public void deleteEvent(Event anEvent, User caller) 
     {
     	 if (events.contains(anEvent))
@@ -43,10 +43,10 @@ public class EventManager {
     		 else if (caller instanceof Organizer)
     		 {
     			
-    			 /*
+    			
     			 * if the approvalRequest for it's
     			 * deletion has been approved, then delete it
-    			 */
+    		
     		 }
     		 else
     			 System.out.println("You have no right to make"
@@ -59,20 +59,25 @@ public class EventManager {
     	 
     }
     
+ */
  
- //NA TH FTIAKSW NA EPISTREFEI LISTA
-    // EPISIS NA KANW NA PAIRNW INT DAY, MONTH, YEAR
-   public List<Events> findEvents(LocalDateTime date, String location, String theme)
+ //Returns an ArrayList of the Events that fit the given criteria
+   public ArrayList<Event> findEvents(int day,int month, int year, String location, String theme)
     {
-    	
-	  for (Event i : events)
-    	 {
-    		 if (i.getDate().equals(date) && i.getLocation().equals(location)
-    				 && i.getTheme().equals(theme))
-    		 {
-    			return i;
-    		 }
+	   
+	   ArrayList<Event> foundEvents = new ArrayList <>();
+	 
+	   for (Event i : events)
+	   	{
+    		 	if (i.getDay()== day && i.getMonth()== month && i.getYear()== year && 
+    				 i.getLocation().equals(location) && i.getTheme().equals(theme))
+    		 		{
+    			
+    		 			foundEvents.add(i);
+    		 		}
     	 }
+	   		
+	   return foundEvents;
 	  
     }
 
