@@ -1,39 +1,57 @@
-/*
- * 
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class Visitor extends User {
-	private String email;
-
-	public Visitor(String name, String surname, String email) {
-		super(name, surname);
-		this.email = email;
-	}
-	
-	public void makeReservation (Event anEvent)
-	{
-		/*
-		 * prospathei na valei ton visitor sto event
-		 * Stelnei sthn addReservation to onoma tou kai 
-		 * to event sto opoio thelei na mpei
-		 * 
-		 */
-	}
-	
-	public void cancelReservation (Event anEvent)
-	{
-		/*
-		 * kalei thn removeReservation tis klasis Event,
-		 * stelnei to onoma tou kai to event apo to
-		 * opoio thelei na bgei
-		 * 
-		 */
-	}
-	
-	
-	/*
-	 * CLASS POU KANEI SEARCH THN EVENT LIST
-	 */
 	
 
 
+    private List<Reservation> reservations;
+
+	
+    public Visitor(String name, String surname, String email) {
+        super(name, surname, email);  
+        this.reservations = new ArrayList<>();
+    }
+
+   
+    public List<Event> searchEvents(EventManager eventManager, String location, String theme, 
+                                    int day, int month, int year, int hour) {
+        return eventManager.searchEvents(location, theme, day, month, year, hour);
+    }
+    
+    
+    
+   
+    
+    public String makeReservation(Event event) {
+        
+        for (Reservation reservation : reservations) {
+            if (reservation.getEvent().equals(event)) {
+                return "Reservation already exists.";
+            }
+        }
+
+        
+        Reservation newReservation = new Reservation(this, event);
+        reservations.add(newReservation);
+        return "Reservation successful: " + event.getTitle();
+    }
+    
+    
+    public String cancelReservation(Event event) {
+        for (Reservation reservation : reservations) {
+            if (reservation.getEvent().equals(event)) {
+                reservations.remove(reservation);
+                return "Reservation for the event: " + event.getTitle() + " canceled.";
+            }
+        }
+        return "reservation for event not found: " + event.getTitle();
+    }
+    
+    
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+        
+ 
 }
