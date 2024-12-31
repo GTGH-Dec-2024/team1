@@ -8,6 +8,9 @@
  * 
  * 
  * Isws to kathe request na exei ena id??
+ * 
+ * ISWS na mh xreiazetai kai apla kathe event na exei
+ * mia lista me ola ta approvalRequest tou?
  */
 
 import java.time.LocalDateTime;
