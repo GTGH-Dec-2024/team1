@@ -35,19 +35,29 @@ public class Employee extends User{
 			{
 				System.out.println("The organizer hasn't made a request for the event");
 			}
-			else if(aRequest.getStatus().equals("open"))
-			{
-				aRequest.handleRequest(true, this, "The event is now approved");
-				System.out.println("You have given permission to " +aRequest.getType()+
-						" the event.");
-				//bale to onoma tou event sto print
-			}
-
-			else
+			else if (aRequest.getStatus().equals("closed"))
 			{
 				System.out.println("The request has already been handled");
 			}
 			
+			//if it is a request to add an event:
+			else if(aRequest.getStatus().equals("open"))
+			{
+				
+					if (aRequest.getType().equals("add"))
+						{
+							aRequest.handleRequest(true, this, "The event is now approved");
+						}
+			
+					else if (aRequest.getType().equals("delete"))
+						{
+							//handle request gia deletion
+						}
+					
+					
+				System.out.println("You have just approved to " + aRequest.getType()
+						+"the following event: " + aRequest.getAnEvent().getTitle());
+			}
 	}
 	
 	
@@ -73,8 +83,14 @@ public class Employee extends User{
 	 
 	
 	public void deleteEvent(Event anEvent)
+	/*
+	 * An Employee can delete any event with no request needed
+	 * if an Organizer wants to delete an Event, an ApprovalRequest
+	* is made, and afterwards this method is called by handleRequest
+	 */
 	{
-		//kanoume to event status deleted den to bgazoume apo ti lista!
+		anEvent.setStatus("deleted");
+		System.out.println("You have deleted the following Event: "+ anEvent.getTitle());
 	}
 	
 
