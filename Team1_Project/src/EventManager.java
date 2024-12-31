@@ -3,48 +3,115 @@
  * Edw mporw na kanw search, 
  */
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class EventManager {
-	private ArrayList<Event> events;
+	private ArrayList<Event> events= new ArrayList<>();
+    private static EventManager instance;
+	
     
-    public void registerEvent(Event anEvent)
-    {
+    public EventManager(ArrayList<Event> events) {
+		this.events = events;
+	}
+
+	public void registerEvent(Event anEvent)
+    {   	
     	/*
-    	 * Vale to event sti lista me ta events
-    	 * 
-    	 * De xreiazetai na tsekarw status, afou kaleitai mono
-    	 * apo ton ipallilo
-    	 * 
-    	 * Tsekarw an to kalese o Employee?
-    	 * An px thn kalesei o organizer deixnw minima oti
-    	 * to status einai allo
+    	 * Called by the Organizer. Checks if the event has been approved
+    	 * (checks the event-status) and if yes it adds it to the list
     	 * 
     	 */
+		switch (anEvent.getStatus()) {
+	    case "approved":
+	        events.add(anEvent);
+	        System.out.println("The event has been registered successfully!");
+	        break;
+	    case "not-approved": 
+	        System.out.println("The event cannot be registered because it "
+	        		+ "was not approved.");
+	        break;     
+	    case "created":
+	        System.out.println("The event cannot be registered. You need to"
+	        		+ "make an approval request first");
+	        break;
+	    case "pending":
+	        System.out.println("The event cannot be registered. It is awaiting"
+	        		+ "approval from an Employee");
+	        break;  
+	    case "cancelled":
+	        System.out.println("The event has been cancelled and therefore"
+	        		+ "cannot be registered.");
+	        break;    
+	    
+		}
+	}
+	
+	
+	/*
+	 * isws 2 deleteEvent? Mia na tin kalei o organizer
+	 * kai mia na tin kalei o ypallilos?
+	 * 
+	 * Giati o upallilos mporei na svisei apla ena event
+	 * enw o organizer prepei na xei approval
+	 */
+    
+    public void deleteEvent(Event anEvent, User caller) 
+    {
+    	 if (events.contains(anEvent))
+    	 {
+    		 if (caller instanceof Employee)
+    		 {
+    			 events.remove(anEvent);
+    			 anEvent.setStatus("cancelled");
+    			 System.out.println("The event " +anEvent+ " has been deleted");
+    		 }
+    		 else if (caller instanceof Organizer)
+    		 {
+    			
+    			 /*
+    			 * if the approvalRequest for it's
+    			 * deletion has been approved, then delete it
+    			 */
+    		 }
+    		 else
+    			 System.out.println("You have no right to make"
+    			 		+ "changes to events!");
+    		 
+    	 }
+    	 else
+    		 System.out.println("The event is not even registered,"
+    		 		+ "so it can't be deleted!");
+    	 
     }
     
-    public void deleteEvent(Event event) 
-    {
-        /*
-         * An to event uparxei sti lista me ta events
-         * svisto
-         * 
-         * PREPEI NA DIAXWRISW AN TO KANEI O ORGANIZER
-         * (KAI DHLADH THA THELEI NA XEI APPROVAL) H
-         * O IPALLILOS
-         * 
-         * Kati vrika online oti isws ginetai me StackTrace 
-         * kai streams klp klp, wste na doume poios tin kalese
-         */
-    }
+ 
     
-    public Event searchEvent()
+   public Event searchEvent(LocalDateTime date, String location, String theme)
     {
-    	/*
-    	 * Nomizw pairnei imerominia, thema klp
-    	 * kai epistrefei antikeimeno typou event(?)
-    	 */
+    	
+	  for (Event i : events)
+    	 {
+    		 if (i.getDate().equals(date) && i.getLocation().equals(location)
+    				 && i.getTheme().equals(theme))
+    		 {
+    			return i;
+    		 }
+    	 }
+	  
     }
+
+
+
+	public static EventManager getInstance() {
+		return instance;
+	}
+
+	public ArrayList<Event> getEvents() {
+		return events;
+	}
+	
+	
 
 
 }
