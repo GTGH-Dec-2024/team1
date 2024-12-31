@@ -18,38 +18,38 @@ public class Organizer extends User {
 
 	LocalDateTime timestamp = LocalDateTime.now();
 
-	public Event registerRequest(Event event, Employee employee) {
+	public ApprovalRequest registerRequest(Event event) {
 		events.add(event);
 		EventManager.getInstance().addEvent(event);
-		ApprovalRequest request = new ApprovalRequest("Request for event approval.", timestamp, this, event, "Accept the request for this event.");
-		employee.approveRequest(request); 
-		return event;
+		ApprovalRequest request = new ApprovalRequest("register", timestamp, this, event, "Accept the request for this event.");
+		System.out.println("Request for event registration made successful.\nWaiting for employee's approval");
+		return request;
 	}
-
-	// ok now in the same program the organizer can have the ability to delete an
-	// event of theirs. First they request from the employee for the deletion and
-	// after they get the ok (or the not ok) the event gets deleted (if deletion not
-	// approved) from the arrayList of the eventList list.
-	public void removalRequest(Event anEvent) {
-		ApprovalRequest request = new ApprovalRequest("Request for event approval.", timestamp, this, event, "Accept the request for this event.");
+	
+	public ApprovalRequest removalRequest(Event event) {
+		
+		if(events.contains(event)) {
+			ApprovalRequest request = new ApprovalRequest("delete", timestamp, this, event, "Accept the request for the deletion of this event.");
+			System.out.println("Request for event deletion made successful.\nWaiting for employee's approval");
+			return request;
+		}else {
+			try{
+				
+			}catch() {
+				
+			}
+		}
 		
 	}
-	/*
-	 * Isws registerRequest kai removalRequest na ginoun mia klasi kai analoga me to
-	 * an thelw creation i deletion na pernaei san parametros sthn approvalRequest?
-	 * (logika me to type sthn approvalRequest)
-	 * 
-	 */
-
+	
 	public void seeParticipants() {
-		/*
-		 * Blepei tous participants se ola ta event tou
-		 * 
-		 * 
-		 * opws k na xei prepei kapou na exw mia lista me ta reservations (stin Event??
-		 * h se alli klasi??)
-		 * 
-		 */
+		if(events.isEmpty()) {
+			System.out.println("Zero events yet from organizer: "+this.getName()+" "+this.getSurname());
+		}else {
+			for(Event event : events ) {
+				System.out.println("Visitors of the event: "+event.getTitle()+" ("+event.getTheme()+")");
+			}
+		}
 	}
 
 	public String getAfm() {

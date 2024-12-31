@@ -22,6 +22,7 @@ public class Event {
 	private Organizer organizer;
 	private String status; 
 	private int currentCapacity;
+	private ArrayList<Visitor> visitors;
 	
 	/*
 	 * ???fantazomai created/pending/approved/not-approved/cancelled ????
@@ -43,6 +44,7 @@ public class Event {
 		this.duration = duration;
 		this.organizer = organizer;
 		this.status = "Pending";
+		this.visitors = new ArrayList<>();
 	}
 	
 	
@@ -224,6 +226,20 @@ public class Event {
 		public void setReservations(ArrayList<Reservation> reservations) {
 			this.reservations = reservations;
 		}
+		
+		public void addVisitor(Visitor visitor) {
+			visitors.add(visitor);
+		}
+		
+		public void removeVisitor(Visitor visitor) {
+			visitors.remove(visitor);
+		}
+		
+		public ArrayList<Visitor> getVisitors(){
+			return visitors;
+		}
+		
+		
 
 		@Override
 		public String toString() {

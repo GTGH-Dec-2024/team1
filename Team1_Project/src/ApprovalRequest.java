@@ -33,7 +33,7 @@ public class ApprovalRequest {
  * Updates the "closed-at" and "handled by" fields
  */
 	
-	public void handleRequest(boolean isApproved, Employee employee, String comment)
+	public void handleRequest(String type, boolean isApproved, Employee employee, String comment)
 	{
 		if (isApproved)
 		{
