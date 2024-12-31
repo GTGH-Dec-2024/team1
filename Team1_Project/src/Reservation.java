@@ -30,7 +30,7 @@ public class Reservation {
         this.event = event;
     }
 
- 
+    //mhpos na mhn emfanizei oles perites plirofories poios visitor(surname...) title wra hmerominia location 
     public void displayReservationDetails() {
         System.out.println("Reservation Details:");
         System.out.println("Visitor: " + visitor.getName() + " " + visitor.getSurname());
