@@ -3,26 +3,29 @@ import java.util.List;
 
 public class Visitor extends User {
 	
-
+    private String email;
 
     private List<Reservation> reservations;
 
 	
     public Visitor(String name, String surname, String email) {
-        super(name, surname, email);  
+        super(name, surname);  
         this.reservations = new ArrayList<>();
+        this.email = new email;
     }
 
-   
-    public List<Event> searchEvents(EventManager eventManager, String location, String theme, 
-                                    int day, int month, int year, int hour) {
-        return eventManager.searchEvents(location, theme, day, month, year, hour);
+   //na thn kanw void? kai oxi lista//prepei na dimiourgisw antikeimeno eventmanager
+    // gia na borw na kalw ton event manager, tha pernei day-month year
+    public List<Event> searchEvents(String location, String theme, 
+                                    int day, int month, int year,) {
+        return eventManager.findEvents(location, theme, day, month, year, hour);
     }
     
     
     
    
-    
+    // na thn kanw void kai na epistrefei apla to minima me system out print
+    // prepei na vevaiwtho oti den yparxei reservation, des me boolean true false.
     public String makeReservation(Event event) {
         
         for (Reservation reservation : reservations) {
@@ -37,7 +40,7 @@ public class Visitor extends User {
         return "Reservation successful: " + event.getTitle();
     }
     
-    
+    //tha tin kanw kai aythn void, des methodo contains
     public String cancelReservation(Event event) {
         for (Reservation reservation : reservations) {
             if (reservation.getEvent().equals(event)) {
