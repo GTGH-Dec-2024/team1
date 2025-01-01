@@ -1,5 +1,4 @@
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 
 public class Organizer extends User {
