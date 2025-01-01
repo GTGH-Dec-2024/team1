@@ -34,26 +34,12 @@ public class ApprovalRequest {
  */
 	
 	/*
-	 * Na pairnei ws orisma gia ti pragma einai to request. An
-	 * einai request gia add h gia delete
-	 * 
-	 * 
-	 * an einai gia delete kai exw kalesei tin approved,
-	 * tote kaleitai i delete tis employee kai svinetai aytomata to event
+	 * Closes the request, updates the closetAt and handledBy fields
+	 * and adds the Employee's comment
 	 * 
 	 */
-	public void handleRequest(boolean isApproved, Employee employee, String comment)
+	public void handleRequest(Employee employee, String comment)
 	{
-		if (isApproved)
-		{
-			anEvent.setStatus("approved");
-		}
-			
-		else
-		{
-			anEvent.setStatus("not-approved");
-		}
-		
 		this.status = "closed";
 		closedAt = LocalDateTime.now();
 		handledBy = employee;
@@ -61,8 +47,6 @@ public class ApprovalRequest {
 		if (!comment.isBlank()) {
 		    this.comments += "\nEmployee's comment: " + comment;
 		}
-
-		
 	}
 
 
