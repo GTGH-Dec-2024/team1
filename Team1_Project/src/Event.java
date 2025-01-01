@@ -172,6 +172,10 @@ public class Event {
 		public void setYear(int year) {
 			this.year = year;
 		}
+		
+		public String getDate() {
+			return String.format("%02d/%02d/%04d", day, month, year);
+		}
 
 		public int getHour() {
 			return hour;
@@ -187,6 +191,10 @@ public class Event {
 
 		public void setMinutes(int minutes) {
 			this.minutes = minutes;
+		}
+		
+		public String getTime() {
+			return String.format("%02d:%02d", hour, minutes);
 		}
 
 		public int getDuration() {
@@ -237,14 +245,24 @@ public class Event {
 			return visitors;
 		}
 		
-		
+		//day=" + day + ", month=" + month + ", year=" + year+ ", hour=" + hour + ", minutes=" + minutes + "
+		//"Date = " + this.getDay()+"/"+this.getMonth()+"/"+this.getYear();
+		//"Time = " + this.getHour()+":"+this.getMinutes();
 
 		@Override
 		public String toString() {
-			return "Event [title=" + title + ", theme=" + theme + ", description=" + description + ", location="
-					+ location + ", maxCapacity=" + maxCapacity + ", day=" + day + ", month=" + month + ", year=" + year
-					+ ", hour=" + hour + ", minutes=" + minutes + ", duration=" + duration + ", organizer=" + organizer
-					+ ", status=" + status + ", currentCapacity=" + currentCapacity + ", reservations=" + reservations
+			return "Event [title = " + title
+					+ ", theme = " + theme 
+					+ ", description = " + description 
+					+ ", location = " + location 
+					+ ", maxCapacity = " + maxCapacity 
+					+ ", date = " + getDate()
+					+ ", time = " + getTime()
+					+ ", duration = " + duration 
+					+ ", organizer = " + organizer
+					+ ", status = " + status 
+					+ ", currentCapacity = " + currentCapacity 
+					+ ", reservations = " + reservations
 					+ "]";
 		}
 	
