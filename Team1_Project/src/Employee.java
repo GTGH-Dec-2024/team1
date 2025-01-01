@@ -29,68 +29,95 @@ public class Employee extends User{
 		 * 
 		 * The employee approves the request, making the event "approved"
 		 * 
+		 * It follows different steps depending on the type of the request
+		 * ("add" or "delete")
 		 * 
 		 */
 			if (aRequest == null)
 			{
 				System.out.println("The organizer hasn't made a request for the event");
 			}
+			
 			else if (aRequest.getStatus().equals("closed"))
 			{
 				System.out.println("The request has already been handled");
 			}
 			
 			//if it is a request to add an event:
-			else if(aRequest.getStatus().equals("open"))
+			else
 			{
-				
+				//if it is a request to add an event
 					if (aRequest.getType().equals("add"))
 						{
-							aRequest.handleRequest(true, this, "The event is now approved");
+							aRequest.handleRequest(this, "The event is now approved");
+							
+							System.out.println("You have just approved the following event: " 
+							+ aRequest.getAnEvent().getTitle());
+							
+							aRequest.getAnEvent().setStatus("approved");
 						}
-			
+				
+				//if it is a request to delete an event
 					else if (aRequest.getType().equals("delete"))
 						{
-							//handle request gia deletion
+							this.deleteEvent(aRequest.getAnEvent());
+							
+							System.out.println("You have just approved to delete"
+									+"the following event: " + aRequest.getAnEvent().getTitle());
 						}
 					
-					
-				System.out.println("You have just approved to " + aRequest.getType()
-						+"the following event: " + aRequest.getAnEvent().getTitle());
+				
 			}
 	}
 	
 	
 	
 	public void rejectRequest(ApprovalRequest aRequest) 
-	 {
+	{
 		 if (aRequest == null)
 			{
 				System.out.println("The organizer hasn't made a request for the event");
 			}
-			else if(aRequest.getStatus().equals("open"))
-			{
-				aRequest.handleRequest(false, this, "The event is now not-approved");
-				System.out.println("You have NOT given permission to " +aRequest.getType()+
-						" the event.");
-			}
-			else
+		
+		 else if (aRequest.getStatus().equals("closed"))
 			{
 				System.out.println("The request has already been handled");
 			}
-	 }
+		
+		 else 
+			{
+				//if it is a request to add the event, the employee makes its 
+			 	//status not-approved
+					if (aRequest.getType().equals("add"))
+						{
+							aRequest.handleRequest(this, "The event is NOT approved");
+							aRequest.getAnEvent().setStatus("not-approved");
+						}
+				//if it is a request for deletion, it closes the request but no
+				//changes are made to the event
+					else if (aRequest.getType().equals("delete"))
+						{
+							aRequest.handleRequest(this, "The deletion of the event is NOT approved");
+						}
+					
+					
+			System.out.println("You have NOT approved to " + aRequest.getType()
+						+"the following event: " + aRequest.getAnEvent().getTitle());
+			}
+	}
 	 
 	 
 	
 	public void deleteEvent(Event anEvent)
 	/*
-	 * An Employee can delete any event with no request needed
-	 * if an Organizer wants to delete an Event, an ApprovalRequest
-	* is made, and afterwards this method is called by handleRequest
+	 * An Employee can delete any event with no request needed, just by calling
+	 * this method. If an approvalRequest is made by the Organizer, this
+	 * method is called within the acceptRequest method.
+	 * 
 	 */
 	{
 		anEvent.setStatus("deleted");
-		System.out.println("You have deleted the following Event: "+ anEvent.getTitle());
+		System.out.println("You have deleted the following event: "+ anEvent.getTitle());
 	}
 	
 
