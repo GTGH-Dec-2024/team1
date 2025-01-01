@@ -40,12 +40,7 @@ public class Visitor extends User {
         }
     }
      
-        
-   
-    // na thn kanw void kai na epistrefei apla to minima me system out print
-    // prepei na vevaiwtho oti den yparxei reservation, des me boolean true false.
-    // O Visitor borei na kanei krathsh mono an to event einai approved
-    
+            
     // The Visitor can make a reservation only if the event is approved
     public void makeReservation(Event event) {
         // Checks if the events status is "approved" // An thelw borw na xrhsimopoihsw kai streams gia ton elegxo tou status

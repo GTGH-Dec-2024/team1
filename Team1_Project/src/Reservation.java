@@ -38,19 +38,17 @@ public class Reservation {
     }
      
     // Method which shows the information of the reservation.
-    //mhpos na mhn emfanizei oles perites plirofories poios visitor(surname...) title wra hmerominia location 
+    // Mipos allagi me localdatetime?
+    // Theloume na emfanizei kai kati allo??
     public void displayReservationDetails() {
         System.out.println("Reservation Details:");
         System.out.println("Visitor: " + visitor.getName() + " " + visitor.getSurname());
         System.out.println("Event: " + event.getTitle());
         System.out.println("Theme: " + event.getTheme());
-        System.out.println("Description: " + event.getDescription());
         System.out.println("Location: " + event.getLocation());
-        // ???System.out.println("Event Date: " + event.getDay() + "/" + event.getMonth() + "/" + event.getYear());
-        // ???System.out.println("Event Time: " + String.format("%02d:%02d", event.getHour(), event.getMinutes()));
-        System.out.println("Duration: " + event.getDuration() + " minutes");
-        System.out.println("Max Capacity: " + event.getMaxCapacity());
-    }
+        System.out.println("Event Date: " + event.getDay() + "/" + event.getMonth() + "/" + event.getYear());
+        System.out.println("Event Time: " + event.getHour() + "/" + event.getMinutes());        
+           }
 }
 
 
