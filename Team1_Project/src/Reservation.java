@@ -1,7 +1,6 @@
 /* The class Reservation stores information about the reservation 
  * that a visitor has done for a specific event.
  */
-import java.util.Date;
 
 public class Reservation {
 	// The visitor who has made the reservation

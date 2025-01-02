@@ -35,45 +35,30 @@ public class Visitor extends User {
     
    /* The public method  searchEvents of the Visitor class calls the
     * findEvents method of the class EventManager. */    
-    // Giati vgazei sfalma h methodos?
-    public void searchEvent(int day,int month, int year, String location, String theme) {
-    	// Prepei na dimiourgithei antikeimeno eventmanager gia na borw na kalw ton EventManager
-    	//Giati vgazei sfalma h katw grammh?
-        Event event = EventManager.findEvents(int day,int month, int year, String location, String theme);  // Calls the findEvents method of the EventManager
-        if (event != null) {
-            System.out.println("Event found:");
-            System.out.println("Location: " + event.getLocation());
-            System.out.println("Theme: " + event.getTheme());
-            System.out.println("Date and Time: " + event.getDay());
+    public void searchEvent(int day, int month, int year, String location, String theme) {
+        // make or retrieve object EnentManager
+        EventManager eventManager = EventManager.getInstance();
+
+        // Call method findEvents through the object
+        ArrayList<Event> events = eventManager.findEvents(day, month, year, location, theme);
+        
+        // Checks if such events were found
+        if (events.isEmpty()) {
+            System.out.println("No events found matching the criteria.");
         } else {
-            System.out.println("No event found matching the criteria.");
+            // Show results of the events found
+            System.out.println("Events found:");
+            for (Event event : events) {
+                System.out.println("Event Title: " + event.getTitle());
+                System.out.println("Location: " + event.getLocation());
+                System.out.println("Theme: " + event.getTheme());
+                System.out.println("Date and Time: " + event.getDate() + " " + event.getTime());
+                System.out.println("-------------------------------");
+            }
         }
     }
-     
             
     // The Visitor can make a reservation only if the event is approved
-    public void makeReservation(Event event) {
-        // Checks if the events status is "approved" // An thelw borw na xrhsimopoihsw kai streams gia ton elegxo tou status
-        if (!"approved".equalsIgnoreCase(event.getStatus())) {
-            System.out.println("Reservation not allowed. Event status is not approved.");
-            return; // Stops the event is the event is not approved // xrisimopoiw return gia na termatisw ton elegxo
-        }
-
-        // Checks if there is already a reservation for this event.
-        boolean alreadyReserved = reservations.stream()
-                .anyMatch(reservation -> reservation.getEvent().equals(event));
-
-        if (alreadyReserved) {
-            System.out.println("Reservation already exists.");
-            return;
-        }
-
-        // Makes and adds a new reservation
-        Reservation newReservation = new Reservation(this, event);
-        reservations.add(newReservation);
-        System.out.println("Reservation successful: " + event.getTitle());
-    }
-    
     // Cancels a reservation for the Event
     public void cancelReservation(Event event) {
         // Creates object Reservation for check
