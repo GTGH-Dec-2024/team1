@@ -28,15 +28,9 @@ public class ApprovalRequest {
 	}
 	
 	
-/*
- * Changes the status of the request and the event.
- * Updates the "closed-at" and "handled by" fields
- */
-	
 	/*
 	 * Closes the request, updates the closetAt and handledBy fields
 	 * and adds the Employee's comment
-	 * 
 	 */
 	public void handleRequest(Employee employee, String comment)
 	{

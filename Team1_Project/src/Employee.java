@@ -1,14 +1,3 @@
-/*
- * PROSEXW: O Employee mporei na diagrapsei monos tou Events!
- * Den mporei na ftiajei!
- * 
- * An o organizer ftiajei/diagrapsei Event omws, o Employee
- * prepei na dwsei to ok
- * 
- * 
- * NA ELEGXEI AN TO MAIL EINAI VALID??
- * 
- */
 
 public class Employee extends User{
 	private String email;
@@ -43,32 +32,30 @@ public class Employee extends User{
 				System.out.println("The request has already been handled");
 			}
 			
-			//if it is a request to add an event:
 			else
 			{
 				//if it is a request to add an event
 					if (aRequest.getType().equals("add"))
 						{
+							aRequest.getAnEvent().setStatus("approved");
 							aRequest.handleRequest(this, "The event is now approved");
 							
 							System.out.println("You have just approved the following event: " 
 							+ aRequest.getAnEvent().getTitle());
 							
-							aRequest.getAnEvent().setStatus("approved");
+							
 						}
 				
 				//if it is a request to delete an event
 					else if (aRequest.getType().equals("delete"))
 						{
 							this.deleteEvent(aRequest.getAnEvent());
-							
-							System.out.println("You have just approved to delete"
-									+"the following event: " + aRequest.getAnEvent().getTitle());
 						}
 					
 				
 			}
 	}
+	
 	
 	
 	
@@ -93,8 +80,9 @@ public class Employee extends User{
 							aRequest.handleRequest(this, "The event is NOT approved");
 							aRequest.getAnEvent().setStatus("not-approved");
 						}
+				
 				//if it is a request for deletion, it closes the request but no
-				//changes are made to the event
+				//changes are made to the status of the event
 					else if (aRequest.getType().equals("delete"))
 						{
 							aRequest.handleRequest(this, "The deletion of the event is NOT approved");
@@ -111,13 +99,15 @@ public class Employee extends User{
 	public void deleteEvent(Event anEvent)
 	/*
 	 * An Employee can delete any event with no request needed, just by calling
-	 * this method. If an approvalRequest is made by the Organizer, this
-	 * method is called within the acceptRequest method.
+	 * this method. 
+	 * 
+	 * If an approvalRequest is made by the Organizer, this
+	 * method is called by the acceptRequest method.
 	 * 
 	 */
 	{
 		anEvent.setStatus("deleted");
-		System.out.println("You have deleted the following event: "+ anEvent.getTitle());
+		System.out.println("You have deleted/cancelled the following event: "+ anEvent.getTitle());
 	}
 	
 
