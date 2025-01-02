@@ -8,7 +8,7 @@
 /* The class Visitor inherits the abstract class User and he has also an email. */
 import java.util.ArrayList;
 import java.util.List;
-import java.time.LocalDateTime;
+
 
 public class Visitor extends User {
 	
@@ -34,11 +34,12 @@ public class Visitor extends User {
     }
     
    /* The public method  searchEvents of the Visitor class calls the
-    * findEvents method of the class EventManager. */
-    // ???einai ok??? Allaksame thn searchEvent tou EventManager se findEvent?
-    public void searchEvent(LocalDateTime date, String location, String theme) {
+    * findEvents method of the class EventManager. */    
+    // Giati vgazei sfalma h methodos?
+    public void searchEvent(int day,int month, int year, String location, String theme) {
     	// Prepei na dimiourgithei antikeimeno eventmanager gia na borw na kalw ton EventManager
-        Event event = EventManager.findEvent(date, location, theme);  // Calls the findEvent method of the EventManager
+    	//Giati vgazei sfalma h katw grammh?
+        Event event = EventManager.findEvents(int day,int month, int year, String location, String theme);  // Calls the findEvents method of the EventManager
         if (event != null) {
             System.out.println("Event found:");
             System.out.println("Location: " + event.getLocation());
