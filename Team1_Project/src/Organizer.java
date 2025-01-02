@@ -1,12 +1,10 @@
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 
 public class Organizer extends User {
 
 	private String afm;
 	private String description;
-
 	private ArrayList<Event> events;
 
 	public Organizer(String name, String surname, String afm, String description, ArrayList<Event> events) {
@@ -18,38 +16,74 @@ public class Organizer extends User {
 
 	LocalDateTime timestamp = LocalDateTime.now();
 
-	public Event registerRequest(Event event, Employee employee) {
+	/*
+	 * Method registerRequest(): This method takes as a parameter an event that the
+	 * organizer want to request for its approval from the employee. First, he
+	 * "adds" it into his events list but also into the total events list of the
+	 * municipality of the city (regardless if the event will be approved or not
+	 * from the employee). Afterwards, it creates an ApprovalRequest object with
+	 * type --> "make" so as to indicate the employee to accept/approve the event.
+	 * At last the method returns the request so as the employee can handle it later
+	 * on in the main function.
+	 */
+	public ApprovalRequest registerRequest(Event event) {
 		events.add(event);
 		EventManager.getInstance().addEvent(event);
-		ApprovalRequest request = new ApprovalRequest("Request for event approval.", timestamp, this, event, "Accept the request for this event.");
-		employee.approveRequest(request); 
-		return event;
+		ApprovalRequest request = new ApprovalRequest("make", timestamp, this, event,
+				"Accept the request for this event.");
+		System.out.println("Request for event registration made successful.\nWaiting for employee's approval!");
+		return request;
 	}
 
-	// ok now in the same program the organizer can have the ability to delete an
-	// event of theirs. First they request from the employee for the deletion and
-	// after they get the ok (or the not ok) the event gets deleted (if deletion not
-	// approved) from the arrayList of the eventList list.
-	public void removalRequest(Event anEvent) {
-		ApprovalRequest request = new ApprovalRequest("Request for event approval.", timestamp, this, event, "Accept the request for this event.");
-		
-	}
 	/*
-	 * Isws registerRequest kai removalRequest na ginoun mia klasi kai analoga me to
-	 * an thelw creation i deletion na pernaei san parametros sthn approvalRequest?
-	 * (logika me to type sthn approvalRequest)
-	 * 
+	 * Method removalRequest(): This method takes a parameter an event that the
+	 * organizer wants to request for its deletion from the employee. First, a check
+	 * is made so as to make sure that this event is for sure an organizer's event.
+	 * If the event belongs to the organizer then a request object of type
+	 * ApprovalRequest is made with type --> "delete" so as to indicate the employee
+	 * to delete the event(the deletion procedure will not remove the event from
+	 * both lists, but it will change its status to "deleted"). At last the method
+	 * returns the request so as the employee can handle it later on in the main
+	 * function.
 	 */
+	public ApprovalRequest removalRequest(Event event) {
 
-	public void seeParticipants() {
-		/*
-		 * Blepei tous participants se ola ta event tou
-		 * 
-		 * 
-		 * opws k na xei prepei kapou na exw mia lista me ta reservations (stin Event??
-		 * h se alli klasi??)
-		 * 
-		 */
+		if (events.contains(event)) {
+			ApprovalRequest request = new ApprovalRequest("delete", timestamp, this, event,
+					"Accept the request for the deletion of this event.");
+			System.out.println("Request for event deletion made successful.\nWaiting for employee's approval!");
+			return request;
+		} else {
+			System.out.println(
+					"The event you entered for deletion does not belong to you!\nDeletion request can not be created!");
+			return null;
+		}
+
+	}
+
+	/*
+	 * Method getEventParticipants(): This method creates an Array-List<String> in
+	 * which stores all the participants (=visitors) involved in each event of an
+	 * organizer. In the method a check is taking place at first for every event so
+	 * as to make sure that there are visitors or not. Afterwards, it returns the
+	 * participants for every event he owns.
+	 */
+	public ArrayList<String> getEventsParticipants() {
+		ArrayList<String> visitorsPerEvents = new ArrayList<>();
+		for (Event event : events) {
+			StringBuilder eventInfo = new StringBuilder("Event: " + event.getTitle());
+			ArrayList<Visitor> visitors = event.getVisitors();
+			if (events.isEmpty()) {
+				eventInfo.append("\nNo visitors in this event yet!");
+			} else {
+				for (Visitor visitor : visitors) {
+					eventInfo.append(
+							"\nVisitor: " + visitor.getName() + " " + visitor.getSurname() + " (" + visitor.getEmail());
+				}
+			}
+			visitorsPerEvents.add(eventInfo.toString());
+		}
+		return visitorsPerEvents;
 	}
 
 	public String getAfm() {
@@ -76,4 +110,8 @@ public class Organizer extends User {
 		this.events = events;
 	}
 
+	@Override
+	public String toString() {
+		return "Organizer [afm=" + afm + ", description=" + description + ", events=" + events + "]";
+	}
 }
