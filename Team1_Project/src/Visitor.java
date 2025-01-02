@@ -12,8 +12,17 @@ import java.time.LocalDateTime;
 
 public class Visitor extends User {
 	
-    private String email;
+	private String email;
+	
+	public String getEmail() {
+		return email;
+	}
 
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	
     private List<Reservation> reservations; // List that with objects of the class Reservation
     // The list Reservation is the storing area where each Visitor can store his reservations.
     
