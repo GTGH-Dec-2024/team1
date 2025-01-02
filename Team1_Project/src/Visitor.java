@@ -2,7 +2,7 @@
  * 1)The visitor can search the events that he would like to attend based on specific
  * criteria such as: The date, the location , the theme of the event (mipos kai kati allo?)
  * 2)After that, he can do a reservation to the Event that he wants to attend.
- * 3)If he changes his mind, he can cancel the reservation that he has done.
+ * 3)If he changes his mind, he can cancel the reservation that he has made.
  */
 
 /* The class Visitor inherits the abstract class User and he has also an email. */
@@ -23,7 +23,7 @@ public class Visitor extends User {
 	}
 
 	
-    private List<Reservation> reservations; // List that with objects of the class Reservation
+    private List<Reservation> reservations; // List with objects of the class Reservation
     // The list Reservation is the storing area where each Visitor can store his reservations.
     
 	// Constructor
