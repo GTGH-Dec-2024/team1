@@ -28,23 +28,12 @@ public class ApprovalRequest {
 	}
 	
 	
-/*
- * Changes the status of the request and the event.
- * Updates the "closed-at" and "handled by" fields
- */
-	
-	public void handleRequest(boolean isApproved, Employee employee, String comment)
+	/*
+	 * Closes the request, updates the closetAt and handledBy fields
+	 * and adds the Employee's comment
+	 */
+	public void handleRequest(Employee employee, String comment)
 	{
-		if (isApproved)
-		{
-			anEvent.setStatus("approved");
-		}
-			
-		else
-		{
-			anEvent.setStatus("not-approved");
-		}
-		
 		this.status = "closed";
 		closedAt = LocalDateTime.now();
 		handledBy = employee;
@@ -52,8 +41,6 @@ public class ApprovalRequest {
 		if (!comment.isBlank()) {
 		    this.comments += "\nEmployee's comment: " + comment;
 		}
-
-		
 	}
 
 

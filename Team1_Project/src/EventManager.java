@@ -1,9 +1,3 @@
-/*
- * Exei lista me ola ta Events.
- * Edw mporw na kanw search, 
- */
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class EventManager {
@@ -15,89 +9,32 @@ public class EventManager {
 		this.events = events;
 	}
 
-	public void registerEvent(Event anEvent)
+	
+    //adds an event to the list, no matter the status of the event	
+    public void addEvent(Event anEvent)
     {   	
-    	/*
-    	 * Called by the Organizer. Checks if the event has been approved
-    	 * (checks the event-status) and if yes it adds it to the list
-    	 * 
-    	 */
-		switch (anEvent.getStatus()) {
-	    case "approved":
-	        events.add(anEvent);
-	        System.out.println("The event has been registered successfully!");
-	        break;
-	    case "not-approved": 
-	        System.out.println("The event cannot be registered because it "
-	        		+ "was not approved.");
-	        break;     
-	    case "created":
-	        System.out.println("The event cannot be registered. You need to"
-	        		+ "make an approval request first");
-	        break;
-	    case "pending":
-	        System.out.println("The event cannot be registered. It is awaiting"
-	        		+ "approval from an Employee");
-	        break;  
-	    case "cancelled":
-	        System.out.println("The event has been cancelled and therefore"
-	        		+ "cannot be registered.");
-	        break;    
-	    
-		}
+    	events.add(anEvent);
 	}
 	
+
 	
-	/*
-	 * isws 2 deleteEvent? Mia na tin kalei o organizer
-	 * kai mia na tin kalei o ypallilos?
-	 * 
-	 * Giati o upallilos mporei na svisei apla ena event
-	 * enw o organizer prepei na xei approval
-	 */
-    
-    public void deleteEvent(Event anEvent, User caller) 
+//returns a list of the events that meet the given criteria
+   public ArrayList<Event> findEvents(int day,int month, int year, String location, String theme)
     {
-    	 if (events.contains(anEvent))
-    	 {
-    		 if (caller instanceof Employee)
-    		 {
-    			 events.remove(anEvent);
-    			 anEvent.setStatus("cancelled");
-    			 System.out.println("The event " +anEvent+ " has been deleted");
-    		 }
-    		 else if (caller instanceof Organizer)
-    		 {
+	   
+	   ArrayList<Event> foundEvents = new ArrayList <>();
+	 
+	   for (Event i : events)
+	   	{
+    		 	if (i.getDay()== day && i.getMonth()== month && i.getYear()== year && 
+    				 i.getLocation().equals(location) && i.getTheme().equals(theme))
+    		 		{
     			
-    			 /*
-    			 * if the approvalRequest for it's
-    			 * deletion has been approved, then delete it
-    			 */
-    		 }
-    		 else
-    			 System.out.println("You have no right to make"
-    			 		+ "changes to events!");
-    		 
+    		 			foundEvents.add(i);
+    		 		}
     	 }
-    	 else
-    		 System.out.println("The event is not even registered,"
-    		 		+ "so it can't be deleted!");
-    	 
-    }
-    
- 
-    
-   public Event searchEvent(LocalDateTime date, String location, String theme)
-    {
-    	
-	  for (Event i : events)
-    	 {
-    		 if (i.getDate().equals(date) && i.getLocation().equals(location)
-    				 && i.getTheme().equals(theme))
-    		 {
-    			return i;
-    		 }
-    	 }
+	   		
+	   return foundEvents;
 	  
     }
 

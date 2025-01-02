@@ -22,11 +22,10 @@ public class Event {
 	private Organizer organizer;
 	private String status; 
 	private int currentCapacity;
+	private ArrayList<Visitor> visitors;
 	
 	/*
-	 * ???fantazomai created/pending/approved/not-approved/cancelled ????
-	 * Na rwthsoume :'(
-	 * ??????????
+	 * ???fantazomai pending/approved/not-approved/deleted 
 	 */
 	
 	public Event(String title, String theme, String description, String location,int maxCapacity, int day, int month, int year, int hour, int minutes, int duration, Organizer organizer) {
@@ -43,6 +42,7 @@ public class Event {
 		this.duration = duration;
 		this.organizer = organizer;
 		this.status = "Pending";
+		this.visitors = new ArrayList<>();
 	}
 	
 	
@@ -172,6 +172,10 @@ public class Event {
 		public void setYear(int year) {
 			this.year = year;
 		}
+		
+		public String getDate() {
+			return String.format("%02d/%02d/%04d", day, month, year);
+		}
 
 		public int getHour() {
 			return hour;
@@ -187,6 +191,10 @@ public class Event {
 
 		public void setMinutes(int minutes) {
 			this.minutes = minutes;
+		}
+		
+		public String getTime() {
+			return String.format("%02d:%02d", hour, minutes);
 		}
 
 		public int getDuration() {
@@ -224,13 +232,37 @@ public class Event {
 		public void setReservations(ArrayList<Reservation> reservations) {
 			this.reservations = reservations;
 		}
+		
+		public void addVisitor(Visitor visitor) {
+			visitors.add(visitor);
+		}
+		
+		public void removeVisitor(Visitor visitor) {
+			visitors.remove(visitor);
+		}
+		
+		public ArrayList<Visitor> getVisitors(){
+			return visitors;
+		}
+		
+		//day=" + day + ", month=" + month + ", year=" + year+ ", hour=" + hour + ", minutes=" + minutes + "
+		//"Date = " + this.getDay()+"/"+this.getMonth()+"/"+this.getYear();
+		//"Time = " + this.getHour()+":"+this.getMinutes();
 
 		@Override
 		public String toString() {
-			return "Event [title=" + title + ", theme=" + theme + ", description=" + description + ", location="
-					+ location + ", maxCapacity=" + maxCapacity + ", day=" + day + ", month=" + month + ", year=" + year
-					+ ", hour=" + hour + ", minutes=" + minutes + ", duration=" + duration + ", organizer=" + organizer
-					+ ", status=" + status + ", currentCapacity=" + currentCapacity + ", reservations=" + reservations
+			return "Event [title = " + title
+					+ ", theme = " + theme 
+					+ ", description = " + description 
+					+ ", location = " + location 
+					+ ", maxCapacity = " + maxCapacity 
+					+ ", date = " + getDate()
+					+ ", time = " + getTime()
+					+ ", duration = " + duration 
+					+ ", organizer = " + organizer
+					+ ", status = " + status 
+					+ ", currentCapacity = " + currentCapacity 
+					+ ", reservations = " + reservations
 					+ "]";
 		}
 	
