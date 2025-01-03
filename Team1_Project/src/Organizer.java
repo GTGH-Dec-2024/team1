@@ -29,7 +29,7 @@ public class Organizer extends User {
 	public ApprovalRequest registerRequest(Event event) {
 		events.add(event);
 		EventManager.getInstance().addEvent(event);
-		ApprovalRequest request = new ApprovalRequest("make", timestamp, this, event,
+		ApprovalRequest request = new ApprovalRequest("register", timestamp, this, event,
 				"Accept the request for this event.");
 		System.out.println("Request for event registration made successful.\nWaiting for employee's approval!");
 		return request;
@@ -78,7 +78,7 @@ public class Organizer extends User {
 			} else {
 				for (Visitor visitor : visitors) {
 					eventInfo.append(
-							"\nVisitor: " + visitor.getName() + " " + visitor.getSurname() + " (" + visitor.getEmail());
+							"\nVisitor: " + visitor.getName() + " " + visitor.getSurname() + " (" + visitor.getEmail()+")");
 				}
 			}
 			visitorsPerEvents.add(eventInfo.toString());

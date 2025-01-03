@@ -13,7 +13,7 @@ public class Event {
 	private int minutes;
 	private int duration;
 	private Organizer organizer;
-	private String status; // status = "pending" or "approved" or "not-approved" or "deleted" or "canceled"
+	private String status; // status = "pending" or "approved" or "not-approved" or "deleted" 
 	private int currentCapacity;
 	private ArrayList<Visitor> visitors;
 	private ArrayList<Reservation> reservations;
@@ -69,21 +69,6 @@ public class Event {
 	public ArrayList<Reservation> getReservations() {
 		return reservations;
 	}
-
-	public void setStatus() {
-		/*
-		 * ti xristimopoiei h ApprovalRequest gia na enimerwsei an to status einai
-		 * approved??
-		 */
-	}
-
-	/*
-	 * public boolean isApproved() { /* epistrefei true/false analoga me to status
-	 * tou Event
-	 * 
-	 * Mallon den xreiazetai
-	 */
-	// }
 
 	public String getTitle() {
 		return title;
