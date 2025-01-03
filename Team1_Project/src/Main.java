@@ -10,11 +10,6 @@ public class Main {
 		Organizer o4 = new Organizer("Zoe", "Zoedi", "A444", "A new event organizer!");
 	
 		
-		
-		
-		
-		
-		
 		Event ev1 = new Event("Cultural Night of Thessaloniki", 
 				"Traditional Music and Dances of Macedonia",
 				" A mesmerizing evening filled with traditional dances, music, and flavors of Macedonia, featuring local dance groups and musical ensembles.", 
@@ -22,7 +17,7 @@ public class Main {
 		
 		Event ev2 = new Event("Thessaloniki Taste Festival", 
 				"Showcasing Local Gastronomy with Restaurants and Producers", 
-				"A journey into the flavors of Thessaloniki, with exhibitions of local products, cooking demonstrations, and tastings by renowned chefs."
+				"A journey into the flavors of Thessaloniki, with exhibitions of local products, cooking demonstrations, and tastings by renowned chefs.",
 				"Nikis Avenue Pedestrian Zone", 200, 10, 9, 2025, 6, 00, 4, o2);
 		
 		Employee em1 = new Employee("Maria ", "Papadopoulou", "maria.papadop@gmail.com");
