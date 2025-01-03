@@ -67,6 +67,14 @@ public class Visitor extends User {
     }
             
     // The Visitor can make a reservation only if the event is approved
+    
+    public void makeReservation(Event event) {
+        // Checks if the events status is "approved" // An thelw borw na xrhsimopoihsw kai streams gia ton elegxo tou status
+        if (!"approved".equalsIgnoreCase(event.getStatus())) {
+            System.out.println("Reservation not allowed. Event status is not approved.");
+            return; // Stops the event is the event is not approved // xrisimopoiw return gia na termatisw ton elegxo
+        }
+    }
     // Cancels a reservation for the Event
     public void cancelReservation(Event event) {
         // Creates object Reservation for check
