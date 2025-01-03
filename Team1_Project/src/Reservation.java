@@ -37,7 +37,6 @@ public class Reservation {
     }
      
     // Method which shows the information of the reservation.
-    // Mipos allagi me localdatetime?
     // Theloume na emfanizei kai kati allo??
     public void displayReservationDetails() {
         System.out.println("Reservation Details:");
