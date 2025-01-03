@@ -27,7 +27,8 @@ public class EventManager {
 	   for (Event i : events)
 	   	{
     		 	if (i.getDay()== day && i.getMonth()== month && i.getYear()== year && 
-    				 i.getLocation().equalsIgnoreCase(location) && i.getTheme().equalsIgnoreCase(theme))
+    				 i.getLocation().equalsIgnoreCase(location) && i.getTheme().equalsIgnoreCase(theme)
+    				 && i.getStatus().equalsIgnoreCase("approved") && i.getCurrentCapacity()>0)
     		 		{
     			
     		 			foundEvents.add(i);
