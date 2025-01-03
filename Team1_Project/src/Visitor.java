@@ -1,15 +1,17 @@
-/* The class Visitor represents one visitor who attends an event.
+/* The class Visitor rempresents one visitor who attends an event.
  * 1)The visitor can search the events that he would like to attend based on specific
  * criteria such as: The date, the location , the theme of the event (mipos kai kati allo?)
  * 2)After that, he can do a reservation to the Event that he wants to attend.
- * 3)If he changes his mind, he can cancel the reservation that he has made.
+ * 3)If he changes his mind, he can cancel the reservation that he has done.
  */
+
 
 /* The class Visitor inherits the abstract class User and he has also an email. */
 import java.util.ArrayList;
 import java.util.List;
 
 
+/* The class Visitor inherits the abstract class User and he has also an email. */
 public class Visitor extends User {
 	
 	private String email;
@@ -26,7 +28,13 @@ public class Visitor extends User {
     private List<Reservation> reservations; // List with objects of the class Reservation
     // The list Reservation is the storing area where each Visitor can store his reservations.
     
-	// Constructor
+    
+    
+    /* Constructor.
+     * visitor: the visitor who makes the reservation to the event.
+     * event: the event for which the reservation is being made.
+     */
+	
     public Visitor(String name, String surname, String email) {
         super(name, surname);  // Calls the constructor of the class User
         this.reservations = new ArrayList<>(); //arxikopoiei thn lista krathsewn
