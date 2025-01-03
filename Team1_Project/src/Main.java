@@ -45,10 +45,6 @@ public class Main {
 		Employee em3 = new Employee("Giorgos  ", "Nikolaidis", " giorgos.nikolaid@example.com");
 		
 		
-		
-		
-				"Nikis Avenue Pedestrian Zone", 30, 10, 9, 2025, 18, 00, 4, o2);
-		
 		Event ev6 = new Event("Thessaloniki Marathon Festival",
 				"Running Through the History and Beauty of Thessaloniki",
 				"A city-wide marathon event that welcomes runners of all levels to explore Thessaloniki�s landmarks while promoting a healthy and active lifestyle. Includes live music and food stands.",
