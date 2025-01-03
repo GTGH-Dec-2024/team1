@@ -2,6 +2,7 @@
 public class Main {
 
 	public static void main(String[] args) {
+
 		
 		Event ev1 = new Event("Cultural Night of Thessaloniki", 
 				"Traditional Music and Dances of Macedonia",
@@ -16,6 +17,20 @@ public class Main {
 		Employee em1 = new Employee("Maria ", "Papadopoulou", "maria.papadop@gmail.com");
 		Employee em2 = new Employee("Dimitris ", "Konstantinidis", "dimitris.kons@gmail.com");
 		Employee em3 = new Employee("Giorgos  ", "Nikolaidis", " giorgos.nikolaid@example.com");
+
+
+		// TODO Auto-generated method stub
+		
+		Organizer o1 = new Organizer("George", "Georgidis","A111","An organizer that likes events");
+		Organizer o2 = new Organizer("Maria", "Maraki","A222"," ");
+		Organizer o3 = new Organizer("Petros", "Petridis","A333","The best organizer");
+		Organizer o4 = new Organizer("Zoe", "Zoedi", "A444", "A new event organizer!");
+	
+		
+		
+		
+		
+		
 
 	}
 
