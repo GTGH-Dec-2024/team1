@@ -8,34 +8,36 @@ public class Employee extends User{
 	}
 	
 	
+	
+	/*
+	 * We use the "status" field on the ApprovalRequest class so that we know
+	 * if an event registration/deletion is awaiting approval (status equals "open").
+	 * 
+	 * The employee approves the request, making the status of the event "approved"
+	 * 
+	 * It follows different steps depending on the type of the request
+	 * ("register" or "delete")
+	 * 
+	 */
 	public void approveRequest(ApprovalRequest aRequest)
 	{
 		
-		/*
-		 * 
-		 * We use the "status" field on the ApprovalRequest class so that we know
-		 * if an Event is awaiting approval (status equals "open").
-		 * 
-		 * The employee approves the request, making the event "approved"
-		 * 
-		 * It follows different steps depending on the type of the request
-		 * ("add" or "delete")
-		 * 
-		 */
+		
 			if (aRequest == null)
 			{
 				System.out.println("The organizer hasn't made a request for the event");
 			}
 			
-			else if (aRequest.getStatus().equals("closed"))
+			else if (aRequest.getStatus().equalsIgnoreCase("closed"))
 			{
 				System.out.println("The request has already been handled");
 			}
 			
 			else
 			{
-				//if it is a request to add an event
-					if (aRequest.getType().equals("add"))
+				//if it is a request to add an event,it just sets 
+				//its status as "approved"
+					if (aRequest.getType().equalsIgnoreCase("register"))
 						{
 							aRequest.getAnEvent().setStatus("approved");
 							aRequest.handleRequest(this, "The event is now approved");
@@ -46,10 +48,12 @@ public class Employee extends User{
 							
 						}
 				
-				//if it is a request to delete an event
-					else if (aRequest.getType().equals("delete"))
+				//if it is a request to delete an event, it calls the employee's 
+				//deleteEvent method
+					else if (aRequest.getType().equalsIgnoreCase("delete"))
 						{
 							this.deleteEvent(aRequest.getAnEvent());
+							aRequest.handleRequest(this, "The event is now deleted");
 						}
 					
 				
@@ -58,7 +62,17 @@ public class Employee extends User{
 	
 	
 	
-	
+	/*
+	 *  We use the "status" field on the ApprovalRequest class so that we know
+	 * if an event registration/deletion is awaiting approval (status equals "open").
+	 * 
+	 * The employee does NOT approve the request, making the status of the 
+	 * event "not- approved"
+	 * 
+	 * It follows different steps depending on the type of the request
+	 * ("add" or "delete")
+	 * 
+	 */
 	public void rejectRequest(ApprovalRequest aRequest) 
 	{
 		 if (aRequest == null)
@@ -66,7 +80,7 @@ public class Employee extends User{
 				System.out.println("The organizer hasn't made a request for the event");
 			}
 		
-		 else if (aRequest.getStatus().equals("closed"))
+		 else if (aRequest.getStatus().equalsIgnoreCase("closed"))
 			{
 				System.out.println("The request has already been handled");
 			}
@@ -75,7 +89,7 @@ public class Employee extends User{
 			{
 				//if it is a request to add the event, the employee makes its 
 			 	//status not-approved
-					if (aRequest.getType().equals("add"))
+					if (aRequest.getType().equalsIgnoreCase("register"))
 						{
 							aRequest.handleRequest(this, "The event is NOT approved");
 							aRequest.getAnEvent().setStatus("not-approved");
@@ -83,7 +97,7 @@ public class Employee extends User{
 				
 				//if it is a request for deletion, it closes the request but no
 				//changes are made to the status of the event
-					else if (aRequest.getType().equals("delete"))
+					else if (aRequest.getType().equalsIgnoreCase("delete"))
 						{
 							aRequest.handleRequest(this, "The deletion of the event is NOT approved");
 						}
@@ -94,9 +108,8 @@ public class Employee extends User{
 			}
 	}
 	 
-	 
 	
-	public void deleteEvent(Event anEvent)
+	
 	/*
 	 * An Employee can delete any event with no request needed, just by calling
 	 * this method. 
@@ -105,9 +118,10 @@ public class Employee extends User{
 	 * method is called by the acceptRequest method.
 	 * 
 	 */
+	public void deleteEvent(Event anEvent)	
 	{
 		anEvent.setStatus("deleted");
-		System.out.println("You have deleted/cancelled the following event: "+ anEvent.getTitle());
+		System.out.println("You have deleted the following event: "+ anEvent.getTitle());
 	}
 	
 
