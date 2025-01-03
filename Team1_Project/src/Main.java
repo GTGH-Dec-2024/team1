@@ -2,27 +2,47 @@ import java.util.ArrayList;
 import java.util.List;
 public class Main {
 	public static void main(String[] args) {
-		// Dimiourgia 10 Visitor
-		// Dimiourgia ellinikon onomaton kai eponimon
-        String[] FirstNames = {"Giorgos", "Maria", "Kostas", "Eleni", "Panagiotis", "Anastasia", "Nikos", "Dimitra", "Stavros", "Katerina"};
-        String[] LastNames = {"Papadopoulos", "Ioannidis", "Papakonstantinou", "Alexiou", "Konstantinidis", "Antoniou", "Michailidis", "Oikonomou", "Lampropoulos", "Christodoulou"};
-
-        // Lista gia na kratithoun oi episkephtes
+		// Dimiourgia 10 Visitors
+		
+        // Lista episkephtwn
         List<Visitor> visitors = new ArrayList<>();
 
-        
-        // Dimiourgia kai ektypwsi 10 episkephtwn
-        for (int i = 0; i < 10; i++) {
-            String name = FirstNames[i % FirstNames.length];
-            String surname = LastNames[i % LastNames.length];
-            String email = name.toLowerCase() + "." + surname.toLowerCase() + "@example.com";
+        // Dimiourgia episkephtwn
+        Visitor visitor1 = new Visitor("Giorgos", "Papadopoulos", "visitor1@gmail.com");
+        visitors.add(visitor1);
 
-            Visitor visitor = new Visitor(name, surname, email);
-            visitors.add(visitor);
-            
-        }
+        Visitor visitor2 = new Visitor("Maria", "Ioannidou", "visitor2@gmail.com");
+        visitors.add(visitor2);
+
+        Visitor visitor3 = new Visitor("Kostas", "Alexiou", "visitor3@gmail.com" );
+        visitors.add(visitor3);
+
+        Visitor visitor4 = new Visitor("Panagiotis", "Konstantinidis", "visitor4@gmail.com");
+        visitors.add(visitor4);
+
+        Visitor visitor5 = new Visitor("Katerina", "Antoniou","visitor5@gmail.com");
+        visitors.add(visitor5);
+
+        Visitor visitor6 = new Visitor("Nikos", "Papakonstantinou","visitor6@gmail.com" );
+        visitors.add(visitor6);
+
+        Visitor visitor7 = new Visitor("Maria", "Oikonomidou", "visitor7@gmail.com");
+        visitors.add(visitor7);
+
+        Visitor visitor8 = new Visitor("Nikos", "Pantelidis","visitor8@gmail.com" );
+        visitors.add(visitor8);
+
+        Visitor visitor9 = new Visitor("Anastasia", "Georgiou","visitor9@gmail.com" );
+        visitors.add(visitor9);
+
+        Visitor visitor10 = new Visitor("Dimitra", "Aggelidou", "visitor10@gmail.com");
+        visitors.add(visitor10);
+
+       
+    }
+}
 
        
 	}
 
-}
+
