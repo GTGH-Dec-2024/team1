@@ -10,7 +10,7 @@ public class Main {
 		
 		Event ev2 = new Event("Thessaloniki Taste Festival", 
 				"Showcasing Local Gastronomy with Restaurants and Producers", 
-				"A journey into the flavors of Thessaloniki, with exhibitions of local products, cooking demonstrations, and tastings by renowned chefs."
+				"A journey into the flavors of Thessaloniki, with exhibitions of local products, cooking demonstrations, and tastings by renowned chefs.",
 				"Nikis Avenue Pedestrian Zone", 200, 10, 9, 2025, 6, 00, 4, o2);
 		
 		Employee em1 = new Employee("Maria ", "Papadopoulou", "maria.papadop@gmail.com");
