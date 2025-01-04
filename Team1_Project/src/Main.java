@@ -53,17 +53,11 @@ public class Main {
 		Event ev8 = new Event("Thessaloniki Tech Fair", 
 				"Innovations Shaping the Future", 
 				"An exhibition of cutting-edge technologies and startups, with hands-on demonstrations, networking opportunities, and guest speakers from the tech world.", 
-				"Thessaloniki International Fairgrounds (TIF HELEXPO)", 25, 15, 11, 2025, 15 ,30, 8, o2);
+				"Thessaloniki International Fairgrounds (TIF HELEXPO)", 25, 15, 11, 2025, 15 ,30, 8, o3);
 
 		
-		
-
-		// Dimiourgia 10 Visitors
-		
-        // Lista episkephtwn
         List<Visitor> visitors = new ArrayList<>();
 
-        // Dimiourgia episkephtwn
         Visitor visitor1 = new Visitor("Giorgos", "Papadopoulos", "visitor1@gmail.com");
         visitors.add(visitor1);
 
@@ -93,6 +87,31 @@ public class Main {
 
         Visitor visitor10 = new Visitor("Dimitra", "Aggelidou", "visitor10@gmail.com");
         visitors.add(visitor10);
+        
+        
+        //Organizers are creating approval requests for their events
+        ApprovalRequest registerRequest1 =  o3.registerRequest(ev3);      
+        ApprovalRequest registerRequest2 = o2.registerRequest(ev2);
+        
+       //this employee approves the request, 
+        //making the status of the event "approved" 
+        em3.approveRequest(registerRequest1);
+        
+        //the same employee rejects the other request,
+        //making the status of the event "not-approved"
+        em3.rejectRequest(registerRequest2);
+        
+        
+        //An organizer makes a request to delete an event, 
+        //and the employee accepts it
+        ApprovalRequest removalRequest1 =  o1.removalRequest(ev6);
+        em1.approveRequest(removalRequest1);
+        
+        //When an employee deletes an event, there is no need
+        //for approval from anyone
+        em2.deleteEvent(ev8);
+        
+        
 
        
     }
