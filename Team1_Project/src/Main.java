@@ -122,7 +122,7 @@ public class Main {
         
         
        // The two first visitors successfully register to the event.
-        visitor1.makeReservation(ev4);
+        visitor1.makeReservation(ev4); // visitor 1 makes reservation for the event 4
         visitor2.makeReservation(ev4);
         
       // The third visitor tries to make a reservation but there aren't any seats left.
@@ -132,6 +132,14 @@ public class Main {
       // Print reservations for the event 4.
         System.out.println("\nReservations for the event:");
         System.out.println(ev4.getReservations());
+        
+     // We will try to cancel reservations for the event 4     
+        visitor1.cancelReservation(ev4);  // visitor 1 cancels reservation for the event 4
+        visitor2.cancelReservation(ev4);  
+     // Final reservations for the event 4
+        System.out.println("\nReservations for the event " + ev4.getTitle() + ": " + ev4.getReservations());
+        
+        
 	}
 
        
