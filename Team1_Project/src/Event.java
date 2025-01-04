@@ -217,7 +217,7 @@ public class Event {
 				+ ", date = " + getDate() 
 				+ ", time = " + getTime()
 				+ ", duration = " + duration 
-				+ ", organizer = " + organizer 
+				+ ", organizer = " + organizer.getName()
 				+ ", status = " + status
 				+ ", currentCapacity = " + currentCapacity 
 				+ ", reservations = " + reservations + "]";
