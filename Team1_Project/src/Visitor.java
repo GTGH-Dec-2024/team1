@@ -72,8 +72,14 @@ public class Visitor extends User {
         // Checks if the events status is "approved" // An thelw borw na xrhsimopoihsw kai streams gia ton elegxo tou status
         if (!"approved".equalsIgnoreCase(event.getStatus())) {
             System.out.println("Reservation not allowed. Event status is not approved.");
-            return; // Stops the event is the event is not approved // xrisimopoiw return gia na termatisw ton elegxo
+            return; // Stops the event if the event is not approved // xrisimopoiw return gia na termatisw ton elegxo
         }
+        // Create a new reservation for this visitor and event
+        Reservation newReservation = new Reservation(this, event);
+        
+        // Add the reservation to the visitor's list of reservations
+        reservations.add(newReservation);
+        System.out.println("Reservation for the event: " + event.getTitle() + " confirmed.");
     }
     // Cancels a reservation for the Event
     public void cancelReservation(Event event) {
