@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 
 public class EventManager {
-	private ArrayList<Event> events= new ArrayList<>();
+	private ArrayList<Event> events;
     private static EventManager instance;
 	
     
-    public EventManager(ArrayList<Event> events) {
-		this.events = events;
+    public EventManager() {
+    	events = new ArrayList<>();
 	}
 
 	
@@ -42,7 +42,10 @@ public class EventManager {
 
 
 	public static EventManager getInstance() {
-		return instance;
+		if (instance == null) {
+            instance = new EventManager();
+        }
+        return instance;
 	}
 
 	public ArrayList<Event> getEvents() {

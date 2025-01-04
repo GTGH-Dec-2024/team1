@@ -25,12 +25,12 @@ public class Employee extends User{
 		
 			if (aRequest == null)
 			{
-				System.out.println("The organizer hasn't made a request for the event");
+				System.out.println("The organizer hasn't made a request for the event"+"\n");
 			}
 			
 			else if (aRequest.getStatus().equalsIgnoreCase("closed"))
 			{
-				System.out.println("The request has already been handled");
+				System.out.println("The request has already been handled"+"\n");
 			}
 			
 			else
@@ -43,7 +43,7 @@ public class Employee extends User{
 							aRequest.handleRequest(this, "The event is now approved");
 							
 							System.out.println("You have just approved the following event: " 
-							+ aRequest.getAnEvent().getTitle());
+							+ aRequest.getAnEvent().getTitle()+"\n");
 							
 							
 						}
@@ -77,12 +77,12 @@ public class Employee extends User{
 	{
 		 if (aRequest == null)
 			{
-				System.out.println("The organizer hasn't made a request for the event");
+				System.out.println("The organizer hasn't made a request for the event"+"\n");
 			}
 		
 		 else if (aRequest.getStatus().equalsIgnoreCase("closed"))
 			{
-				System.out.println("The request has already been handled");
+				System.out.println("The request has already been handled"+"\n");
 			}
 		
 		 else 
@@ -104,7 +104,7 @@ public class Employee extends User{
 					
 					
 			System.out.println("You have NOT approved to " + aRequest.getType()
-						+"the following event: " + aRequest.getAnEvent().getTitle());
+						+" the following event: " + aRequest.getAnEvent().getTitle()+"\n");
 			}
 	}
 	 
@@ -121,7 +121,7 @@ public class Employee extends User{
 	public void deleteEvent(Event anEvent)	
 	{
 		anEvent.setStatus("deleted");
-		System.out.println("You have deleted the following event: "+ anEvent.getTitle());
+		System.out.println("You have deleted the following event: "+ anEvent.getTitle()+"\n");
 	}
 	
 
