@@ -91,7 +91,30 @@ public class Main {
 				"Thessaloniki International Fairgrounds (TIF HELEXPO)", 25, 15, 11, 2025, 15 ,30, 8, o2);
 
 		
+		// Egrafi parakolouthisis endilwshs toulaxiston se mia ekdilosi gia olous tous episkeptes
+		// Set status of two events as "approved".
+        ev1.setStatus("approved");
+        ev2.setStatus("approved");
+        // Reservation in at least one event for each Visitor
+        for (Visitor visitor : visitors) {
+            if (ev1.getCurrentCapacity() < ev1.getMaxCapacity()) {
+                visitor.makeReservation(ev1);
+            } else if (ev2.getCurrentCapacity() < ev2.getMaxCapacity()) {
+                visitor.makeReservation(ev2);
+            } else {
+                System.out.println(visitor.getName() + " " + visitor.getSurname() + " could not register for any events.");
+            }
+        }
+        // Print Reservations
+        System.out.println("\nReservations for Event 1:");
+        System.out.println(ev1.getReservations());
+
+        System.out.println("\nReservations for Event 2:");
+        System.out.println(ev2.getReservations());
 		
+		
+        
+        
 	}
 
        
