@@ -112,7 +112,8 @@ public class Main {
         em2.deleteEvent(ev8);
         
     //    visitor1.searchEvent(12, 7, 2025, "Thessaloniki International Fairgrounds (TIF HELEXPO)", "Thessaloniki Tech Fair");
-    //   System.out.println(EventManager.getInstance().getEvents());
+   
+        System.out.println(EventManager.getInstance().getEvents());
        
     }
 }

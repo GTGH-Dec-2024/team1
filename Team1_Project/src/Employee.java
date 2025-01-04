@@ -114,7 +114,7 @@ public class Employee extends User{
 	 * An Employee can delete any event with no request needed, just by calling
 	 * this method. 
 	 * 
-	 * If an approvalRequest is made by the Organizer, this
+	 * If an approvalRequest has been made by the Organizer, this
 	 * method is called by the acceptRequest method.
 	 * 
 	 */
