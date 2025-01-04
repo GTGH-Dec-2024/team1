@@ -113,8 +113,25 @@ public class Main {
         System.out.println(ev2.getReservations());
 		
 		
+        /* Test what will happen in case that one visitor tries to register to an event
+         * which doesn't have any open seats left.
+         * We will use the event 4 for the test.
+         */
+       // Set the status of event 4 as "approved"
+        ev4.setStatus("approved");
         
         
+       // The two first visitors successfully register to the event.
+        visitor1.makeReservation(ev4);
+        visitor2.makeReservation(ev4);
+        
+      // The third visitor tries to make a reservation but there aren't any seats left.
+        System.out.println("\nTrying to make a reservation for visitor3:");
+        visitor3.makeReservation(ev4);
+        
+      // Print reservations for the event 4.
+        System.out.println("\nReservations for the event:");
+        System.out.println(ev4.getReservations());
 	}
 
        
