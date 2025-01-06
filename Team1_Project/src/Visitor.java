@@ -27,7 +27,7 @@ public class Visitor extends User {
 	
     private List<Reservation> reservations; // List with objects of the class Reservation
     // The list Reservation is the storing area where each Visitor can store his reservations.
-    
+   //EVA - mallon de xreiazetai, tha ginetai i lista sthn klasei Reservation 
     
     
     /* Constructor.
@@ -41,7 +41,8 @@ public class Visitor extends User {
         this.email = email; //anathetei thn timh tou email
     }
     
-   /* The public method  searchEvents of the Visitor class calls the
+   
+    /* The public method  searchEvents of the Visitor class calls the
     * findEvents method of the class EventManager. */    
     public void searchEvent(int day, int month, int year, String location, String theme) {
         // make or retrieve object EnentManager
@@ -70,7 +71,12 @@ public class Visitor extends User {
     
     public void makeReservation(Event event) {
         // Checks if the events status is "approved" // An thelw borw na xrhsimopoihsw kai streams gia ton elegxo tou status
-        if (!"approved".equalsIgnoreCase(event.getStatus())) {
+      
+    	// EVA - Anti gia if(false) me return;, mporeis na kaneis if(true) kai to syso
+    	//na mpei sthn periptwsi tou false. Den einai anagki alla tha nai pio
+    	//"omorfos" o kwdikas
+    	
+    	if (!"approved".equalsIgnoreCase(event.getStatus())) {
             System.out.println("Reservation not allowed. Event status is not approved.");
             return; // Stops the event if the event is not approved // xrisimopoiw return gia na termatisw ton elegxo
         }
@@ -82,6 +88,8 @@ public class Visitor extends User {
         reservations.add(newReservation);
         System.out.println("Reservation for the event: " + event.getTitle() + " confirmed.");
     }
+    
+    
     // Cancels a reservation for the Event
     public void cancelReservation(Event event) {
         // Creates object Reservation for check
@@ -91,7 +99,9 @@ public class Visitor extends User {
         if (reservations.contains(tempReservation)) {
             reservations.remove(tempReservation);
             System.out.println("Reservation for the event: " + event.getTitle() + " canceled.");
-        } else {
+        } 
+        else 
+        {
             System.out.println("Reservation for the event: " + event.getTitle() + " not found.");
         }
     }
