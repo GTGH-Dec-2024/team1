@@ -96,54 +96,49 @@ public class Main {
 		// Set status of two events as "approved".
         ev1.setStatus("approved");
         ev2.setStatus("approved");
+        ev4.setStatus("approved");
         // Reservation in at least one event for each Visitor
         for (Visitor visitor : visitors) {
             if (ev1.getCurrentCapacity() < ev1.getMaxCapacity()) {
-                visitor.makeReservation(ev1);
+                ev1.addReservation(visitor);
             } else if (ev2.getCurrentCapacity() < ev2.getMaxCapacity()) {
-                visitor.makeReservation(ev2);
+                ev2.addReservation(visitor);
             } else {
                 System.out.println(visitor.getName() + " " + visitor.getSurname() + " could not register for any events.");
             }
         }
         // Print Reservations
         System.out.println("\nReservations for Event 1:");
-        System.out.println(ev1.getReservations());
+        for (Visitor visitor : ev1.getVisitors()) {
+            System.out.println(visitor.getName() + " " + visitor.getSurname());
+        }
 
         System.out.println("\nReservations for Event 2:");
-        System.out.println(ev2.getReservations());
-		
+        for (Visitor visitor : ev2.getVisitors()) {
+            System.out.println(visitor.getName() + " " + visitor.getSurname());
+        }
 		
         /* Test what will happen in case that one visitor tries to register to an event
-         * which doesn't have any open seats left.
-         * We will use the event 4 for the test.
-         */
-       /* // Set the status of event 4 as "approved"
-        ev4.setStatus("approved");
+         * which doesn't have any open seats left. */
+        System.out.println("\nTrying to make a reservation for visitor3 in Event 4:");
+        ev4.addReservation(visitors.get(2)); // pernei ton 3o episkepti ths listas
+
+        // Cancel reservation
+        System.out.println("\nCancelling reservations for Event 4:");
+        ev4.removeReservation(visitors.get(0)); // Cancel reservation for visitor 1
+              
+        
+     // Final reservations
+        System.out.println("\nFinal Reservations for Event 4:");
+        for (Visitor visitor : ev4.getVisitors()) {
+            System.out.println(visitor.getName() + " " + visitor.getSurname());
+        }
+    }
         
         
-       // The two first visitors successfully register to the event.
-        visitor1.makeReservation(ev4); // visitor 1 makes reservation for the event 4
-        visitor2.makeReservation(ev4);
-        
-      // The third visitor tries to make a reservation but there aren't any seats left.
-        System.out.println("\nTrying to make a reservation for visitor3:");
-        visitor3.makeReservation(ev4);
-        
-      // Print reservations for the event 4.
-        System.out.println("\nReservations for the event:");
-        System.out.println(ev4.getReservations());
-        
-     // We will try to cancel reservations for the event 4     
-        visitor1.cancelReservation(ev4);  // visitor 1 cancels reservation for the event 4
-        visitor2.cancelReservation(ev4);  
-     // Final reservations for the event 4
-        System.out.println("\nReservations for the event " + ev4.getTitle() + ": " + ev4.getReservations());
-        */
-        
-	}
+}
 
        
-	}
+	
 
 

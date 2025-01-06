@@ -1,18 +1,19 @@
-/* The class Reservation stores information about the reservation 
- * that a visitor has done for a specific event.
+/* The class Reservation stores information about the reservations 
+ * that the Visitors make to the events.
  */
 import java.util.ArrayList;
 import java.util.List;
 
 public class Reservation {
+	
 	// The visitor who has made the reservation
 	private final Visitor visitor; // connection with the class Visitor 
     // The event to which the reservation has been made
 	private final Event event; // connection with the class Event
     // visitor and event must be final so that they can not change for the specific reservation
 	// Static list which stores all the reservations
-	private static  List<Reservation> allReservations = new ArrayList<>();
-    // Nomizw prepei na einai etsi: private static final List<Reservation> allReservations = new ArrayList<>();
+	private static final List<Reservation> allReservations = new ArrayList<>();
+    
     // final in the list means that the list can change but the reference of the list cannot change(can't be changed with another list)
     /* Constructor.
      * visitor: the visitor who makes the reservation to the event.
@@ -26,6 +27,15 @@ public class Reservation {
         allReservations.add(this);
     }
 
+    
+    public static List<Reservation> getAllReservations() {
+		return allReservations;
+	}
+    
+    // Remove reservation method
+    public static void removeReservation(Reservation reservation) {
+        allReservations.remove(reservation);
+    }
     //Getters and Setters for the fields Visitor and Reservation
     public Visitor getVisitor() {
         return visitor;
