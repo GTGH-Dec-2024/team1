@@ -33,6 +33,16 @@ public class Visitor extends User {
         this.email = email; //anathetei thn timh tou email
     }
     
+    public void makeReservation(Event anEvent) {
+	    // Check if the status of the event is approved
+		anEvent.addReservation(this);
+	}
+	
+	
+    
+    
+    
+    
    /* The public method  searchEvents of the Visitor class calls the
     * findEvents method of the class EventManager. */    
     public void searchEvent(int day, int month, int year, String location, String theme) {

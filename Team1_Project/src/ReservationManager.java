@@ -16,18 +16,30 @@ public class ReservationManager {
 			allReservations = new ArrayList<>();
 		}
 		
-		public void addReservation(Reservation aReservation)
+		public void createReservation(Event anEvent, Visitor aVisitor)
 	    {   	
-			allReservations.add(aReservation);
+			for (Reservation reservation : allReservations) {
+			      if (reservation.getEvent().equals(anEvent) && reservation.getVisitor().equals(aVisitor))
+			      {
+			    	  System.out.println("You have already made a reservation for this event");
+			    	  return;
+			      }
+				
+			}
+			     
+			  
+			allReservations.add(new Reservation (aVisitor, anEvent));
+			    			
 		}
 		
 		
 		
 		public static ReservationManager getInstance() {
-		   \ if (instance == null) {
+		    if (instance == null) {
 		       instance = new ReservationManager();
 		     }
 		   return instance;
+		}
 		
 		
 		

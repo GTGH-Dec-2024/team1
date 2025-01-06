@@ -39,30 +39,6 @@ public class Event {
 	}
 	
     // H klasi Event borei na xrisimopoiisei ton constructor tis klasis Reservation gia na dimiourgisei kai na apothikeusei automata tis kratiseis
-	public void addReservation(Visitor visitor) {
-	    // Check if the status of the event is approved
-		if (!"approved".equalsIgnoreCase(this.status)) {
-	        System.out.println("Cannot create reservation: Event is not approved.");
-	        return;
-	    }
-
-	    // Check if there is enough Capacity
-	    if (this.currentCapacity >= this.maxCapacity) {
-	        System.out.println("Cannot create reservation: Event is fully booked.");
-	        return;
-	    }
-
-	    // Creates a new reservation which is stored automatically to the list allReservations through the constructor of the class Reservation
-	    new Reservation(visitor, this);
-
-	    // Increases the current capacity
-	    this.currentCapacity++;
-
-	    // Success message
-	    System.out.println("Reservation successfully created for visitor: " 
-	        + visitor.getName() + " " + visitor.getSurname());
-	}
-	
 	
 	
 
@@ -217,7 +193,28 @@ public class Event {
 		this.currentCapacity = currentCapacity;
 	}
 
+	// Checks if the event has space for more reservations
+	public boolean hasSpace()
+	{
+		return currentCapacity < maxCapacity;
+	}
 	
+	//Updates the capacity of the event when a reservation is made
+	public void addReservation(Visitor aVisitor)
+	{
+		if ("Approved".equalsIgnoreCase(status) && hasSpace()) {
+			
+			ReservationManager.getInstance().createReservation(this, aVisitor);
+			currentCapacity++;
+			System.out.println("Reservation for event " + title + " added successlly!\nThank you visitor "
+					+ aVisitor.getName() + " " + aVisitor.getSurname());
+		} else if (!"Approved".equalsIgnoreCase(status)) {
+			System.out.println("Event not approved!\nYou can not make a reservation to a not approved event!");
+		} else {
+			System.out.println(
+					"You can not make a reservation to this event!\nThe capacity of the event's reservation is full!");
+	    }
+	}
 
 
 	@Override

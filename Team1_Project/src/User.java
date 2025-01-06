@@ -1,7 +1,7 @@
 
 public abstract class User {
-	private String name;
-	private String surname;
+	protected String name;
+	protected String surname;
 	
 	
 	public User(String name, String surname) {
