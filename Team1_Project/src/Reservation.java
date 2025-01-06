@@ -15,16 +15,7 @@ public class Reservation {
 	private static final List<Reservation> allReservations = new ArrayList<>();
     
     // final in the list means that the list can change but the reference of the list cannot change(can't be changed with another list)
-	
-	//EVA - Nomizw de xreiazetai kanena apo auta na einai final 
-	
-	//EVA - Pistevw thelei klasi reservationManager poy na krataei lista me ta 
-	//reservations. Gia na mi mplekoume px me static k na ginontai ekei kapoies
-	//leitourgies. Etsi, edw na exoume apla ta stoixeia ths kathe kratisis kai
-	//sth reservationList na exoyme mia lista me oles tis kratiseis. Ekei mporoume 
-	//na epistrefoume k diafora.
-	
-	/* Constructor.
+    /* Constructor.
      * visitor: the visitor who makes the reservation to the event.
      * event: the event for which the reservation is being made.
      */
@@ -76,9 +67,6 @@ public class Reservation {
         System.out.println("Event Date: " + event.getDay() + "/" + event.getMonth() + "/" + event.getYear());
         System.out.println("Event Time: " + event.getHour() + "/" + event.getMinutes());        
            }
-    
-    //EVA -  Isws xreiastoume kai mia override tis toString gia ektipwsi??
 }
-
 
 
