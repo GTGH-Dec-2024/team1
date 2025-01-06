@@ -118,7 +118,7 @@ public class Main {
          * which doesn't have any open seats left.
          * We will use the event 4 for the test.
          */
-       // Set the status of event 4 as "approved"
+       /* // Set the status of event 4 as "approved"
         ev4.setStatus("approved");
         
         
@@ -139,7 +139,7 @@ public class Main {
         visitor2.cancelReservation(ev4);  
      // Final reservations for the event 4
         System.out.println("\nReservations for the event " + ev4.getTitle() + ": " + ev4.getReservations());
-        
+        */
         
 	}
 

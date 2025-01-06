@@ -74,6 +74,7 @@ public class Visitor extends User {
             System.out.println("Reservation not allowed. Event status is not approved.");
             return; // Stops the event if the event is not approved // xrisimopoiw return gia na termatisw ton elegxo
         }
+   
         // Create a new reservation for this visitor and event
         Reservation newReservation = new Reservation(this, event);
         
