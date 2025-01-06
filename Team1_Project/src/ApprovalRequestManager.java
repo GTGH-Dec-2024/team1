@@ -1,17 +1,14 @@
 /*
- * This class will help in searching if there is
- * an ApprovalRequest for a specific Event
- * 
- * It is used to store all the approval requests
- * 
+ * An idea for a class storing all the approvalRequests,
+ * to help in searching if there is an ApprovalRequest for a specific Event.
  * When an ApprovalRequest is made, it is added to the list
  * 
+ * We decided that (at least for this specific project), this class is
+ * probably not needed. 
  * 
- * Isws to kathe request na exei ena id??
- * 
- * ISWS na mh xreiazetai kai apla kathe event na exei
- * mia lista me ola ta approvalRequest tou?
- */
+ * A skeleton of this class remains as a file, just in case
+ * we decide to implement it later
+
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -55,6 +52,7 @@ public class ApprovalRequestManager {
         }
         return null;
     }
-*/	
+
 
 }
+*/	
