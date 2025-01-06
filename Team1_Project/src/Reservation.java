@@ -11,10 +11,8 @@ public class Reservation {
     // The event to which the reservation has been made
 	private final Event event; // connection with the class Event
     // visitor and event must be final so that they can not change for the specific reservation
-	// Static list which stores all the reservations
-	private static final List<Reservation> allReservations = new ArrayList<>();
-    
-    // final in the list means that the list can change but the reference of the list cannot change(can't be changed with another list)
+	
+	
     /* Constructor.
      * visitor: the visitor who makes the reservation to the event.
      * event: the event for which the reservation is being made.
@@ -41,23 +39,13 @@ public class Reservation {
         return visitor;
     }
 
-    /*Nomizw pws den prepei na exei setter afou einai final
-    public void setVisitor(Visitor visitor) {
-        this.visitor = visitor;
-    }
-    */
 
     public Event getEvent() {
         return event;
     }
-    
-    /*Oute edw
-    public void setEvent(Event event) {
-        this.event = event;
-    } */
      
+   
     // Method which shows the information of the reservation.
-    
     public void displayReservationDetails() {
         System.out.println("Reservation Details:");
         System.out.println("Visitor: " + visitor.getName() + " " + visitor.getSurname());
