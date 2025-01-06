@@ -17,9 +17,11 @@ public class Reservation {
 	
 	//EVA - Nomizw de xreiazetai kanena apo auta na einai final 
 	
-	//EVA - ISWS thelei klasi reservationManager poy na krataei lista me ta 
-	//reservations? Gia na mi mplekoume px me static k na ginontai ekei kapoiew
-	//leitourgies
+	//EVA - Pistevw thelei klasi reservationManager poy na krataei lista me ta 
+	//reservations. Gia na mi mplekoume px me static k na ginontai ekei kapoies
+	//leitourgies. Etsi, edw na exoume apla ta stoixeia ths kathe kratisis kai
+	//sth reservationList na exoyme mia lista me oles tis kratiseis. Ekei mporoume 
+	//na epistrefoume k diafora.
 	
 	/* Constructor.
      * visitor: the visitor who makes the reservation to the event.
