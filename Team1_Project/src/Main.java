@@ -2,8 +2,45 @@ import java.util.ArrayList;
 import java.util.List;
 public class Main {
 	public static void main(String[] args) {
+		// Dimiourgia 10 Visitors
+		
+        // Lista episkephtwn
+        List<Visitor> visitors = new ArrayList<>();
 
 
+        // Dimiourgia episkephtwn
+        Visitor visitor1 = new Visitor("Giorgos", "Papadopoulos", "visitor1@gmail.com");
+        visitors.add(visitor1);
+
+        Visitor visitor2 = new Visitor("Maria", "Ioannidou", "visitor2@gmail.com");
+        visitors.add(visitor2);
+
+        Visitor visitor3 = new Visitor("Kostas", "Alexiou", "visitor3@gmail.com" );
+        visitors.add(visitor3);
+
+        Visitor visitor4 = new Visitor("Panagiotis", "Konstantinidis", "visitor4@gmail.com");
+        visitors.add(visitor4);
+
+        Visitor visitor5 = new Visitor("Katerina", "Antoniou","visitor5@gmail.com");
+        visitors.add(visitor5);
+
+        Visitor visitor6 = new Visitor("Nikos", "Papakonstantinou","visitor6@gmail.com" );
+        visitors.add(visitor6);
+
+        Visitor visitor7 = new Visitor("Maria", "Oikonomidou", "visitor7@gmail.com");
+        visitors.add(visitor7);
+
+        Visitor visitor8 = new Visitor("Nikos", "Pantelidis","visitor8@gmail.com" );
+        visitors.add(visitor8);
+
+        Visitor visitor9 = new Visitor("Anastasia", "Georgiou","visitor9@gmail.com" );
+        visitors.add(visitor9);
+
+        Visitor visitor10 = new Visitor("Dimitra", "Aggelidou", "visitor10@gmail.com");
+        visitors.add(visitor10);
+
+       
+   
 		Employee em1 = new Employee("Maria ", "Papadopoulou", "maria.papadop@gmail.com");
 		Employee em2 = new Employee("Dimitris ", "Konstantinidis", "dimitris.kons@gmail.com");
 		Employee em3 = new Employee("Giorgos  ", "Nikolaidis", " giorgos.nikolaid@example.com");
@@ -119,3 +156,52 @@ public class Main {
 }
 
        
+		// Egrafi parakolouthisis endilwshs toulaxiston se mia ekdilosi gia olous tous episkeptes
+		// Set status of two events as "approved".
+        ev1.setStatus("approved");
+        ev2.setStatus("approved");
+        ev4.setStatus("approved");
+        // Reservation in at least one event for each Visitor
+        for (Visitor visitor : visitors) {
+            if (ev1.getCurrentCapacity() < ev1.getMaxCapacity()) {
+                ev1.addReservation(visitor);
+            } else if (ev2.getCurrentCapacity() < ev2.getMaxCapacity()) {
+                ev2.addReservation(visitor);
+            } else {
+                System.out.println(visitor.getName() + " " + visitor.getSurname() + " could not register for any events.");
+            }
+        }
+        // Print Reservations
+        System.out.println("\nReservations for Event 1:");
+        for (Visitor visitor : ev1.getVisitors()) {
+            System.out.println(visitor.getName() + " " + visitor.getSurname());
+        }
+
+        System.out.println("\nReservations for Event 2:");
+        for (Visitor visitor : ev2.getVisitors()) {
+            System.out.println(visitor.getName() + " " + visitor.getSurname());
+        }
+		
+        /* Test what will happen in case that one visitor tries to register to an event
+         * which doesn't have any open seats left. */
+        System.out.println("\nTrying to make a reservation for visitor3 in Event 4:");
+        ev4.addReservation(visitors.get(2)); // pernei ton 3o episkepti ths listas
+
+        // Cancel reservation
+        System.out.println("\nCancelling reservations for Event 4:");
+        ev4.removeReservation(visitors.get(0)); // Cancel reservation for visitor 1
+              
+        
+     // Final reservations
+        System.out.println("\nFinal Reservations for Event 4:");
+        for (Visitor visitor : ev4.getVisitors()) {
+            System.out.println(visitor.getName() + " " + visitor.getSurname());
+        }
+    }
+        
+        
+}
+
+       
+
+

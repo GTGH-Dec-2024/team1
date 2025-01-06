@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-
+import java.util.List;
 public class Event {
 	private String title;
 	private String theme;
@@ -15,8 +15,8 @@ public class Event {
 	private Organizer organizer;
 	private String status; // status = "pending" or "approved" or "not-approved" or "deleted" 
 	private int currentCapacity;
-	private ArrayList<Visitor> visitors;
-	private ArrayList<Reservation> reservations;
+	private List<Visitor> visitors; // new list for the visitors
+	
 
 	public Event(String title, String theme, String description, String location, int maxCapacity, int day, int month,
 			int year, int hour, int minutes, int duration, Organizer organizer) {
@@ -34,42 +34,63 @@ public class Event {
 		this.duration = duration;
 		this.organizer = organizer;
 		this.status = "Pending";
-		this.visitors = new ArrayList<>();
+		this.visitors = new ArrayList<>(); // arhikopoihsh listas episkeptwn
+		
+	}
+    // H klasi Event borei na xrisimopoiisei ton constructor tis klasis Reservation gia na dimiourgisei kai na apothikeusei automata tis kratiseis
+	public void addReservation(Visitor visitor) {
+	    // Check if the status of the event is approved
+	    if (!"Approved".equalsIgnoreCase(this.status)) {
+	        System.out.println("Cannot create reservation: Event is not approved.");
+	        return;
+	    }
+
+	    // Check if there is enough Capacity
+	    if (this.currentCapacity >= this.maxCapacity) {
+	        System.out.println("Cannot create reservation: Event is fully booked.");
+	        return;
+	    }
+
+	    // Creates a new reservation which is stored automatically to the list allReservations through the constructor of the class Reservation
+	    new Reservation(visitor, this);
+
+	    // Increases the current capacity
+	    this.currentCapacity++;
+
+	    // Success message
+	    System.out.println("Reservation successfully created for visitor: " 
+	        + visitor.getName() + " " + visitor.getSurname());
 	}
 
-	public void addReservation(Reservation aReservation) {
-		if ("Approved".equalsIgnoreCase(this.status) && reservations.size() < maxCapacity) {
-			reservations.add(aReservation);
-			currentCapacity++;
-			System.out.println("Reservation for event " + this.getTitle() + " added successlly!\nThank you visitor "
-					+ aReservation.getVisitor().getName() + " " + aReservation.getVisitor().getSurname());
-		} else if (!"Approved".equalsIgnoreCase(this.status)) {
-			System.out.println("Event not approved!\nYou can not make a reservation to a not approved event!");
-		} else {
-			System.out.println(
-					"You can not make a reservation to this event!\nThe capacity of the event's reservation is full!");
-		}
+	public void removeReservation(Visitor visitor) {
+	    // Find the reservation
+	    for (Reservation reservation : Reservation.getAllReservations()) {
+	        if (reservation.getVisitor().equals(visitor) && reservation.getEvent().equals(this)) {
+	            // Remove reservation from the list
+	            Reservation.removeReservation(reservation);
+
+	            // Decrease Capacity
+	            this.currentCapacity--;
+
+	            // Success message
+	            System.out.println("Reservation removal for the event " + this.getTitle() 
+	                + " made successful for visitor " + visitor.getName() + " " + visitor.getSurname());
+	            return;
+	        }
+	    }
+
+	    // If the reservation is not found
+	    System.out.println("Reservation removal failed! Visitor seems not to participate in this event.");
 	}
-
-	public void removeReservation(Reservation aReservation) {
-		boolean exists = reservations.stream()
-				.anyMatch(r -> r.getVisitor().equals(aReservation.getVisitor()) && r.getEvent().equals(this));
-
-		if (exists) {
-			reservations.remove(aReservation);
-			currentCapacity--;
-			System.out.println("Reservation removal for the event " + aReservation.getEvent().getTitle()
-					+ " made successful visitor " + aReservation.getVisitor().getName() + " "
-					+ aReservation.getVisitor().getSurname());
-		} else {
-			System.out.println("Reservation removal failed!\nVisitor seems not to participate in that event!");
-		}
+	
+	// Visitors list
+    public ArrayList<Visitor> getVisitors() {
+        return new ArrayList<>(visitors); // epistrofi antigrafou listas episkeptwn giati?
+    }
+	
+	public void setVisitors(List<Visitor> visitors) {
+		this.visitors = visitors;
 	}
-
-	public ArrayList<Reservation> getReservations() {
-		return reservations;
-	}
-
 	public String getTitle() {
 		return title;
 	}
@@ -190,21 +211,11 @@ public class Event {
 		this.currentCapacity = currentCapacity;
 	}
 
-	public void setReservations(ArrayList<Reservation> reservations) {
-		this.reservations = reservations;
-	}
+	
 
-	public void addVisitor(Visitor visitor) {
-		visitors.add(visitor);
-	}
+	
 
-	public void removeVisitor(Visitor visitor) {
-		visitors.remove(visitor);
-	}
-
-	public ArrayList<Visitor> getVisitors() {
-		return visitors;
-	}
+	/*
 
 	@Override
 	public String toString() {
@@ -221,6 +232,8 @@ public class Event {
 				+ ", status = " + status
 				+ ", currentCapacity = " + currentCapacity 
 				+ ", reservations = " + reservations + "]";
-	}
+	} */
 
 }
+
+
