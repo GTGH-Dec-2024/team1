@@ -15,7 +15,7 @@ public class Event {
 	private Organizer organizer;
 	private String status; // status = "pending" or "approved" or "not-approved" or "deleted" 
 	private int currentCapacity;
-	private List<Visitor> visitors; // new list for the visitors
+	private ArrayList<Visitor> visitors; // new list for the visitors
 	
 
 	public Event(String title, String theme, String description, String location, int maxCapacity, int day, int month,
@@ -34,13 +34,14 @@ public class Event {
 		this.duration = duration;
 		this.organizer = organizer;
 		this.status = "Pending";
-		this.visitors = new ArrayList<>(); // arhikopoihsh listas episkeptwn
+		this.visitors = new ArrayList<>(); //a new visitors list for each event
 		
 	}
+	
     // H klasi Event borei na xrisimopoiisei ton constructor tis klasis Reservation gia na dimiourgisei kai na apothikeusei automata tis kratiseis
 	public void addReservation(Visitor visitor) {
 	    // Check if the status of the event is approved
-	    if (!"Approved".equalsIgnoreCase(this.status)) {
+		if (!"approved".equalsIgnoreCase(this.status)) {
 	        System.out.println("Cannot create reservation: Event is not approved.");
 	        return;
 	    }
@@ -61,6 +62,9 @@ public class Event {
 	    System.out.println("Reservation successfully created for visitor: " 
 	        + visitor.getName() + " " + visitor.getSurname());
 	}
+	
+	
+	
 
 	public void removeReservation(Visitor visitor) {
 	    // Find the reservation
@@ -83,14 +87,16 @@ public class Event {
 	    System.out.println("Reservation removal failed! Visitor seems not to participate in this event.");
 	}
 	
-	// Visitors list
+	// Returns the visitors list of the current Event
     public ArrayList<Visitor> getVisitors() {
-        return new ArrayList<>(visitors); // epistrofi antigrafou listas episkeptwn giati?
+        return visitors;
     }
 	
-	public void setVisitors(List<Visitor> visitors) {
+/*	public void setVisitors(List<Visitor> visitors) {
 		this.visitors = visitors;
 	}
+
+*/
 	public String getTitle() {
 		return title;
 	}
@@ -213,9 +219,6 @@ public class Event {
 
 	
 
-	
-
-	/*
 
 	@Override
 	public String toString() {
@@ -228,11 +231,11 @@ public class Event {
 				+ ", date = " + getDate() 
 				+ ", time = " + getTime()
 				+ ", duration = " + duration 
-				+ ", organizer = " + organizer 
+				+ ", organizer = " + organizer.getName()
 				+ ", status = " + status
 				+ ", currentCapacity = " + currentCapacity 
-				+ ", reservations = " + reservations + "]";
-	} */
+				/*+ ", reservations = " + reservations*/ + "]";
+	} 
 
 }
 
