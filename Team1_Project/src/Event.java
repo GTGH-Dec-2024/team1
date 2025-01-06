@@ -15,8 +15,10 @@ public class Event {
 	private Organizer organizer;
 	private String status; // status = "pending" or "approved" or "not-approved" or "deleted" 
 	private int currentCapacity;
+	
+	/*Nomizw den xreiazontai edw
 	private ArrayList<Visitor> visitors;
-	private ArrayList<Reservation> reservations;
+	private ArrayList<Reservation> reservations; */
 
 	public Event(String title, String theme, String description, String location, int maxCapacity, int day, int month,
 			int year, int hour, int minutes, int duration, Organizer organizer) {
@@ -34,7 +36,9 @@ public class Event {
 		this.duration = duration;
 		this.organizer = organizer;
 		this.status = "Pending";
+		/*
 		this.visitors = new ArrayList<>();
+		*/
 	}
 
 	public void addReservation(Reservation aReservation) {
