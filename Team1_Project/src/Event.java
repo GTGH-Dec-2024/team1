@@ -199,22 +199,6 @@ public class Event {
 		return currentCapacity < maxCapacity;
 	}
 	
-	//Updates the capacity of the event when a reservation is made
-	public void addReservation(Visitor aVisitor)
-	{
-		if ("Approved".equalsIgnoreCase(status) && hasSpace()) {
-			
-			ReservationManager.getInstance().createReservation(this, aVisitor);
-			currentCapacity++;
-			System.out.println("Reservation for event " + title + " added successlly!\nThank you visitor "
-					+ aVisitor.getName() + " " + aVisitor.getSurname());
-		} else if (!"Approved".equalsIgnoreCase(status)) {
-			System.out.println("Event not approved!\nYou can not make a reservation to a not approved event!");
-		} else {
-			System.out.println(
-					"You can not make a reservation to this event!\nThe capacity of the event's reservation is full!");
-	    }
-	}
 
 
 	@Override

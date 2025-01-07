@@ -33,15 +33,17 @@ public class Visitor extends User {
         this.email = email; //anathetei thn timh tou email
     }
     
-    public void makeReservation(Event anEvent) {
-	    // Check if the status of the event is approved
-		anEvent.addReservation(this);
+    public void makeReservation(Event anEvent) 
+    {
+    	ReservationManager.getInstance().createReservation(anEvent, this);
+    }
+	
+	
+    public void cancelReservation(Event anEvent) 
+    {
+		anEvent.removeReservation(this);
 	}
 	
-	
-    
-    
-    
     
    /* The public method  searchEvents of the Visitor class calls the
     * findEvents method of the class EventManager. */    
@@ -66,18 +68,7 @@ public class Visitor extends User {
                 System.out.println("-------------------------------");
             }
         }
-    }
-            
-    /* Adds a reservation for the visitor by calling the Event's addReservation method */
-    public void addReservationVisitor(Event event) {
-        event.addReservation(this); // Calls the method addReservation(Visitor visitor) of the class Event
-    }
-
-    /* Removes a reservation for the visitor by calling the Event's removeReservation method */
-    public void removeReservationVisitor(Event event) {
-        event.removeReservation(this); // Calls the method removeReservation(Visitor visitor) of the class Event
-    }
-             
+    }  
  
 }
 
