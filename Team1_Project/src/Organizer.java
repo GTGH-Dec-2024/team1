@@ -64,42 +64,63 @@ public class Organizer extends User {
 	}
 
 	/*
-	 * This method utilizes the ReservationManager class to
-	 * get information about each reservation. In a loop, it 
-	 * searches for all the events made by the organizer who
-	 * called the method.
+	 * This method utilizes the EventManager and ReservationManager classes 
+	 *
+	 * First, it finds all the Events made by the organizer
 	 * 
-	 * Then, it finds the visitors of those events and adds them
-	 * to a HashSet (so that there are no duplicates in the list of names)
-	 * 
+	 * Then, for each event, it checks the allReservations ArrayList
+	 * to find the names of the people who have made a reservation for them
 	 *
 	 */
-	public void getallMyEventsParticipants() {
-  
-		Set<Visitor> myParticipants = new HashSet<>();
-		
-		for(Reservation temp: ReservationManager.getInstance().getAllReservations())
-    	{
-    		if (temp.getEvent().getOrganizer().equals(this))
-    		{
-    			myParticipants.add(temp.getVisitor());
-    		}
-    	}
-		System.out.println("The participants on events organized by" +name +" "
-				+surname+" are:");
-		
-		if (myParticipants.isEmpty())
-		{
-			System.out.println("There are no participants to your events");
-			return;
+	public void showMyEventParticipants() {
+		   
+		System.out.println("The participants of events organized by " + name + " " + surname + " are:");
+
+		  
+			boolean hasEvents = false; //used at the end - if the organizer has no events, it will print a message
+
+		    for (Event event : EventManager.getInstance().getEvents()) 
+		    { 
+		       // The only events that can have reservations are the ones that have been approved
+		    	if (event.getOrganizer().equals(this) && event.getStatus().equalsIgnoreCase("approved")) 
+		        {
+		            hasEvents = true;
+		            StringBuilder eventInfo = new StringBuilder("Event: " + event.getTitle());
+
+		            ArrayList<Visitor> eventVisitors = new ArrayList<>();
+		            
+		            for (Reservation temp : ReservationManager.getInstance().getAllReservations()) 
+		            {
+		                if (temp.getEvent().equals(event)) 
+		                {
+		                	eventVisitors.add(temp.getVisitor());
+		                }
+		            }
+
+		            if (eventVisitors.isEmpty()) 
+		            {
+		                eventInfo.append("\nNo visitors in this event yet!");
+		            } else 
+		            
+		            {
+		                for (Visitor visitor : eventVisitors) 
+		                {
+		                    eventInfo.append("\nVisitor: " + visitor.getName() + " " + visitor.getSurname() + " (" + visitor.getEmail() + ")");
+		                }
+		            }
+
+		            System.out.println(eventInfo.toString());
+		        }
+		    }
+
+		    //if the organizer hasnt made any events yet
+		    if (!hasEvents) 
+		    {
+		        System.out.println("There are no events organized by " + name + " " + surname);
+		    }
 		}
-			
-		for (Visitor aVisitor : myParticipants) 
-		{
-		    System.out.println(aVisitor.getName() + " " + aVisitor.getSurname());
-		}
-    	
-	}
+	
+	
 
 	public String getAfm() {
 		return afm;

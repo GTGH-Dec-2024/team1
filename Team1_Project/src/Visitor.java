@@ -57,14 +57,11 @@ public class Visitor extends User {
     }  
     
 
-/*	public String getEmail() {
+	public String getEmail() 
+	{
 		return email;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-*/
  
 }
 
