@@ -11,26 +11,10 @@ import java.util.ArrayList;
 public class Visitor extends User {
 	
 	private String email;
-	
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	    
-    
-    /* Constructor.
-     * visitor: the visitor who makes the reservation to the event.
-     * event: the event for which the reservation is being made.
-     */
-	
     public Visitor(String name, String surname, String email) {
-        super(name, surname);  // Calls the constructor of the class User
-        
-        this.email = email; //anathetei thn timh tou email
+        super(name, surname);  // Calls the constructor of the superclass User 
+        this.email = email;
     }
     
     public void makeReservation(Event anEvent) 
@@ -41,12 +25,14 @@ public class Visitor extends User {
 	
     public void cancelReservation(Event anEvent) 
     {
-		anEvent.removeReservation(this);
+    	ReservationManager.getInstance().removeReservation(anEvent, this);
 	}
 	
     
    /* The public method  searchEvents of the Visitor class calls the
     * findEvents method of the class EventManager. */    
+   
+    
     public void searchEvent(int day, int month, int year, String location, String theme) {
         // make or retrieve object EnentManager
         EventManager eventManager = EventManager.getInstance();
@@ -69,6 +55,16 @@ public class Visitor extends User {
             }
         }
     }  
+    
+
+/*	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+*/
  
 }
 

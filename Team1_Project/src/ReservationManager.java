@@ -35,7 +35,7 @@ public class ReservationManager {
 		public void createReservation(Event anEvent, Visitor aVisitor)
 	    {   	
 			//if there is a reservation for this event already
-			if (ReservationManager.getInstance().findReservation(anEvent, aVisitor) != null)
+			if (findReservation(anEvent, aVisitor) != null)
 		      {
 		    	  System.out.println("You have already made a reservation for this event");
 		    	  return;
@@ -51,12 +51,17 @@ public class ReservationManager {
 			//if there is no space for another reservation
 			if (!anEvent.hasSpace())
 			{
-				System.out.println("You can't make a reservation to this event, the capscity is full");
+				System.out.println("You can't make a reservation to this event, the capacity is full");
 				return;
 		 
 			}
 			
+			//makes the reservation, adds it to the
+			//list of reservations and decreases the capacity of the event
 			allReservations.add(new Reservation (aVisitor, anEvent));
+			anEvent.decreaseCurrentCapacity();
+			
+			
 			System.out.println("A reservation for the event: " + anEvent.getTime()+ " has been made for "
 								+ aVisitor.getName() + " " + aVisitor.getSurname());
 	    }    			
@@ -66,20 +71,18 @@ public class ReservationManager {
 		
 		public void removeReservation(Event anEvent, Visitor aVisitor)
 		{
-			if (!hasReservation(anEvent, aVisitor))
-		      {
-		    	  System.out.println("You don't have a reservation for this event");
-		    	  return;
-		      } 
+			Reservation temp = findReservation(anEvent, aVisitor);
 			
-			Reservation tempReservation = null;
-
-		    for (Reservation temp : allReservations) {
-		        if (temp.getEvent().equals(anEvent) && temp.getVisitor().equals(aVisitor)) {
-		        	tempReservation = temp;
-		            break;
-		        }
-			allReservations.remove(tempReservation);
+			if (temp != null)
+		      {
+				//removes the reservation from the list,
+				//increases the capacity of the event
+				allReservations.remove(temp);
+				anEvent.increaseCurrentCapacity();
+		      } 
+			else
+				System.out.println("You haven't made a reservation for this event");
+			
 		}
 		
 		

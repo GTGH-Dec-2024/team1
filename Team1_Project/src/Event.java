@@ -15,7 +15,6 @@ public class Event {
 	private Organizer organizer;
 	private String status; // status = "pending" or "approved" or "not-approved" or "deleted" 
 	private int currentCapacity;
-	private ArrayList<Visitor> visitors; // new list for the visitors
 	
 
 	public Event(String title, String theme, String description, String location, int maxCapacity, int day, int month,
@@ -34,45 +33,10 @@ public class Event {
 		this.duration = duration;
 		this.organizer = organizer;
 		this.status = "Pending";
-		this.visitors = new ArrayList<>(); //a new visitors list for each event
 		
 	}
 	
-    // H klasi Event borei na xrisimopoiisei ton constructor tis klasis Reservation gia na dimiourgisei kai na apothikeusei automata tis kratiseis
 	
-	
-
-	public void removeReservation(Visitor visitor) {
-	    // Find the reservation
-	    for (Reservation reservation : Reservation.getAllReservations()) {
-	        if (reservation.getVisitor().equals(visitor) && reservation.getEvent().equals(this)) {
-	            // Remove reservation from the list
-	            Reservation.removeReservation(reservation);
-
-	            // Decrease Capacity
-	            this.currentCapacity--;
-
-	            // Success message
-	            System.out.println("Reservation removal for the event " + this.getTitle() 
-	                + " made successful for visitor " + visitor.getName() + " " + visitor.getSurname());
-	            return;
-	        }
-	    }
-
-	    // If the reservation is not found
-	    System.out.println("Reservation removal failed! Visitor seems not to participate in this event.");
-	}
-	
-	// Returns the visitors list of the current Event
-    public ArrayList<Visitor> getVisitors() {
-        return visitors;
-    }
-	
-/*	public void setVisitors(List<Visitor> visitors) {
-		this.visitors = visitors;
-	}
-
-*/
 	public String getTitle() {
 		return title;
 	}
@@ -107,10 +71,6 @@ public class Event {
 
 	public int getMaxCapacity() {
 		return maxCapacity;
-	}
-
-	public void setMaxCapacity(int maxCapacity) {
-		this.maxCapacity = maxCapacity;
 	}
 
 	public int getDay() {
@@ -189,18 +149,23 @@ public class Event {
 		return currentCapacity;
 	}
 
-	public void setCurrentCapacity(int currentCapacity) {
-		this.currentCapacity = currentCapacity;
-	}
-
 	// Checks if the event has space for more reservations
 	public boolean hasSpace()
 	{
 		return currentCapacity < maxCapacity;
 	}
 	
-
-
+	//used when a reservation is made
+		public void decreaseCurrentCapacity() {
+			currentCapacity--;
+		}
+	
+	//used when a reservation is cancelled
+	public void increaseCurrentCapacity() {
+		currentCapacity++;
+	}
+	
+	
 	@Override
 	public String toString() {
 		return "Event [title = " + title 
