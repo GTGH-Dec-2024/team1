@@ -79,7 +79,6 @@ public class Main {
 				"Egnatias 45", 20, 9, 8, 2025, 18, 00, 2, o4);
 		
 		Event ev6 = new Event("Thessaloniki Marathon Festival",
-				"Running Through the History and Beauty of Thessaloniki",
 				"Sport",
 				"A city-wide marathon event that welcomes runners of all levels to explore Thessaloniki s landmarks while promoting a healthy and active lifestyle. Includes live music and food stands.",
 				"Start and finish at White Tower Square", 15, 20, 10, 2025, 21, 30, 6, o1);
@@ -93,17 +92,8 @@ public class Main {
 				"Technology", 
 				"An exhibition of cutting-edge technologies and startups, with hands-on demonstrations, networking opportunities, and guest speakers from the tech world.", 
 				"Thessaloniki International Fairgrounds (TIF HELEXPO)", 25, 15, 11, 2025, 15 ,30, 8, o3);
-	}
 	
-	
-	
-}
-
-				"Thessaloniki International Fairgrounds (TIF HELEXPO)", 25, 15, 11, 2025, 15 ,30, 8, o2);
-				"Thessaloniki International Fairgrounds (TIF HELEXPO)", 25, 15, 11, 2025, 15 ,30, 8, o3);
-
 		
-      
         //Organizers are creating approval requests for their events
         ApprovalRequest registerRequest1 =  o3.registerRequest(ev3);      
         ApprovalRequest registerRequest2 = o2.registerRequest(ev2);
@@ -173,9 +163,7 @@ public class Main {
         for (Visitor visitor : ev4.getVisitors()) {
             System.out.println(visitor.getName() + " " + visitor.getSurname());
         }
-    }
-        
-        
+    }      
 }
 
        
