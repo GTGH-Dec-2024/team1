@@ -1,3 +1,7 @@
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -240,36 +244,73 @@ public class Main {
 
 		// -----------------------------------------------------------------
 
-		LocalDate currentDate = LocalDate.now();
-
-		EventManager eventManager = EventManager.getInstance();
-
-		for (Event event : eventManager.getEvents()) {
-			System.out.println(event.getDate() + ", " + event.getStatus());
-		}
-
-		// ----------------------------------------------------------------
-
-		System.out.println("Upcoming events: ");
-		for (Event event : eventManager.getEvents()) {
-			LocalDate eventDate = event.getDate();
-			if (eventDate.isAfter(currentDate) && "Approved".equalsIgnoreCase(event.getStatus())) {
-				System.out.println(event.getTitle() + ", " + event.getDate() + ", at " + event.getTime());
+		try(PrintStream fileOut = new PrintStream(new FileOutputStream("event-agenda.txt", true))){
+			
+			PrintStream consoleOut = System.out;
+			System.setOut(new PrintStream(new DualOutputStream(System.out, fileOut)));
+			
+			LocalDate currentDate = LocalDate.now();
+	
+			EventManager eventManager = EventManager.getInstance();
+	
+			for (Event event : eventManager.getEvents()) {
+				System.out.println(event.getDate() + ", " + event.getStatus());
 			}
-
-		}
-
-		// ----------------------------------------------------------------
-
-		System.out.println("Visitors per event: ");
-
-		for (Event event : eventManager.getEvents()) {
-			System.out.println("\n\nVisitors for the event \"" + event.getTitle() + "\": ");
-			for (Visitor visitor : event.getVisitors()) {
-				System.out.println(visitor.getName() + " " + visitor.getSurname() + " (" + visitor.getEmail() + ")");
+	
+			// ----------------------------------------------------------------
+			
+			System.out.println("Upcoming events: ");
+			for (Event event : eventManager.getEvents()) {
+				LocalDate eventDate = event.getDate();
+				if (eventDate.isAfter(currentDate) && "Approved".equalsIgnoreCase(event.getStatus())) {
+					System.out.println(event.getTitle() + ", " + event.getDate() + ", at " + event.getTime());
+				}
+	
 			}
-
+	
+			// ----------------------------------------------------------------
+	
+			System.out.println("Visitors per event: ");
+	
+			for (Event event : eventManager.getEvents()) {
+				System.out.println("\n\nVisitors for the event \"" + event.getTitle() + "\": ");
+				for (Visitor visitor : event.getVisitors()) {
+					System.out.println(visitor.getName() + " " + visitor.getSurname() + " (" + visitor.getEmail() + ")");
+				}
+			}
+			
+			System.setOut(consoleOut);
+			
+		}catch(FileNotFoundException e) {
+			e.printStackTrace();
 		}
+	}
+	
+	static class DualOutputStream extends OutputStream{
+		private final java.io.OutputStream out1;
+		private final java.io.OutputStream out2;
 
+		public DualOutputStream(OutputStream out1, OutputStream out2) {
+			this.out1 = out1;
+			this.out2 = out2;
+		}
+		
+		@Override
+		public void write(int b) throws java.io.IOException{
+			out1.write(b);
+			out2.write(b);
+		}
+		
+		@Override
+		public void flush() throws java.io.IOException{
+			out1.flush();
+			out2.flush();
+		}
+		
+		@Override
+		public void close() throws java.io.IOException{
+			out1.close();
+			out2.close();
+		}
 	}
 }
