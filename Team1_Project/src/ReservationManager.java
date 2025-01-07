@@ -86,10 +86,13 @@ public class ReservationManager {
 		}
 		
 		
-		
-		
-		
-		
+		public ArrayList<Reservation> getAllReservations() {
+			return allReservations;
+		}
+
+
+
+
 		/*
 		 * This method helps create and delete a reservation.
 		 * 
@@ -113,6 +116,47 @@ public class ReservationManager {
 		}
 		
 	
+		/*
+		 * Checks the allReservations ArrayList and returns all
+		 * the reservations made for a specific Event.
+		 * 
+			
+		public ArrayList<Reservation> getReservationsForEvent(Event anEvent) {
+		   
+			ArrayList<Reservation> eventReservations = new ArrayList<>();
+		    
+		    for (Reservation reservation : allReservations) {
+		       
+		    	if (reservation.getEvent().equals(anEvent)) 
+		        {
+		            eventReservations.add(reservation);
+		        }
+		    }
+		    
+		    return eventReservations;
+		}
+	 */
+		
+		/*
+		 * Checks the allReservations ArrayList and returns all
+		 * the reservations made from a specific visitor
+		 * 
+		 
+		
+		public ArrayList<Reservation> getReservationsForVisitor(Visitor aVisitor) {
+		   
+			ArrayList<Reservation> visitorReservations = new ArrayList<>();
+		    
+		    for (Reservation reservation : allReservations) 
+		    {
+		        if (reservation.getVisitor().equals(aVisitor)) {
+		            visitorReservations.add(reservation);
+		        }
+		    }
+		    
+		    return visitorReservations;
+		}
+	*/	
 		
 		public static ReservationManager getInstance() {
 		    if (instance == null) {

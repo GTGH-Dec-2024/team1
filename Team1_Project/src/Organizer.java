@@ -1,5 +1,7 @@
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Organizer extends User {
 
@@ -62,28 +64,41 @@ public class Organizer extends User {
 	}
 
 	/*
-	 * Method getEventParticipants(): This method creates an Array-List<String> in
-	 * which stores all the participants (=visitors) involved in each event of an
-	 * organizer. In the method a check is taking place at first for every event so
-	 * as to make sure that there are visitors or not. Afterwards, it returns the
-	 * participants for every event he owns.
+	 * This method utilizes the ReservationManager class to
+	 * get information about each reservation. In a loop, it 
+	 * searches for all the events made by the organizer who
+	 * called the method.
+	 * 
+	 * Then, it finds the visitors of those events and adds them
+	 * to a HashSet (so that there are no duplicates in the list of names)
+	 * 
+	 *
 	 */
-	public ArrayList<String> getEventsParticipants() {
-		ArrayList<String> visitorsPerEvents = new ArrayList<>();
-		for (Event event : events) {
-			StringBuilder eventInfo = new StringBuilder("Event: " + event.getTitle());
-			ArrayList<Visitor> visitors = event.getVisitors();
-			if (events.isEmpty()) {
-				eventInfo.append("\nNo visitors in this event yet!");
-			} else {
-				for (Visitor visitor : visitors) {
-					eventInfo.append(
-							"\nVisitor: " + visitor.getName() + " " + visitor.getSurname() + " (" + visitor.getEmail()+")");
-				}
-			}
-			visitorsPerEvents.add(eventInfo.toString());
+	public void getallMyEventsParticipants() {
+  
+		Set<Visitor> myParticipants = new HashSet<>();
+		
+		for(Reservation temp: ReservationManager.getInstance().getAllReservations())
+    	{
+    		if (temp.getEvent().getOrganizer().equals(this))
+    		{
+    			myParticipants.add(temp.getVisitor());
+    		}
+    	}
+		System.out.println("The participants on events organized by" +name +" "
+				+surname+" are:");
+		
+		if (myParticipants.isEmpty())
+		{
+			System.out.println("There are no participants to your events");
+			return;
 		}
-		return visitorsPerEvents;
+			
+		for (Visitor aVisitor : myParticipants) 
+		{
+		    System.out.println(aVisitor.getName() + " " + aVisitor.getSurname());
+		}
+    	
 	}
 
 	public String getAfm() {
