@@ -34,8 +34,8 @@ public class ReservationManager {
 
 		public void createReservation(Event anEvent, Visitor aVisitor)
 	    {   	
-			//if the event is approved and it is not full, make the reservation
-			if (hasReservation(anEvent, aVisitor))
+			//if there is a reservation for this event already
+			if (ReservationManager.getInstance().findReservation(anEvent, aVisitor) != null)
 		      {
 		    	  System.out.println("You have already made a reservation for this event");
 		    	  return;
@@ -64,20 +64,49 @@ public class ReservationManager {
 
 
 		
-		public void removeReservation(Event anEvent)
+		public void removeReservation(Event anEvent, Visitor aVisitor)
 		{
-			;
+			if (!hasReservation(anEvent, aVisitor))
+		      {
+		    	  System.out.println("You don't have a reservation for this event");
+		    	  return;
+		      } 
+			
+			Reservation tempReservation = null;
+
+		    for (Reservation temp : allReservations) {
+		        if (temp.getEvent().equals(anEvent) && temp.getVisitor().equals(aVisitor)) {
+		        	tempReservation = temp;
+		            break;
+		        }
+			allReservations.remove(tempReservation);
 		}
 		
-		public boolean hasReservation(Event anEvent, Visitor aVisitor)
+		
+		
+		
+		
+		
+		/*
+		 * This method helps create and delete a reservation.
+		 * 
+		 * It searches within the allReservations ArrayList and if
+		 * a reservation with the given attributes exists then it
+		 * returns the reservation, otherwise it returns null
+		 * 
+		 * Based on what it returns, the createReservation and
+		 * deleteReservation classes act accordingly
+		 * 
+		 */
+		public Reservation findReservation(Event anEvent, Visitor aVisitor)
 		{
 			for (Reservation reservation : allReservations) {
 			      if (reservation.getEvent().equals(anEvent) && reservation.getVisitor().equals(aVisitor))
 			      {
-			    	  return true;
+			    	  return reservation;
 			      }
 		}
-			return false;
+			return null;
 		}
 		
 	
