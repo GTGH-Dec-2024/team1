@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 
 public class EventManager {
-	private ArrayList<Event> events= new ArrayList<>();
+	private ArrayList<Event> events;
     private static EventManager instance;
 	
     
-    public EventManager(ArrayList<Event> events) {
-		this.events = events;
+    public EventManager() {
+    	events = new ArrayList<>();
 	}
 
 	
@@ -27,7 +27,8 @@ public class EventManager {
 	   for (Event i : events)
 	   	{
     		 	if (i.getDay()== day && i.getMonth()== month && i.getYear()== year && 
-    				 i.getLocation().equalsIgnoreCase(location) && i.getTheme().equalsIgnoreCase(theme))
+    				 i.getLocation().equalsIgnoreCase(location) && i.getTheme().equalsIgnoreCase(theme)
+    				 && i.getStatus().equalsIgnoreCase("approved") && i.getCurrentCapacity()>0)
     		 		{
     			
     		 			foundEvents.add(i);
@@ -41,7 +42,10 @@ public class EventManager {
 
 
 	public static EventManager getInstance() {
-		return instance;
+		if (instance == null) {
+            instance = new EventManager();
+        }
+        return instance;
 	}
 
 	public ArrayList<Event> getEvents() {
