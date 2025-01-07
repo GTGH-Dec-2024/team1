@@ -1,6 +1,6 @@
-
+import java.util.ArrayList;
+import java.util.List;
 public class Main {
-
 	public static void main(String[] args) {
 
 		Employee em1 = new Employee("Maria ", "Papadopoulou", "maria.papadop@gmail.com");
@@ -41,7 +41,7 @@ public class Main {
 		
 		Event ev6 = new Event("Thessaloniki Marathon Festival",
 				"Running Through the History and Beauty of Thessaloniki",
-				"A city-wide marathon event that welcomes runners of all levels to explore Thessaloniki’s landmarks while promoting a healthy and active lifestyle. Includes live music and food stands.",
+				"A city-wide marathon event that welcomes runners of all levels to explore Thessaloniki s landmarks while promoting a healthy and active lifestyle. Includes live music and food stands.",
 				"Start and finish at White Tower Square", 15, 20, 10, 2025, 21, 30, 6, o1);
 		
 		Event ev7 = new Event("Open-Air Cinema Night", 
@@ -52,10 +52,12 @@ public class Main {
 		Event ev8 = new Event("Thessaloniki Tech Fair", 
 				"Innovations Shaping the Future", 
 				"An exhibition of cutting-edge technologies and startups, with hands-on demonstrations, networking opportunities, and guest speakers from the tech world.", 
-				"Thessaloniki International Fairgrounds (TIF HELEXPO)", 25, 15, 11, 2025, 15 ,30, 8, o2);
-
-		
-		
+				"Thessaloniki International Fairgrounds (TIF HELEXPO)", 25, 15, 11, 2025, 15 ,30, 8, o3);
 	}
-
+	
+	
+	
 }
+
+
+
