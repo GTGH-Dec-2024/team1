@@ -95,7 +95,7 @@ public class Main {
 		
       
         //Organizers are creating approval requests for their events
-        ApprovalRequest registerRequest1 =  o3.registerRequest(ev3);      
+        ApprovalRequest registerRequest1 =  o3.registerRequest(ev8);      
         ApprovalRequest registerRequest2 = o2.registerRequest(ev2);
         
        //this employee approves the request, 
@@ -112,13 +112,12 @@ public class Main {
         ApprovalRequest removalRequest1 =  o1.removalRequest(ev6);
         em1.approveRequest(removalRequest1);
         
+        visitor1.searchEvent(15, 11, 2025, "Thessaloniki International Fairgrounds (TIF HELEXPO)", "Technology");        
         //When an employee deletes an event, there is no need
         //for approval from anyone
         em2.deleteEvent(ev8);
         
-    //    visitor1.searchEvent(12, 7, 2025, "Thessaloniki International Fairgrounds (TIF HELEXPO)", "Thessaloniki Tech Fair");
-   
-        System.out.println(EventManager.getInstance().getEvents());
+    	
 
 
         visitor1.makeReservation(ev3);
@@ -132,53 +131,8 @@ public class Main {
         ev3.showMyVisitors();
         ev7.showMyVisitors();
         
-        //visitor1.cancelReservation(ev3);
+       visitor1.cancelReservation(ev3);
        System.out.println(ev3);
-	
-       // Egrafi parakolouthisis endilwshs toulaxiston se mia ekdilosi gia olous tous episkeptes
-//		// Set status of two events as "approved".
-//        ev1.setStatus("approved");
-//        ev2.setStatus("approved");
-//        ev4.setStatus("approved");
-///*        // Reservation in at least one event for each Visitor
-//        for (Visitor visitor : visitors) {
-//            if (ev1.getCurrentCapacity() < ev1.getMaxCapacity()) {
-//                ev1.addReservation(visitor);
-//            } else if (ev2.getCurrentCapacity() < ev2.getMaxCapacity()) {
-//                ev2.addReservation(visitor);
-//            } else {
-//                System.out.println(visitor.getName() + " " + visitor.getSurname() + " could not register for any events.");
-//            }
-//        }
-//        // Print Reservations
-//        System.out.println("\nReservations for Event 1:");
-//        for (Visitor visitor : ev1.getVisitors()) {
-//            System.out.println(visitor.getName() + " " + visitor.getSurname());
-//        }
-//
-//        System.out.println("\nReservations for Event 2:");
-//        for (Visitor visitor : ev2.getVisitors()) {
-//            System.out.println(visitor.getName() + " " + visitor.getSurname());
-//        }
-//		
-//     	Test what will happen in case that one visitor tries to register to an event
-//        which doesn't have any open seats left. 
-//        System.out.println("\nTrying to make a reservation for visitor3 in Event 4:");
-//        ev4.addReservation(visitors.get(2)); // pernei ton 3o episkepti ths listas
-//
-//        // Cancel reservation
-//        System.out.println("\nCancelling reservations for Event 4:");
-//        ev4.removeReservation(visitors.get(0)); // Cancel reservation for visitor 1
-//              
-//        
-//     // Final reservations
-//        System.out.println("\nFinal Reservations for Event 4:");
-//        for (Visitor visitor : ev4.getVisitors()) {
-//            System.out.println(visitor.getName() + " " + visitor.getSurname());
-//*/       
-//        
-        
-//       }
     }
         
         
