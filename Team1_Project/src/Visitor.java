@@ -29,16 +29,18 @@ public class Visitor extends User {
 	}
 	
     
+  
   public void showMyEvents()
   {
-  	ArrayList<Event> visitorEvents = ReservationManager.getInstance().getReservationsForVisitor(this);
+  	ArrayList<Event> visitorEvents = ReservationManager.getInstance().getEventsForVisitor(this);
 	  
 	  if (visitorEvents.isEmpty())
 	  {
-	  	System.out.println("You haven't made any reservations yet!");
+	  	System.out.println("There are no reservations yet for " +name+ " " +surname +"!");
 	  }
 	  else
 	  {
+		System.out.println("The reservations for " +name+ " " +surname +"!");
 	  	for (Event event: visitorEvents)
 	  	{
 	  		System.out.println(event.getTitle());

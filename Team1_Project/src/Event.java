@@ -165,6 +165,27 @@ public class Event {
 		currentCapacity++;
 	}
 	
+
+	
+	public void showMyVisitors()
+	{
+		ArrayList<Visitor> eventVisitors = ReservationManager.getInstance().getVisitorsForEvent(this);
+		  
+		  if (eventVisitors.isEmpty())
+		  {
+		  	System.out.println("There are no reservations yet for the event: " +title);
+		  }
+		  else
+		  {
+			System.out.println("The visitors for the event " +title+ " are:"); 	
+		  	for (Visitor visitor: eventVisitors)
+		  	{
+		  		System.out.println(visitor.getName()+ " "+visitor.getSurname());
+		  	}
+		  }
+	}
+	
+	
 	
 	@Override
 	public String toString() {

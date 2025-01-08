@@ -127,6 +127,11 @@ public class Main {
         o3.showMyEventParticipants();
         
         visitor1.showMyEvents();
+        visitor3.showMyEvents();
+        
+        ev3.showMyVisitors();
+        ev7.showMyVisitors();
+        
        
 //		// Egrafi parakolouthisis endilwshs toulaxiston se mia ekdilosi gia olous tous episkeptes
 //		// Set status of two events as "approved".

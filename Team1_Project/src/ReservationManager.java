@@ -116,33 +116,14 @@ public class ReservationManager {
 		}
 		
 	
-		/*
-		 * Checks the allReservations ArrayList and returns all
-		 * the reservations made for a specific Event.
-		 * 
-			
-		public ArrayList<Reservation> getReservationsForEvent(Event anEvent) {
-		   
-			ArrayList<Reservation> eventReservations = new ArrayList<>();
-		    
-		    for (Reservation reservation : allReservations) {
-		       
-		    	if (reservation.getEvent().equals(anEvent)) 
-		        {
-		            eventReservations.add(reservation);
-		        }
-		    }
-		    
-		    return eventReservations;
-		}
-	 */
+		
 		
 		/*
 		 * Checks the allReservations ArrayList and returns all
-		 * the reservations made from a specific visitor
+		 * the events in which a specific visitor has made a reservation
 		 * 
 		*/
-		public ArrayList<Event> getReservationsForVisitor(Visitor aVisitor) {
+		public ArrayList<Event> getEventsForVisitor(Visitor aVisitor) {
 		   
 			ArrayList<Event> visitorEvents = new ArrayList<>();
 		    
@@ -152,15 +133,32 @@ public class ReservationManager {
 		        	visitorEvents.add(reservation.getEvent());
 		        }
 		    }
-		    
-		    System.out.println("The events in which " +aVisitor.getName() +
-		    		" "+aVisitor.getSurname()+" has made a reservation are:");
 		   
 		   return visitorEvents;
 		    
 		    
 		}
 	
+		/*
+		 * Checks the allReservations ArrayList and returns all
+		 * the Visitors that have made a reservation for a specific Event.
+		 * 
+		*/
+		public ArrayList<Visitor> getVisitorsForEvent(Event anEvent) {
+		   
+			ArrayList<Visitor> eventVisitors = new ArrayList<>();
+		    
+		    for (Reservation reservation : allReservations) {
+		       
+		    	if (reservation.getEvent().equals(anEvent)) 
+		        {
+		            eventVisitors.add(reservation.getVisitor());
+		        }
+		    }
+		    
+		    return eventVisitors;
+		}
+	 
 		
 		public static ReservationManager getInstance() {
 		    if (instance == null) {
