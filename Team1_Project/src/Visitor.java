@@ -29,9 +29,27 @@ public class Visitor extends User {
 	}
 	
     
-   /* The public method  searchEvents of the Visitor class calls the
+  public void showMyEvents()
+  {
+  	ArrayList<Event> visitorEvents = ReservationManager.getInstance().getReservationsForVisitor(this);
+	  
+	  if (visitorEvents.isEmpty())
+	  {
+	  	System.out.println("You haven't made any reservations yet!");
+	  }
+	  else
+	  {
+	  	for (Event event: visitorEvents)
+	  	{
+	  		System.out.println(event.getTitle());
+	  	}
+	  }
+  }
+
+    
+    
+    /* The public method  searchEvents of the Visitor class calls the
     * findEvents method of the class EventManager. */    
-   
     
     public void searchEvent(int day, int month, int year, String location, String theme) {
         // make or retrieve object EnentManager

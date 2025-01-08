@@ -62,7 +62,7 @@ public class ReservationManager {
 			anEvent.decreaseCurrentCapacity();
 			
 			
-			System.out.println("A reservation for the event: " + anEvent.getTime()+ " has been made for "
+			System.out.println("A reservation for the event " + anEvent.getTitle()+ " has been made for "
 								+ aVisitor.getName() + " " + aVisitor.getSurname());
 	    }    			
 	
@@ -141,22 +141,26 @@ public class ReservationManager {
 		 * Checks the allReservations ArrayList and returns all
 		 * the reservations made from a specific visitor
 		 * 
-		 
-		
-		public ArrayList<Reservation> getReservationsForVisitor(Visitor aVisitor) {
+		*/
+		public ArrayList<Event> getReservationsForVisitor(Visitor aVisitor) {
 		   
-			ArrayList<Reservation> visitorReservations = new ArrayList<>();
+			ArrayList<Event> visitorEvents = new ArrayList<>();
 		    
 		    for (Reservation reservation : allReservations) 
 		    {
 		        if (reservation.getVisitor().equals(aVisitor)) {
-		            visitorReservations.add(reservation);
+		        	visitorEvents.add(reservation.getEvent());
 		        }
 		    }
 		    
-		    return visitorReservations;
+		    System.out.println("The events in which " +aVisitor.getName() +
+		    		" "+aVisitor.getSurname()+" has made a reservation are:");
+		   
+		   return visitorEvents;
+		    
+		    
 		}
-	*/	
+	
 		
 		public static ReservationManager getInstance() {
 		    if (instance == null) {
