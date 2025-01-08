@@ -36,11 +36,11 @@ public class Visitor extends User {
 	  
 	  if (visitorEvents.isEmpty())
 	  {
-	  	System.out.println("There are no reservations yet for " +name+ " " +surname +"!");
+	  	System.out.println("There are no reservations for " +name+ " " +surname +"!");
 	  }
 	  else
 	  {
-		System.out.println("The reservations for " +name+ " " +surname +"!");
+		System.out.println("The reservations for " +name+ " " +surname +"are:");
 	  	for (Event event: visitorEvents)
 	  	{
 	  		System.out.println(event.getTitle());

@@ -24,7 +24,7 @@ public class Event {
 		this.description = description;
 		this.location = location;
 		this.maxCapacity = maxCapacity;
-		this.currentCapacity = 0;
+		this.currentCapacity = maxCapacity;
 		this.day = day;
 		this.month = month;
 		this.year = year;
@@ -152,12 +152,12 @@ public class Event {
 	// Checks if the event has space for more reservations
 	public boolean hasSpace()
 	{
-		return currentCapacity < maxCapacity;
+		return currentCapacity > 0 ;
 	}
 	
 	//used when a reservation is made
 		public void decreaseCurrentCapacity() {
-			currentCapacity--;
+		currentCapacity--;
 		}
 	
 	//used when a reservation is cancelled
@@ -173,7 +173,7 @@ public class Event {
 		  
 		  if (eventVisitors.isEmpty())
 		  {
-		  	System.out.println("There are no reservations yet for the event: " +title);
+		  	System.out.println("There are no reservations for the event: " +title);
 		  }
 		  else
 		  {
@@ -190,18 +190,16 @@ public class Event {
 	@Override
 	public String toString() {
 		return "Event [title = " + title 
-				+ ", theme = " + theme 
-				+ ", description = " + description 
-				+ ", location = " + location 
-				+ ", maxCapacity = " + maxCapacity 
-				+ ", currentCapacity = " + getCurrentCapacity()+"/"+getMaxCapacity()
-				+ ", date = " + getDate() 
-				+ ", time = " + getTime()
-				+ ", duration = " + duration 
-				+ ", organizer = " + organizer.getName()
-				+ ", status = " + status
-				+ ", currentCapacity = " + currentCapacity 
-				+ ", reservations = " + ReservationManager.getInstance().getVisitorsForEvent(this) + "]";
+				+ ", Theme = " + theme 
+				+ ", Description = " + description 
+				+ ", Location = " + location 
+				+ ", Available spaces = " + getCurrentCapacity()+"/"+getMaxCapacity()
+				+ ", Date = " + getDate() 
+				+ ", Time = " + getTime()
+				+ ", Duration = " + duration 
+				+ ", Organizer = " + organizer.getName() + " " + organizer.getSurname()
+				+ ", Status = " + status
+				+ ", Reservations = " + ReservationManager.getInstance().getVisitorsForEvent(this) + "]";
 	} 
 
 }
