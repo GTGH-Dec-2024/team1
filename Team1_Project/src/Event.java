@@ -201,7 +201,7 @@ public class Event {
 				+ ", organizer = " + organizer.getName()
 				+ ", status = " + status
 				+ ", currentCapacity = " + currentCapacity 
-				/*+ ", reservations = " + reservations*/ + "]";
+				+ ", reservations = " + ReservationManager.getInstance().getVisitorsForEvent(this) + "]";
 	} 
 
 }

@@ -132,7 +132,7 @@ public class Main {
         ev3.showMyVisitors();
         ev7.showMyVisitors();
         
-       
+       System.out.println(ev3);
 //		// Egrafi parakolouthisis endilwshs toulaxiston se mia ekdilosi gia olous tous episkeptes
 //		// Set status of two events as "approved".
 //        ev1.setStatus("approved");
