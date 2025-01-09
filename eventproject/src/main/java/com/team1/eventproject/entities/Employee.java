@@ -2,7 +2,8 @@ package com.team1.eventproject.entities;
 
 import java.util.ArrayList;
 
-public class Employee extends User{
+public class Employee extends User {
+
 	private String email;
 	private ArrayList <ApprovalRequest> pastHandlings;
 	private ArrayList <Event> deletionsHistory;

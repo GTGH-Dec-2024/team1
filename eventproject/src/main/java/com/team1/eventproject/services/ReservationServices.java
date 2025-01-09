@@ -1,11 +1,15 @@
 package com.team1.eventproject.services;
+/* H klasi Reservation Services tha xrisimopoieitai san pinakas-vasi dedomenwn opou tha apothikeuontai 
+ * oles oi kratiseis pou exoun kanei oi visitors gia ta events pou theloun na parakolouthisoun.
+ */
 
 public class ReservationServices {
+	
 	private ArrayList<Reservation> allReservations;
 	private static ReservationManager instance;
 	  
 
-	  
+	// Constructor
 	public ReservationManager() {
 		allReservations = new ArrayList<>();
 	}
@@ -25,7 +29,7 @@ public class ReservationServices {
 	 * Otherwise, it informs the visitor with a message based on
 	 * the issue that came up
 	 */
-
+    // Einai i methodos pou tha metaferthei apo ton Visitor
 	public void createReservation(Event anEvent, Visitor aVisitor)
     {   	
 		//if there is a reservation for this event already
@@ -62,7 +66,7 @@ public class ReservationServices {
 
 
 
-	
+	// Tha ginei to idio me panw
 	public void removeReservation(Event anEvent, Visitor aVisitor)
 	{
 		Reservation temp = findReservation(anEvent, aVisitor);
@@ -98,6 +102,7 @@ public class ReservationServices {
 	 * deleteReservation classes act accordingly
 	 * 
 	 */
+	// Tha anazitoume Reservation me vasi to event kai ton visitor
 	public Reservation findReservation(Event anEvent, Visitor aVisitor)
 	{
 		for (Reservation reservation : allReservations) {
@@ -117,6 +122,7 @@ public class ReservationServices {
 	 * the events in which a specific visitor has made a reservation
 	 * 
 	*/
+	// Methodos pou tha epistrefei ola ta event sta opoia exei kanei reservation enas visitor
 	public ArrayList<Event> getEventsForVisitor(Visitor aVisitor) {
 	   
 		ArrayList<Event> visitorEvents = new ArrayList<>();
@@ -138,6 +144,7 @@ public class ReservationServices {
 	 * the Visitors that have made a reservation for a specific Event.
 	 * 
 	*/
+	// Methodos pou tha epistrefei olous tous visitors pou exoun kanei reservation gia sugkekrimeno event
 	public ArrayList<Visitor> getVisitorsForEvent(Event anEvent) {
 	   
 		ArrayList<Visitor> eventVisitors = new ArrayList<>();
@@ -153,7 +160,7 @@ public class ReservationServices {
 	    return eventVisitors;
 	}
  
-	
+	// Ti kanei auto???
 	public static ReservationManager getInstance() {
 	    if (instance == null) {
 	       instance = new ReservationManager();
