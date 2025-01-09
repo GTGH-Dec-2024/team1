@@ -77,6 +77,13 @@ public class ApprovalRequest {
 
 
 
+	public Employee getHandledBy() {
+		return handledBy;
+	}
+
+
+
+
 	@Override
 	public String toString() {	
 		String print = ": a request to " +type+ " was created at" + createdAt;

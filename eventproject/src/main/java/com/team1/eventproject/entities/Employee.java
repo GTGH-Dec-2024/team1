@@ -5,11 +5,13 @@ import java.util.ArrayList;
 public class Employee extends User{
 	private String email;
 	private ArrayList <ApprovalRequest> pastHandlings;
+	private ArrayList <Event> deletionsHistory;
 
 	public Employee(String name, String surname, String email) {
 		super(name, surname);
 		this.email = email;
 		pastHandlings = new ArrayList<>();
+		deletionsHistory = new ArrayList<>();
 	}
 	
 	
@@ -38,7 +40,11 @@ public class Employee extends User{
 		return pastHandlings;
 	}
 	
-	
+	public void addDeletion(Event anEvent)
+	{
+		deletionsHistory.add(anEvent);
+	}
+
 
 
 }

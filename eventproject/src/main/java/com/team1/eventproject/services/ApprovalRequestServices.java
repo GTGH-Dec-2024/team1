@@ -58,8 +58,6 @@ public class ApprovalRequestServices {
 				System.out.println("The employee " + anEmployee.getName() + " has NOT approved to register "
 						+ "the following event: " + request.getAnEvent().getTitle() + "\n");
 			}
-			//each employee has a list of requests they have handled
-			anEmployee.addpastHandlings(request);
 
 		}
 
@@ -95,7 +93,6 @@ public class ApprovalRequestServices {
 				System.out.println("The employee " + anEmployee.getName() + " has decided "
 					+ " NOT to delete the following event: " + anEvent.getTitle());
 			}
-			anEmployee.addpastHandlings(request);
 
 	}
 	
@@ -133,5 +130,23 @@ public class ApprovalRequestServices {
 			}
 		}
 		System.out.println("--The pending requests are--/n" + pendingRequests);
+	}
+	
+		
+	
+	public ArrayList<ApprovalRequest> getHandlingsBy (Employee anEmployee)
+	{
+		ArrayList<ApprovalRequest> myHandlings = new ArrayList<>();
+		
+		for (ApprovalRequest aRequest: allRequests)
+		{
+			if(aRequest.getStatus().equals("closed")
+					&& aRequest.getHandledBy().equals(anEmployee))
+			{
+				myHandlings.add(aRequest);
+			}
+		}
+		
+		return myHandlings;
 	}
 }
