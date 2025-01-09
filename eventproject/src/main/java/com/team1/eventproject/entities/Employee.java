@@ -1,6 +1,6 @@
 package com.team1.eventproject.entities;
 
-public class Employee {
+public class Employee extends User {
 	private String email;
 
 	public Employee(String name, String surname, String email) {

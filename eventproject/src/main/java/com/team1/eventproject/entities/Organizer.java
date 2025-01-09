@@ -1,6 +1,6 @@
 package com.team1.eventproject.entities;
 
-public class Organizer {
+public class Organizer extends User {
 	private String afm;
 	private String description;
 	private ArrayList<Event> events;

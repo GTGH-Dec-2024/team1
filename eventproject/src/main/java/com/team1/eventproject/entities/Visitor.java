@@ -1,6 +1,6 @@
 package com.team1.eventproject.entities;
 
-public class Visitor {
+public class Visitor extends User {
 	private String email;
     
     public Visitor(String name, String surname, String email) {
