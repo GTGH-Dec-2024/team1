@@ -1,5 +1,7 @@
 package com.team1.eventproject.entities;
 
+import java.time.LocalDateTime;
+
 public class ApprovalRequest {
 	private String type; //is it to "register" or "delete" event
 	private String status; 
@@ -27,21 +29,7 @@ public class ApprovalRequest {
 	}
 	
 	
-	/*
-	 * Closes the request, updates the closetAt and handledBy fields
-	 * and adds the Employee's comment
-	 */
-	public void handleRequest(Employee employee, String comment)
-	{
-		this.status = "closed";
-		closedAt = LocalDateTime.now();
-		handledBy = employee;
-		
-		if (!comment.isBlank()) {
-		    this.comments += "\nEmployee's comment: " + comment;
-		}
-	}
-
+	
 
 	public String getStatus() 
 	{
@@ -57,7 +45,35 @@ public class ApprovalRequest {
 	public String getType() {
 		return type;
 	}
-	
-	
 
+
+
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+
+
+
+	public void setHandledBy(Employee handledBy) {
+		this.handledBy = handledBy;
+	}
+
+
+
+
+	public void addComments(String comments) {
+		this.comments += comments;
+	}
+
+
+
+
+	public void setClosedAt(LocalDateTime closedAt) {
+		this.closedAt = closedAt;
+	}
+	
+	
+	
 }
