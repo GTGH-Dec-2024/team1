@@ -166,7 +166,7 @@ public class Event {
 	}
 	
 
-	
+/*	
 	public void showMyVisitors()
 	{
 		ArrayList<Visitor> eventVisitors = ReservationManager.getInstance().getVisitorsForEvent(this);
@@ -183,6 +183,7 @@ public class Event {
 		  		System.out.println(visitor.getName()+ " "+visitor.getSurname());
 		  	}
 		  }
+		  
 	}
 	
 	
@@ -201,5 +202,5 @@ public class Event {
 				+ ", Status = " + status
 				+ ", Reservations = " + ReservationManager.getInstance().getVisitorsForEvent(this) + "]";
 	} 
-
+*/
 }

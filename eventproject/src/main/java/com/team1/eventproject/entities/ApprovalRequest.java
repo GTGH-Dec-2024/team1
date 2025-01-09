@@ -73,6 +73,19 @@ public class ApprovalRequest {
 	public void setClosedAt(LocalDateTime closedAt) {
 		this.closedAt = closedAt;
 	}
+
+
+
+
+	@Override
+	public String toString() {	
+		String print = ": a request to " +type+ " was created at" + createdAt;
+		if (closedAt!=null && handledBy!=null )
+			print += " and was handled at " +closedAt;
+		return print;
+	}
+	
+	
 	
 	
 	

@@ -6,13 +6,12 @@ import java.util.ArrayList;
 import com.team1.eventproject.entities.ApprovalRequest;
 import com.team1.eventproject.entities.Employee;
 import com.team1.eventproject.entities.Event;
-import com.team1.eventproject.entities.Organizer;
 
 public class ApprovalRequestServices {
 	private ArrayList<ApprovalRequest> allRequests;
 
-	public ApprovalRequestServices(ArrayList<ApprovalRequest> allRequests) {
-		this.allRequests = new ArrayList<>();
+	public ApprovalRequestServices() {
+		allRequests = new ArrayList<>();
 	}
 
 
@@ -59,6 +58,8 @@ public class ApprovalRequestServices {
 				System.out.println("The employee " + anEmployee.getName() + " has NOT approved to register "
 						+ "the following event: " + request.getAnEvent().getTitle() + "\n");
 			}
+			//each employee has a list of requests they have handled
+			anEmployee.addpastHandlings(request);
 
 		}
 
@@ -94,6 +95,8 @@ public class ApprovalRequestServices {
 				System.out.println("The employee " + anEmployee.getName() + " has decided "
 					+ " NOT to delete the following event: " + anEvent.getTitle());
 			}
+			anEmployee.addpastHandlings(request);
+
 	}
 	
 	
@@ -117,5 +120,18 @@ public class ApprovalRequestServices {
 			}
 		}
 		return null;
+	}
+	
+	public void getPendingRequests()
+	{
+		ArrayList <ApprovalRequest> pendingRequests = new ArrayList<>();
+		for (ApprovalRequest aRequest: allRequests)
+		{
+			if(aRequest.getStatus().equals("open"))
+			{
+				pendingRequests.add(aRequest);
+			}
+		}
+		System.out.println("--The pending requests are--/n" + pendingRequests);
 	}
 }
