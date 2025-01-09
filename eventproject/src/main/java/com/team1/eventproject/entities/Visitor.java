@@ -1,26 +1,37 @@
 package com.team1.eventproject.entities;
+/* The class Visitor represents one visitor who attends an event.
+ * 1)The visitor can search the events that he would like to attend based on specific
+ * criteria such as: The date, the location , the theme of the event (mipos kai kati allo?)
+ * 2)After that, he can do a reservation to the Event that he wants to attend.
+ * 3)If he changes his mind, he can cancel the reservation that he has done.
+ */
 
+import java.util.ArrayList;
+
+/* The class Visitor inherits the abstract class User and he has also an email. */
 public class Visitor extends User {
 	private String email;
     
+	// Constructor
     public Visitor(String name, String surname, String email) {
         super(name, surname);  // Calls the constructor of the superclass User 
         this.email = email;
     }
     
+    // Tha metafertheu stin klasi ReservationServices
     public void makeReservation(Event anEvent) 
     {
     	ReservationManager.getInstance().createReservation(anEvent, this);
     }
 	
-	
+	// Tha metaferthei stin klasi ReservationServices
     public void cancelReservation(Event anEvent) 
     {
     	ReservationManager.getInstance().removeReservation(anEvent, this);
 	}
 	
     
-  
+  // Tha metaferthei mallon stin klasi EventServices
   public void showMyEvents()
   {
   	ArrayList<Event> visitorEvents = ReservationManager.getInstance().getEventsForVisitor(this);
@@ -43,7 +54,7 @@ public class Visitor extends User {
     
     /* The public method  searchEvents of the Visitor class calls the
     * findEvents method of the class EventManager. */    
-    
+    // Tha meteferthei stin klasi EventServices
     public void searchEvent(int day, int month, int year, String location, String theme) {
         // make or retrieve object EnentManager
         EventManager eventManager = EventManager.getInstance();
