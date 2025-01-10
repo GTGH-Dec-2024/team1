@@ -1,8 +1,8 @@
 package com.team1.eventproject.entities;
 
 public abstract class User {
-	private String name;
-	private String surname;
+	protected String name;
+	protected String surname;
 	protected int id;
 	
 	
