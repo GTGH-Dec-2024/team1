@@ -15,10 +15,12 @@ public class Event {
 	private Organizer organizer;
 	private String status; // status = "pending" or "approved" or "not-approved" or "deleted" 
 	private int currentCapacity;
+	private int id;
 	
 
-	public Event(String title, String theme, String description, String location, int maxCapacity, int day, int month,
+	public Event(int id,String title, String theme, String description, String location, int maxCapacity, int day, int month,
 			int year, int hour, int minutes, int duration, Organizer organizer) {
+		this.id = id;
 		this.title = title;
 		this.theme = theme;
 		this.description = description;

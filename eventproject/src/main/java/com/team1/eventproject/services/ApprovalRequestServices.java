@@ -13,7 +13,7 @@ import com.team1.eventproject.entities.Organizer;
 public class ApprovalRequestServices {
 	
 	@Autowired EmployeeServices employeeServices;
-	
+	@Autowired EventServices eventServices;
 	
 	private ArrayList<ApprovalRequest> allRequests;
 
@@ -43,30 +43,38 @@ public class ApprovalRequestServices {
 	 * closed by calling the closeRequest
 	 * 
 	 */
-	public void handleRegistrationRequest(Event anEvent, int employeeID, boolean isApproved) {
-		ApprovalRequest request = this.getApprovalRequest(anEvent, "register");
+	public void handleRegistrationRequest(int eventID, int employeeID, boolean isApproved) {
+		
+		//tempEvent = eventServices.getEventUsingID(eventID);
+		ApprovalRequest request = this.getApprovalRequest(tempEvent, "register");
 
+		Employee tempEmployee = employeeServices.getEmployeeUsingID(employeeID) ;
+		
+		if (tempEmployee == null) {
+			System.out.println("There is no employee with this id! The request can't be handled");
+		}
+		
 		if (request == null) {
-			System.out.println("The organizer of the event has not made" + "a registration request for it!");
+			System.out.println("The organizer of the event has not made a registration request for it!");
 		}
 
 		else if (request.getStatus().equalsIgnoreCase("closed")) {
-			System.out.println("The registration request for this event" + "has already been handled.");
+			System.out.println("The registration request for this event has already been handled.");
 		}
 
 		else {
 			if (isApproved) {
 				request.getAnEvent().setStatus("approved");
-				closeRequest(request, anEmployee, "The event " + anEvent.getTitle() + " is now approved");
+				closeRequest(request, tempEmployee, "The event " + tempEvent.getTitle() + " is now approved");
 
-				System.out.println("The employee " + anEmployee.getName() + " has just approved to register "
-						+ "the following event: " + request.getAnEvent().getTitle() + "\n");
+				System.out.println("The employee " + tempEmployee.getName() + tempEmployee.getSurname()+ " has just approved to register "
+						+ "the following event: " + tempEvent.getTitle() + "\n");
 			} else {
 				request.getAnEvent().setStatus("not-approved");
-				closeRequest(request, anEmployee,
-						"The event " + anEvent.getTitle() + " is NOT approved by the employee");
+				closeRequest(request, tempEmployee,
+						"The event " + tempEvent.getTitle() + " is NOT approved by the employee");
 
-				System.out.println("The employee " + anEmployee.getName() + " has NOT approved to register "
+				System.out.println("The employee " + tempEmployee.getName() + tempEmployee.getSurname() " has NOT approved to register "
 						+ "the following event: " + request.getAnEvent().getTitle() + "\n");
 			}
 
@@ -75,9 +83,17 @@ public class ApprovalRequestServices {
 	}
 
 	
-	public void handleDeletionRequest(Event anEvent, int employeeID, boolean isApproved) {
+	public void handleDeletionRequest(int eventID, int employeeID, boolean isApproved) {
 		
-		ApprovalRequest request = this.getApprovalRequest(anEvent, "delete");
+		//tempEvent = eventServices.getEventUsingID(eventID);
+		Employee tempEmployee = employeeServices.getEmployeeUsingID(employeeID) ;
+		
+		ApprovalRequest request = this.getApprovalRequest(tempEvent, "delete");
+		
+		
+		if (tempEmployee == null) {
+			System.out.println("There is no employee with this id! The request can't be handled");
+		}
 		
 		if (request == null) {
 			System.out.println("The organizer of the event has not made" + 
@@ -92,17 +108,17 @@ public class ApprovalRequestServices {
 			if (isApproved) {
 			
 			//AnEvent.deleteEvent(this);
-			closeRequest(request, anEmployee, "The event " + anEvent.getTitle() + 
+			closeRequest(request, tempEmployee, "The event " + tempEvent.getTitle() + 
 					" has been deleted");
 
 //			System.out.println("The employee " + anEmployee.getName() + " has deleted "
 //					+ "the following event: " + request.getAnEvent().getTitle() + "\n");
 			}else {
-				closeRequest(request, anEmployee, "The event " + anEvent.getTitle() + 
+				closeRequest(request, tempEmployee, "The event " + tempEvent.getTitle() + 
 						" has NOT been deleted");
 				
-				System.out.println("The employee " + anEmployee.getName() + " has decided "
-					+ " NOT to delete the following event: " + anEvent.getTitle());
+				System.out.println("The employee " + tempEmployee.getName() + tempEmployee.getSurname()+ " has decided "
+					+ " NOT to delete the following event: " + tempEvent.getTitle());
 			}
 
 	}

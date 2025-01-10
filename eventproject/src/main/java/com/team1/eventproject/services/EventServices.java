@@ -1,5 +1,10 @@
 package com.team1.eventproject.services;
 
+import java.util.ArrayList;
+
+import com.team1.eventproject.entities.Event;
+
+@Service
 public class EventServices {
 	private ArrayList<Event> events;
     private static EventManager instance;
