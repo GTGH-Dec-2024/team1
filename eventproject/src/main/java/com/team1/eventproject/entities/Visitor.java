@@ -21,6 +21,11 @@ public class Visitor extends User {
         this.email = email;
     }
     
+
+	public int getId() {
+		
+		return id;
+	}
  
 
 	public String getEmail() 
@@ -33,6 +38,8 @@ public class Visitor extends User {
 	{
 		return name + surname;
 	}
- 
+
+
+
 
 }
