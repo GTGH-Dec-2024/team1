@@ -3,8 +3,11 @@ package com.team1.eventproject.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.team1.eventproject.entities.Employee;
 
+@Service
 public class EmployeeServices {
 		private ArrayList<Employee> allEmployees;
 		

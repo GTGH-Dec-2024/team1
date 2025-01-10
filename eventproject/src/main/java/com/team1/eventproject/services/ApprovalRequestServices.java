@@ -16,9 +16,10 @@ public class ApprovalRequestServices {
 	}
 
 
-	public void makeApprovalRequest (String type, LocalDateTime createdAt,
+	public void makeApprovalRequest (Employee anEmployee, String type, LocalDateTime createdAt,
 			int organizerID, Event anEvent, String comments)
 	{
+		
 		//allRequests.add(aRequest);
 	}
 	
@@ -34,7 +35,7 @@ public class ApprovalRequestServices {
 	 * closed by calling the closeRequest
 	 * 
 	 */
-	public void handleRegistrationRequest(Event anEvent, Employee anEmployee, boolean isApproved) {
+	public void handleRegistrationRequest(Event anEvent, int employeeID, boolean isApproved) {
 		ApprovalRequest request = this.getApprovalRequest(anEvent, "register");
 
 		if (request == null) {
@@ -66,10 +67,10 @@ public class ApprovalRequestServices {
 	}
 
 	
-	public void handleDeletionRequest(Event anEvent, Employee anEmployee, boolean isApproved) {
+	public void handleDeletionRequest(Event anEvent, int employeeID, boolean isApproved) {
 		
 		ApprovalRequest request = this.getApprovalRequest(anEvent, "delete");
-
+		
 		if (request == null) {
 			System.out.println("The organizer of the event has not made" + 
 		"a deletion request for it!\n");
