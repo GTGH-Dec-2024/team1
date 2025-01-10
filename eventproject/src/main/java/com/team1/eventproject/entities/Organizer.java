@@ -5,8 +5,8 @@ public class Organizer extends User {
 	private String description;
 	private ArrayList<Event> events;
 
-	public Organizer(String name, String surname, String afm, String description) {
-		super(name, surname);
+	public Organizer(int id, String name, String surname, String afm, String description) {
+		super(name, surname, id);
 		this.afm = afm;
 		this.description = description;
 		this.events = new ArrayList<Event>();

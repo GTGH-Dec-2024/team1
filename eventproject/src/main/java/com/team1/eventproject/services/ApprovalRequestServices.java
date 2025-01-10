@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.team1.eventproject.entities.ApprovalRequest;
 import com.team1.eventproject.entities.Employee;
 import com.team1.eventproject.entities.Event;
+import com.team1.eventproject.entities.Organizer;
 
 public class ApprovalRequestServices {
 	private ArrayList<ApprovalRequest> allRequests;
@@ -15,9 +16,10 @@ public class ApprovalRequestServices {
 	}
 
 
-	public void addApprovalRequest (ApprovalRequest aRequest)
+	public void makeApprovalRequest (String type, LocalDateTime createdAt,
+			int organizerID, Event anEvent, String comments)
 	{
-		allRequests.add(aRequest);
+		//allRequests.add(aRequest);
 	}
 	
 	/*
@@ -119,6 +121,13 @@ public class ApprovalRequestServices {
 		return null;
 	}
 	
+	
+	/*
+	 * Used by the employee to see which requests stil haven't been
+	 * handled. 
+	 * 
+	 * When a request hasn't been handled yet, its status is "open"
+	 */
 	public void getPendingRequests()
 	{
 		ArrayList <ApprovalRequest> pendingRequests = new ArrayList<>();
@@ -133,7 +142,15 @@ public class ApprovalRequestServices {
 	}
 	
 		
-	
+	/*
+	 * Returns all the ApprovalRequests that have been handled by
+	 * an employee.
+	 * 
+	 * We give an Employee object and it returns a list
+	 * of all the closed requests that were handeld by
+	 * him/her
+	 * 
+	 */
 	public ArrayList<ApprovalRequest> getHandlingsBy (Employee anEmployee)
 	{
 		ArrayList<ApprovalRequest> myHandlings = new ArrayList<>();

@@ -13,8 +13,8 @@ public class Visitor extends User {
 	private String email;
     
 	// Constructor
-    public Visitor(String name, String surname, String email) {
-        super(name, surname);  // Calls the constructor of the superclass User 
+    public Visitor(int id, String name, String surname, String email) {
+        super(name, surname,id);  // Calls the constructor of the superclass User 
         this.email = email;
     }
     
