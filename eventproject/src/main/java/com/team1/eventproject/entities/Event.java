@@ -13,9 +13,8 @@ public class Event {
 	private int minutes;
 	private int duration;
 	private Organizer organizer;
-	private String status; // status = "pending" or "approved" or "not-approved" or "deleted" 
+	private String status; // status = "pending" or "approved" or "not-approved" or "deleted"
 	private int currentCapacity;
-	
 
 	public Event(String title, String theme, String description, String location, int maxCapacity, int day, int month,
 			int year, int hour, int minutes, int duration, Organizer organizer) {
@@ -24,7 +23,7 @@ public class Event {
 		this.description = description;
 		this.location = location;
 		this.maxCapacity = maxCapacity;
-		this.currentCapacity = maxCapacity;
+		// this.currentCapacity = maxCapacity;
 		this.day = day;
 		this.month = month;
 		this.year = year;
@@ -32,11 +31,10 @@ public class Event {
 		this.minutes = minutes;
 		this.duration = duration;
 		this.organizer = organizer;
-		this.status = "Pending";
-		
+		this.status = "pending";
+
 	}
-	
-	
+
 	public String getTitle() {
 		return title;
 	}
@@ -150,57 +148,41 @@ public class Event {
 	}
 
 	// Checks if the event has space for more reservations
-	public boolean hasSpace()
-	{
-		return currentCapacity > 0 ;
+	public boolean hasSpace() {
+		return currentCapacity > 0;
 	}
-	
-	//used when a reservation is made
-		public void decreaseCurrentCapacity() {
+
+	// used when a reservation is made
+	public void decreaseCurrentCapacity() {
 		currentCapacity--;
-		}
-	
-	//used when a reservation is cancelled
+	}
+
+	// used when a reservation is cancelled
 	public void increaseCurrentCapacity() {
 		currentCapacity++;
 	}
-	
 
-/*	
-	public void showMyVisitors()
-	{
-		ArrayList<Visitor> eventVisitors = ReservationManager.getInstance().getVisitorsForEvent(this);
-		  
-		  if (eventVisitors.isEmpty())
-		  {
-		  	System.out.println("There are no reservations for the event: " +title);
-		  }
-		  else
-		  {
-			System.out.println("The visitors for the event " +title+ " are:"); 	
-		  	for (Visitor visitor: eventVisitors)
-		  	{
-		  		System.out.println(visitor.getName()+ " "+visitor.getSurname());
-		  	}
-		  }
-		  
-	}
-	
-	
-	
-	@Override
-	public String toString() {
-		return "Event [title = " + title 
-				+ ", Theme = " + theme 
-				+ ", Description = " + description 
-				+ ", Location = " + location 
-				+ ", Available spaces = " + getCurrentCapacity()+"/"+getMaxCapacity()
-				+ ", Date = " + getDate() 
-				+ ", Time = " + getTime()
-				+ ", Duration = " + duration 
-				+ ", Organizer = " + organizer.getName() + " " + organizer.getSurname()
-				+ ", Status = " + status
-				+ ", Reservations = " + ReservationManager.getInstance().getVisitorsForEvent(this) + "]";
-	} 
-*/
+	/*
+	 * public void showMyVisitors() { ArrayList<Visitor> eventVisitors =
+	 * ReservationManager.getInstance().getVisitorsForEvent(this);
+	 * 
+	 * if (eventVisitors.isEmpty()) {
+	 * System.out.println("There are no reservations for the event: " +title); }
+	 * else { System.out.println("The visitors for the event " +title+ " are:"); for
+	 * (Visitor visitor: eventVisitors) { System.out.println(visitor.getName()+
+	 * " "+visitor.getSurname()); } }
+	 * 
+	 * }
+	 * 
+	 * 
+	 * 
+	 * @Override public String toString() { return "Event [title = " + title +
+	 * ", Theme = " + theme + ", Description = " + description + ", Location = " +
+	 * location + ", Available spaces = " +
+	 * getCurrentCapacity()+"/"+getMaxCapacity() + ", Date = " + getDate() +
+	 * ", Time = " + getTime() + ", Duration = " + duration + ", Organizer = " +
+	 * organizer.getName() + " " + organizer.getSurname() + ", Status = " + status +
+	 * ", Reservations = " +
+	 * ReservationManager.getInstance().getVisitorsForEvent(this) + "]"; }
+	 */
 }
