@@ -21,66 +21,7 @@ public class Visitor extends User {
         this.email = email;
     }
     
-    // Tha metafertheu stin klasi ReservationServices
-    public void makeReservation(Event anEvent) 
-    {
-    	ReservationManager.getInstance().createReservation(anEvent, this);
-    }
-	
-	// Tha metaferthei stin klasi ReservationServices
-    public void cancelReservation(Event anEvent) 
-    {
-    	ReservationManager.getInstance().removeReservation(anEvent, this);
-	}
-	
-    
-  // Tha metaferthei mallon stin klasi EventServices
-  public void showMyEvents()
-  {
-  	ArrayList<Event> visitorEvents = ReservationManager.getInstance().getEventsForVisitor(this);
-	  
-	  if (visitorEvents.isEmpty())
-	  {
-	  	System.out.println("There are no reservations for " +name+ " " +surname +"!");
-	  }
-	  else
-	  {
-		System.out.println("The reservations for " +name+ " " +surname +"are:");
-	  	for (Event event: visitorEvents)
-	  	{
-	  		System.out.println(event.getTitle());
-	  	}
-	  }
-  }
-
-    
-    
-    /* The public method  searchEvents of the Visitor class calls the
-    * findEvents method of the class EventManager. */    
-    // Tha meteferthei stin klasi EventServices
-    public void searchEvent(int day, int month, int year, String location, String theme) {
-        // make or retrieve object EnentManager
-        EventManager eventManager = EventManager.getInstance();
-
-        // Call method findEvents through the object
-        ArrayList<Event> events = eventManager.findEvents(day, month, year, location, theme);
-        
-        // Checks if such events were found
-        if (events.isEmpty()) {
-            System.out.println("No events found matching the criteria.");
-        } else {
-            // Show results of the events found
-            System.out.println("Events found:");
-            for (Event event : events) {
-                System.out.println("Event Title: " + event.getTitle());
-                System.out.println("Location: " + event.getLocation());
-                System.out.println("Theme: " + event.getTheme());
-                System.out.println("Date and Time: " + event.getDate() + " " + event.getTime());
-                System.out.println("-------------------------------");
-            }
-        }
-    }  
-    
+ 
 
 	public String getEmail() 
 	{
