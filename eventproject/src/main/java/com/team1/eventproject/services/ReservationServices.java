@@ -1,89 +1,150 @@
 package com.team1.eventproject.services;
-/* H klasi Reservation Services tha xrisimopoieitai san pinakas-vasi dedomenwn opou tha apothikeuontai 
- * oles oi kratiseis pou exoun kanei oi visitors gia ta events pou theloun na parakolouthisoun.
- */
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.team1.eventproject.entities.Reservation;
 import com.team1.eventproject.entities.Visitor;
 import com.team1.eventproject.entities.Event;
 
-import java.util.ArrayList;
-import java.util.List;
+@Service 
 public class ReservationServices {
-	private List<Reservation> reservations; // Lista pou apothikeuei oles tis kratiseiw
-    // Constructor
-    public ReservationService() {
+
+    private List<Reservation> reservations; // Lista pou apothikeuei oles tis kratiseis
+
+    @Autowired
+    private EventServices eventServices; // Exartisi gia ta event services
+
+    @Autowired
+    private VisitorServices visitorServices; // Exartisi gia ta visitor services
+
+    // Constructor gia tin arxikopoiisi tis listas
+    public ReservationServices() {
         this.reservations = new ArrayList<>();
     }
 
-    // Prosthiki Kratisis
-    public String addReservation(Visitor visitor, Event event) {
-        // Checks if there is already reservation for the specifi visitor and the specific event.
+    // Methodos gia prosthiki neas kratisis
+    public String addReservation(int visitorId, int eventId) {
+        // Vres ton Visitor kai to Event me vasi ta IDs
+        Visitor visitor = visitorServices.getVisitorUsingID(visitorId);
+        Event event = eventServices.getEventUsingID(eventId);
+
+        // Elegxos an vrethikan o Visitor kai to Event
+        if (visitor == null) {
+            return "Visitor with ID " + visitorId + " not found.";
+        }
+        if (event == null) {
+            return "Event with ID " + eventId + " not found.";
+        }
+
+        // Elegxos an yparxei idi kratisi gia ton visitor kai to event
         for (Reservation reservation : reservations) {
             if (reservation.getVisitor().equals(visitor) && reservation.getEvent().equals(event)) {
                 return "This reservation already exists.";
             }
         }
-        // make a new reservation and add it to the list
+
+        // Dimiourgia neas kratisis kai prosthiki sti lista
         Reservation newReservation = new Reservation(visitor, event);
         reservations.add(newReservation);
-        return "Reservation made succesfully for event: " + event.getName();
+        return "Reservation made successfully for event: " + event.getName();
     }
 
-    // Cancel Reservation
-    public String cancelReservation(Visitor visitor, Event event) {
+    // Methodos gia akyrwsi kratisis
+    public String cancelReservation(int visitorId, int eventId) {
+        Visitor visitor = visitorServices.getVisitorUsingID(visitorId);
+        Event event = eventServices.getEventUsingID(eventId);
+
+        // Elegxos an vrethikan o Visitor kai to Event
+        if (visitor == null) {
+            return "Visitor with ID " + visitorId + " not found.";
+        }
+        if (event == null) {
+            return "Event with ID " + eventId + " not found.";
+        }
+
         Reservation reservationToCancel = null;
+
+        // Anazitisi tis kratisis sti lista
         for (Reservation reservation : reservations) {
             if (reservation.getVisitor().equals(visitor) && reservation.getEvent().equals(event)) {
                 reservationToCancel = reservation;
                 break;
             }
         }
+
+        // An vrethei i kratisi, afaireitai apo ti lista
         if (reservationToCancel != null) {
             reservations.remove(reservationToCancel);
             return "Reservation cancelled for event: " + event.getName();
         }
+
+        // Epistrofi minimatos an den vrethei i kratisi
         return "Reservation not found in order to be canceled.";
     }
 
-    // Return all the reservations
+    // Methodos gia epistrofi olwn twn kratisewn
     public List<Reservation> getAllReservations() {
-        return new ArrayList<>(reservations);
+        return new ArrayList<>(reservations); // Epistrofi antigrafou tis listas gia asfaleia
     }
 
-    // Return reservations for the specific Visitor
-    public List<Reservation> getReservationsByVisitor(Visitor visitor) {
+    // Methodos gia anazitisi kratisewn sugkekrimenou visitor
+    public List<Reservation> getReservationsByVisitor(int visitorId) {
+        Visitor visitor = visitorServices.getVisitorUsingID(visitorId);
+        if (visitor == null) {
+            return new ArrayList<>(); // An o Visitor den vrethei, epistrefetai adeia lista
+        }
+
         List<Reservation> visitorReservations = new ArrayList<>();
+
+        // Prosthiki kratisewn tou visitor sti lista
         for (Reservation reservation : reservations) {
             if (reservation.getVisitor().equals(visitor)) {
                 visitorReservations.add(reservation);
             }
         }
+
         return visitorReservations;
     }
 
-    // Return reservations for the specific event.
-    public List<Reservation> getReservationsByEvent(Event event) {
+    // Methodos gia anazitisi kratisewn sugkekrimenou event
+    public List<Reservation> getReservationsByEvent(int eventId) {
+        Event event = eventServices.getEventUsingID(eventId);
+        if (event == null) {
+            return new ArrayList<>(); // An to Event den vrethei, epistrefetai adeia lista
+        }
+
         List<Reservation> eventReservations = new ArrayList<>();
+
+        // Prosthiki kratisewn tou event sti lista
         for (Reservation reservation : reservations) {
             if (reservation.getEvent().equals(event)) {
                 eventReservations.add(reservation);
             }
         }
+
         return eventReservations;
     }
 
-    // count reservations for the event
-    public int countReservationsForEvent(Event event) {
+    // Methodos gia metrisis kratisewn enos sugkekrimenou event
+    public int countReservationsForEvent(int eventId) {
+        Event event = eventServices.getEventUsingID(eventId);
+        if (event == null) {
+            return 0; // An to Event den vrethei, epistrefetai 0
+        }
+
         int count = 0;
+
+        // Auxisi tou metriti gia kathe kratisi pou antistoixei sto event
         for (Reservation reservation : reservations) {
             if (reservation.getEvent().equals(event)) {
                 count++;
             }
         }
+
         return count;
     }
-	
-	
-		
-
 }
