@@ -14,23 +14,6 @@ public class Employee extends User {
 	}
 	
 	
-
-	/*
-	 * EMPLOYEE SERVICES!
-	 * An Employee can delete any event with no request needed, just by calling
-	 * this method. 
-	 * 
-	 * If an approvalRequest has been made by the Organizer, this
-	 * method is called by the acceptRequest method.
-	 * 
-	 */
-	public void deleteEvent(Event anEvent)	
-	{
-		anEvent.setStatus("deleted");
-		System.out.println("You have deleted the following event: "+ anEvent.getTitle()+"\n");
-	}
-	
-	
 	public void addDeletion(Event anEvent)
 	{
 		deletionsHistory.add(anEvent);
