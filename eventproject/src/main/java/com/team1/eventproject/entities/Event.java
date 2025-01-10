@@ -1,5 +1,8 @@
 package com.team1.eventproject.entities;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class Event {
 	private String title;
 	private String theme;
@@ -16,26 +19,32 @@ public class Event {
 	private String status; // status = "pending" or "approved" or "not-approved" or "deleted"
 	private int currentCapacity;
 	private int id;
-	
-	
-	public Event(int id,String title, String theme, String description, String location, int maxCapacity, int day, int month,
-			int year, int hour, int minutes, int duration, Organizer organizer) {
+	private static int counter = 1;
+
+	public Event(String title, String theme, String description, String location, int maxCapacity, int day, int month,
+			int year, int hour, int minutes, int duration) {
 		this.id = id;
 		this.title = title;
 		this.theme = theme;
 		this.description = description;
 		this.location = location;
 		this.maxCapacity = maxCapacity;
-		// this.currentCapacity = maxCapacity;
 		this.day = day;
 		this.month = month;
 		this.year = year;
 		this.hour = hour;
 		this.minutes = minutes;
 		this.duration = duration;
-		this.organizer = organizer;
 		this.status = "pending";
+		this.id = counter++;
+	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getTitle() {
@@ -178,14 +187,21 @@ public class Event {
 	 * }
 	 * 
 	 * 
-	 * 
-	 * @Override public String toString() { return "Event [title = " + title +
-	 * ", Theme = " + theme + ", Description = " + description + ", Location = " +
-	 * location + ", Available spaces = " +
-	 * getCurrentCapacity()+"/"+getMaxCapacity() + ", Date = " + getDate() +
-	 * ", Time = " + getTime() + ", Duration = " + duration + ", Organizer = " +
-	 * organizer.getName() + " " + organizer.getSurname() + ", Status = " + status +
-	 * ", Reservations = " +
-	 * ReservationManager.getInstance().getVisitorsForEvent(this) + "]"; }
 	 */
+
+	@Override
+	public String toString() {
+		return "Event [title = " + title 
+					+ ", Theme = " + theme 
+					+ ", Description = " + description
+					+ ", Location = " + location 
+					+ ", Available spaces = " + getCurrentCapacity() + "/" + getMaxCapacity()
+					+ ", Date = " + getDate() 
+					+ ", Time = " + getTime() 
+					+ ", Duration = " + duration 
+					+ ", Organizer = "+ organizer.getName() + " " + organizer.getSurname() 
+					+ ", Status = " + status+"]";
+					//+ ", Reservations = "+ ReservationManager.getInstance().getVisitorsForEvent(this) + "]";
+	}
+
 }
