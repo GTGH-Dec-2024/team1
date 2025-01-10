@@ -119,6 +119,13 @@ public class ApprovalRequestServices {
 		return null;
 	}
 	
+	
+	/*
+	 * Used by the employee to see which requests stil haven't been
+	 * handled. 
+	 * 
+	 * When a request hasn't been handled yet, its status is "open"
+	 */
 	public void getPendingRequests()
 	{
 		ArrayList <ApprovalRequest> pendingRequests = new ArrayList<>();
@@ -133,7 +140,15 @@ public class ApprovalRequestServices {
 	}
 	
 		
-	
+	/*
+	 * Returns all the ApprovalRequests that have been handled by
+	 * an employee.
+	 * 
+	 * We give an Employee object and it returns a list
+	 * of all the closed requests that were handeld by
+	 * him/her
+	 * 
+	 */
 	public ArrayList<ApprovalRequest> getHandlingsBy (Employee anEmployee)
 	{
 		ArrayList<ApprovalRequest> myHandlings = new ArrayList<>();
