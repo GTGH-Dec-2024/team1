@@ -27,6 +27,17 @@ public class ApprovalRequestServices {
 		allRequests = new ArrayList<>();
 	}
 
+	
+	/*
+	 * Makes an ApprovalRequest object by using the ApprovalRequest
+	 * constructor. By default, when making a request its status
+	 * is "open"
+	 * 
+	 * After making the ApprovalRequest, it is added to the list of
+	 * all the Requests.
+	 * 
+	 * 
+	 */
 	public void addApprovalRequest(String type, int OrganizerID, int eventID, String comments)
 	{
 		Organizer tempOrganizer = organizerServices.getOrganizerUsingID(OrganizerID);
@@ -64,13 +75,15 @@ public class ApprovalRequestServices {
 		if (tempRequest.getType().equalsIgnoreCase("register")) 
 		{
 			tempRequest.getAnEvent().setStatus("approved");
+	
 		}
 		 
-//		else
-//		{
-//			// tempRequest.getAnEvent().deleteEvent(eventID, employeeID);
-//		}
-
+		else
+		{
+			eventServices.deleteEvent(tempRequest.getAnEvent().getId(),employeeID);
+		}
+		
+		tempRequest.setIsApproved(true); //used to return a list of approved requests
 		Employee tempEmployee = employeeServices.getEmployeeUsingID(employeeID);
 		this.closeRequest(tempRequest, tempEmployee, "The request has been accepted");
 
@@ -193,6 +206,26 @@ public class ApprovalRequestServices {
 		System.out.println("--The pending requests are--/n" + pendingRequests);
 	}
 
+	
+	
+	/*
+	 * Returns all the ApprovalRequests that have been 
+	 * approved by an employee
+	 */
+	public ArrayList<ApprovalRequest> getApprovedRequests() {
+		ArrayList<ApprovalRequest> approvedRequests = new ArrayList<>();
+		
+		
+		for (ApprovalRequest aRequest : allRequests) {
+			if (aRequest.getIsApproved())
+			{
+				approvedRequests.add(aRequest);
+			}
+		}
+		return approvedRequests;
+		
+	}
+	
 	
 	/*
 	 * Returns all the ApprovalRequests that have been handled by an employee.

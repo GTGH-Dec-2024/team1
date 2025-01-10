@@ -33,7 +33,7 @@ public class EventServices {
 			System.out.println("Event already exists in the events list!");
 		} else {
 			allEvents.add(event);
-			approvalRequestServices.makeRequest(event, "register");
+			approvalRequestServices.addApprovalRequest(event, "register");
 		}
 
 	}

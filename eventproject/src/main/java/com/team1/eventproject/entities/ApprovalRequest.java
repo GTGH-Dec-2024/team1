@@ -12,6 +12,7 @@ public class ApprovalRequest {
 	private LocalDateTime closedAt; 
 	private Employee handledBy; 
 	private String comments;
+	private boolean isApproved;
 	
 	private Organizer submittedBy;
 	private Event anEvent;
@@ -28,7 +29,7 @@ public class ApprovalRequest {
 		this.status = "open"; //by default, since the organizer makes the request
 		this.closedAt = null; //based on when the employee handles it
 		this.handledBy = null; //based on which employee handles it
-		
+		this.isApproved = false; //will be set to true if the request is approved
 	}
 	
 	
@@ -94,6 +95,20 @@ public class ApprovalRequest {
 			print += "\n It was handled at " +closedAt;
 		
 		return print;
+	}
+
+
+
+
+	public void setIsApproved(boolean isApproved) {
+		this.isApproved = isApproved;
+	}
+
+
+
+
+	public boolean getIsApproved() {
+		return isApproved;
 	}
 	
 	

@@ -3,13 +3,11 @@ package com.team1.eventproject.entities;
 public abstract class User {
 	protected String name;
 	protected String surname;
-	protected int id;
 	
 	
-	public User(String name, String surname, int id) {
+	public User(String name, String surname) {
 		this.name = name;
 		this.surname = surname;
-		this.id = id;
 	}
 
 
@@ -33,15 +31,6 @@ public abstract class User {
 	}
 
 
-	public int getId() {
-		return id;
-	}
-
-
-	public void setId(int id) {
-		this.id = id;
-	}
-	
 	
 	
 
