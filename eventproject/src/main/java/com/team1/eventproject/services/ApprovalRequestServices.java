@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.team1.eventproject.entities.ApprovalRequest;
 import com.team1.eventproject.entities.Employee;
 import com.team1.eventproject.entities.Event;
+import com.team1.eventproject.entities.Organizer;
 
 public class ApprovalRequestServices {
 	private ArrayList<ApprovalRequest> allRequests;
@@ -15,9 +16,10 @@ public class ApprovalRequestServices {
 	}
 
 
-	public void addApprovalRequest (ApprovalRequest aRequest)
+	public void makeApprovalRequest (String type, LocalDateTime createdAt,
+			int organizerID, Event anEvent, String comments)
 	{
-		allRequests.add(aRequest);
+		//allRequests.add(aRequest);
 	}
 	
 	/*
