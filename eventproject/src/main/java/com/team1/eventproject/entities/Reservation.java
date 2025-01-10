@@ -31,27 +31,7 @@ public class Reservation {
 	        return event;
 	    }
 	    
-	    // Kati exei antigrafei lathos sthn toString
-	    public String toString() {
-	        return Reservation Detailsn +
-	                Visitor  + visitor.getName() +   + visitor.getSurname() + n +
-	                Event  + event.getTitle() + n +
-	                Theme  + event.getTheme() + n +
-	                Location  + event.getLocation() + n +
-	                Event Date  + event.getDay() +  + event.getMonth() +  + event.getYear() + n +
-	                Event Time  + event.getHour() +  + event.getMinutes();
-	    }
-	    // Method which shows the information of the reservation.
-	    // Tha metaferthei sthn ReservationServices.
-	    public void displayReservationDetails() {
-	        System.out.println(Reservation Details);
-	        System.out.println(Visitor  + visitor.getName() +   + 		visitor.getSurname());
-	        System.out.println(Event  + event.getTitle());
-	        System.out.println(Theme  + event.getTheme());
-	        System.out.println(Location  + event.getLocation());
-	        System.out.println(Event Date  + event.getDay() +  + event.getMonth() + 		 + event.getYear());
-	        System.out.println(Event Time  + event.getHour() +  + 		event.getMinutes());        
-	           }
+	   
 	           
 
 }
