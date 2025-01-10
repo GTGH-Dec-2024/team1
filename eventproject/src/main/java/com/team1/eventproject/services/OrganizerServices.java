@@ -30,7 +30,7 @@ public class OrganizerServices {
 	
 	
 	
-	public Organizer getOrganizerByID(int id)
+	public Organizer getOrganizerUsingID(int id)
 	{
 		for (Organizer organizer : allOrganizers) 
 		{

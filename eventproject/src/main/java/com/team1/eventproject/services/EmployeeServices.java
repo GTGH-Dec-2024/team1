@@ -28,7 +28,7 @@ public class EmployeeServices {
 		
 		
 		
-		public Employee getEmployeeByID(int id)
+		public Employee getEmployeeUsingID(int id)
 		{
 			for (Employee employee : allEmployees) 
 			{

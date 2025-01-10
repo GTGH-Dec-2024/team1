@@ -29,7 +29,7 @@ public class VisitorServices {
 	
 	
 	
-	public Visitor getVisitorByID(int id)
+	public Visitor getVisitorUsingID(int id)
 	{
 		for (Visitor visitor : allVisitors) 
 		{

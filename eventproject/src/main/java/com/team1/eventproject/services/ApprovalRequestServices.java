@@ -3,12 +3,18 @@ package com.team1.eventproject.services;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.team1.eventproject.entities.ApprovalRequest;
 import com.team1.eventproject.entities.Employee;
 import com.team1.eventproject.entities.Event;
 import com.team1.eventproject.entities.Organizer;
 
 public class ApprovalRequestServices {
+	
+	@Autowired EmployeeServices employeeServices;
+	
+	
 	private ArrayList<ApprovalRequest> allRequests;
 
 	public ApprovalRequestServices() {
@@ -16,11 +22,13 @@ public class ApprovalRequestServices {
 	}
 
 
-	public void makeApprovalRequest (Employee anEmployee, String type, LocalDateTime createdAt,
+	public void makeApprovalRequest (Organizer anOrganizer, String type, LocalDateTime createdAt,
 			int organizerID, Event anEvent, String comments)
 	{
 		
-		//allRequests.add(aRequest);
+	//		
+		
+		
 	}
 	
 	/*
