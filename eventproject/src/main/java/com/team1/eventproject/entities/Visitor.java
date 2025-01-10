@@ -11,10 +11,13 @@ import java.util.ArrayList;
 /* The class Visitor inherits the abstract class User and he has also an email. */
 public class Visitor extends User {
 	private String email;
+	private static int counter = 1;
+	private int id;
     
 	// Constructor
-    public Visitor(int id, String name, String surname, String email) {
-        super(name, surname,id);  // Calls the constructor of the superclass User 
+    public Visitor(String name, String surname, String email) {
+        super(name, surname); // Calls the constructor of the superclass User 
+        this.id = counter++; //the id is given automatically by the program
         this.email = email;
     }
     
@@ -87,7 +90,7 @@ public class Visitor extends User {
 	@Override
 	public String toString()
 	{
-		return name + " " +surname;
+		return name + surname;
 	}
  
 

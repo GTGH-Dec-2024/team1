@@ -3,100 +3,171 @@ package com.team1.eventproject.services;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.team1.eventproject.entities.ApprovalRequest;
 import com.team1.eventproject.entities.Employee;
 import com.team1.eventproject.entities.Event;
+import com.team1.eventproject.entities.Organizer;
 
+@Service
 public class ApprovalRequestServices {
+
+	@Autowired
+	EmployeeServices employeeServices;
+	@Autowired
+	EventServices eventServices;
+	@Autowired
+	OrganizerServices organizerServices;
+
 	private ArrayList<ApprovalRequest> allRequests;
 
 	public ApprovalRequestServices() {
 		allRequests = new ArrayList<>();
 	}
 
-
-	public void addApprovalRequest (ApprovalRequest aRequest)
-	{
-		allRequests.add(aRequest);
-	}
 	
 	/*
-	 * An employee handles a request for the registration of an event.
+	 * Makes an ApprovalRequest object by using the ApprovalRequest
+	 * constructor. By default, when making a request its status
+	 * is "open"
 	 * 
-	 * This method takes an Event, an Employee, and a boolean "isApproved"
-	 * attribute. The isApproved is true if the Employee wants to approve the Event
-	 * and false if he/she doesn't want to approve it
+	 * After making the ApprovalRequest, it is added to the list of
+	 * all the Requests.
 	 * 
-	 * Depending on isApproved, the status of the Event changes, from pending to
-	 * "approved" or "not-approved". The event status is updated when the request is
-	 * closed by calling the closeRequest
 	 * 
 	 */
-	public void handleRegistrationRequest(Event anEvent, Employee anEmployee, boolean isApproved) {
-		ApprovalRequest request = this.getApprovalRequest(anEvent, "register");
-
-		if (request == null) {
-			System.out.println("The organizer of the event has not made" + "a registration request for it!");
-		}
-
-		else if (request.getStatus().equalsIgnoreCase("closed")) {
-			System.out.println("The registration request for this event" + "has already been handled.");
-		}
-
-		else {
-			if (isApproved) {
-				request.getAnEvent().setStatus("approved");
-				closeRequest(request, anEmployee, "The event " + anEvent.getTitle() + " is now approved");
-
-				System.out.println("The employee " + anEmployee.getName() + " has just approved to register "
-						+ "the following event: " + request.getAnEvent().getTitle() + "\n");
-			} else {
-				request.getAnEvent().setStatus("not-approved");
-				closeRequest(request, anEmployee,
-						"The event " + anEvent.getTitle() + " is NOT approved by the employee");
-
-				System.out.println("The employee " + anEmployee.getName() + " has NOT approved to register "
-						+ "the following event: " + request.getAnEvent().getTitle() + "\n");
-			}
-
-		}
-
-	}
-
-	
-	public void handleDeletionRequest(Event anEvent, Employee anEmployee, boolean isApproved) {
+	public void addApprovalRequest(String type, int OrganizerID, int eventID, String comments)
+	{
+		Organizer tempOrganizer = organizerServices.getOrganizerUsingID(OrganizerID);
+		Event tempEvent = eventServices.getEventUsingID(eventID);
 		
-		ApprovalRequest request = this.getApprovalRequest(anEvent, "delete");
-
-		if (request == null) {
-			System.out.println("The organizer of the event has not made" + 
-		"a deletion request for it!\n");
-		}
-
-		else if (request.getStatus().equalsIgnoreCase("closed")) 
-		{
-			System.out.println("The deletion request for this event has already been handled.\n");
-		}
-		else
-			if (isApproved) {
-			
-			//AnEvent.deleteEvent(this);
-			closeRequest(request, anEmployee, "The event " + anEvent.getTitle() + 
-					" has been deleted");
-
-//			System.out.println("The employee " + anEmployee.getName() + " has deleted "
-//					+ "the following event: " + request.getAnEvent().getTitle() + "\n");
-			}else {
-				closeRequest(request, anEmployee, "The event " + anEvent.getTitle() + 
-						" has NOT been deleted");
-				
-				System.out.println("The employee " + anEmployee.getName() + " has decided "
-					+ " NOT to delete the following event: " + anEvent.getTitle());
-			}
-
+		ApprovalRequest aRequest = new ApprovalRequest(type, LocalDateTime.now(),
+				tempOrganizer, tempEvent, comments);
+		allRequests.add(aRequest);
+	  
 	}
 	
 	
+	
+	/*
+	 * First, we check if the request is valid.
+	 * 
+	 * If it is a request to register an Event, we set its status
+	 * to "approved".
+	 * 
+	 * If it is a request to delete an Event, we call the deleteEvent
+	 * method from EventManager
+	 * 
+	 * Afterwards, the request is updated to "closed", and we add the 
+	 * employee who handled it. A message is printed.
+	 * 
+	 */
+
+	public void acceptRequest(int requestID, int employeeID) {
+
+		ApprovalRequest tempRequest = this.isValid(requestID, employeeID);
+
+		if (tempRequest == null)
+			return;
+
+		if (tempRequest.getType().equalsIgnoreCase("register")) 
+		{
+			tempRequest.getAnEvent().setStatus("approved");
+	
+		}
+		 
+		else
+		{
+			eventServices.deleteEvent(tempRequest.getAnEvent().getId(),employeeID);
+		}
+		
+		tempRequest.setIsApproved(true); //used to return a list of approved requests
+		Employee tempEmployee = employeeServices.getEmployeeUsingID(employeeID);
+		this.closeRequest(tempRequest, tempEmployee, "The request has been accepted");
+
+		System.out.println(
+				"The employee " + tempEmployee.getName() + " " + tempEmployee.getSurname() + " has just ACCEPTED to "
+						+ tempRequest.getType() + "the following event: " + tempRequest.getAnEvent() + "\n");
+
+}
+
+	
+	/*
+	 * First, we check if the request is valid.
+	 * 
+	 * If it is a request to register an Event, we set its status
+	 * to "not-approved".
+	 * 
+	 * If the request is to delete an Event, when the employee 
+	 * denies it the Event status remains the same
+	 * 
+	 * Afterwards, the request is updated to "closed", and we add the 
+	 * employee who handled it. A message is printed.
+	 * 
+	 */
+	public void denyRequest(int requestID, int employeeID) {
+
+		ApprovalRequest tempRequest = this.isValid(requestID, employeeID);
+		if (tempRequest == null)
+			return;
+
+		if (tempRequest.getType().equalsIgnoreCase("register")) 
+		{
+			tempRequest.getAnEvent().setStatus("not-approved");
+		}
+		// no change when the request type is "delete"
+		
+		Employee tempEmployee = employeeServices.getEmployeeUsingID(employeeID);
+
+		closeRequest(tempRequest, tempEmployee, "The request has been denied");
+
+		System.out.println(
+				"The employee " + tempEmployee.getName() + " " + tempEmployee.getSurname() + " has just DENIED to "
+						+ tempRequest.getType() + "the following event: " + tempRequest.getAnEvent() + "\n");
+	}
+
+	
+	/*
+	 * Checks if the request can be processed. 
+	 * 
+	 * Both the Request and the Employee objects have to 
+	 * be !=null, and the Request status must not be "closed"
+	 * 
+	 *
+	 */
+	private ApprovalRequest isValid(int requestID, int employeeID) {
+		Employee tempEmployee = employeeServices.getEmployeeUsingID(employeeID);
+
+		if (tempEmployee == null) {
+			System.out.println("There is no employee with this id! The request can't be handled");
+			return null;
+		}
+
+		ApprovalRequest tempRequest = this.getApprovalRequestUsingID(requestID);
+
+		if (tempRequest == null) {
+			System.out.println("The request ID is invalid");
+			return null;
+		}
+
+		if (tempRequest.getStatus().equalsIgnoreCase("closed")) {
+			System.out.println("The request with ID: " + requestID + " has already been handled.");
+			return null;
+		}
+
+		return tempRequest;
+	}
+
+	
+	
+	/*
+	 * Updates the necessary fields of an ApprovalRequest object
+	 * to close the request
+	 * 		  
+	 */
+
 	private void closeRequest(ApprovalRequest aRequest, Employee anEmployee, String comment) {
 		aRequest.setStatus("closed");
 		aRequest.setClosedAt(LocalDateTime.now());
@@ -107,8 +178,8 @@ public class ApprovalRequestServices {
 		}
 	}
 
-
-
+	
+	
 	public ApprovalRequest getApprovalRequest(Event anEvent, String requestType) {
 		for (ApprovalRequest i : allRequests) {
 			if (i.getAnEvent().equals(anEvent) && i.getType().equalsIgnoreCase(requestType)) {
@@ -118,50 +189,76 @@ public class ApprovalRequestServices {
 		}
 		return null;
 	}
-	
-	
+
+
 	/*
-	 * Used by the employee to see which requests stil haven't been
-	 * handled. 
+	 * Used by the employee to see which requests still haven't been handled.
 	 * 
 	 * When a request hasn't been handled yet, its status is "open"
 	 */
-	public void getPendingRequests()
-	{
-		ArrayList <ApprovalRequest> pendingRequests = new ArrayList<>();
-		for (ApprovalRequest aRequest: allRequests)
-		{
-			if(aRequest.getStatus().equals("open"))
-			{
+	public void getPendingRequests() {
+		ArrayList<ApprovalRequest> pendingRequests = new ArrayList<>();
+		for (ApprovalRequest aRequest : allRequests) {
+			if (aRequest.getStatus().equals("open")) {
 				pendingRequests.add(aRequest);
 			}
 		}
 		System.out.println("--The pending requests are--/n" + pendingRequests);
 	}
+
 	
-		
+	
 	/*
-	 * Returns all the ApprovalRequests that have been handled by
-	 * an employee.
+	 * Returns all the ApprovalRequests that have been 
+	 * approved by an employee
+	 */
+	public ArrayList<ApprovalRequest> getApprovedRequests() {
+		ArrayList<ApprovalRequest> approvedRequests = new ArrayList<>();
+		
+		
+		for (ApprovalRequest aRequest : allRequests) {
+			if (aRequest.getIsApproved())
+			{
+				approvedRequests.add(aRequest);
+			}
+		}
+		return approvedRequests;
+		
+	}
+	
+	
+	/*
+	 * Returns all the ApprovalRequests that have been handled by an employee.
 	 * 
-	 * We give an Employee object and it returns a list
-	 * of all the closed requests that were handeld by
-	 * him/her
+	 * We give an Employee object and it returns a list of all the closed requests
+	 * that were handled by him/her
 	 * 
 	 */
-	public ArrayList<ApprovalRequest> getHandlingsBy (Employee anEmployee)
-	{
+	public ArrayList<ApprovalRequest> getHandlingsBy(Employee anEmployee) {
 		ArrayList<ApprovalRequest> myHandlings = new ArrayList<>();
-		
-		for (ApprovalRequest aRequest: allRequests)
-		{
-			if(aRequest.getStatus().equals("closed")
-					&& aRequest.getHandledBy().equals(anEmployee))
-			{
+
+		for (ApprovalRequest aRequest : allRequests) {
+			if (aRequest.getStatus().equals("closed") && aRequest.getHandledBy().equals(anEmployee)) {
 				myHandlings.add(aRequest);
 			}
 		}
-		
+
 		return myHandlings;
 	}
+
+	
+	/*
+	 * Given the ID of an ApprovalRequest object, it returns the
+	 * object
+	 * 
+	 */
+	public ApprovalRequest getApprovalRequestUsingID(int id) {
+		for (ApprovalRequest temp : allRequests) {
+			if (temp.getId() == id) {
+				return temp;
+			}
+		}
+		return null;
+	}
+
 }

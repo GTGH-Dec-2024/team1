@@ -3,6 +3,8 @@ package com.team1.eventproject.entities;
 import java.time.LocalDateTime;
 
 public class ApprovalRequest {
+	private int id;
+	private static int counter = 1;  
 	private String type; //is it to "register" or "delete" event
 	private String status; 
 	//is it open (waiting for answer from employee) or closed (employee has answered)
@@ -10,6 +12,7 @@ public class ApprovalRequest {
 	private LocalDateTime closedAt; 
 	private Employee handledBy; 
 	private String comments;
+	private boolean isApproved;
 	
 	private Organizer submittedBy;
 	private Event anEvent;
@@ -17,6 +20,7 @@ public class ApprovalRequest {
 	
 	public ApprovalRequest(String type, LocalDateTime createdAt,
 			Organizer submittedBy, Event anEvent, String comments) {
+		this.id = counter++; //the id is given automatically by the program
 		this.type = type;
 		this.createdAt = createdAt;
 		this.submittedBy = submittedBy;
@@ -25,7 +29,7 @@ public class ApprovalRequest {
 		this.status = "open"; //by default, since the organizer makes the request
 		this.closedAt = null; //based on when the employee handles it
 		this.handledBy = null; //based on which employee handles it
-		
+		this.isApproved = false; //will be set to true if the request is approved
 	}
 	
 	
@@ -48,12 +52,9 @@ public class ApprovalRequest {
 
 
 
-
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
-
 
 
 	public void setHandledBy(Employee handledBy) {
@@ -62,11 +63,9 @@ public class ApprovalRequest {
 
 
 
-
 	public void addComments(String comments) {
 		this.comments += comments;
 	}
-
 
 
 
@@ -80,16 +79,36 @@ public class ApprovalRequest {
 	public Employee getHandledBy() {
 		return handledBy;
 	}
+	
+	
 
+	public int getId() {
+		return id;
+	}
 
 
 
 	@Override
 	public String toString() {	
-		String print = ": a request to " +type+ " was created at" + createdAt;
+		String print = "REQUEST ID: " +id+ "\n A request to " +type+ " the event "+anEvent.getTitle()+" was created at" + createdAt;
 		if (closedAt!=null && handledBy!=null )
-			print += " and was handled at " +closedAt;
+			print += "\n It was handled at " +closedAt;
+		
 		return print;
+	}
+
+
+
+
+	public void setIsApproved(boolean isApproved) {
+		this.isApproved = isApproved;
+	}
+
+
+
+
+	public boolean getIsApproved() {
+		return isApproved;
 	}
 	
 	
