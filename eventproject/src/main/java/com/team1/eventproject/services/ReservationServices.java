@@ -26,7 +26,7 @@ public class ReservationServices {
         this.reservations = new ArrayList<>();
     }
 
-    // Methodos gia prosthiki neas kratisis
+    // Methodos gia prosthiki neas kratisis tou visitor sto event.
     public String addReservation(int visitorId, int eventId) {
         // Vres ton Visitor kai to Event me vasi ta IDs
         Visitor visitor = visitorServices.getVisitorUsingID(visitorId);
@@ -47,13 +47,13 @@ public class ReservationServices {
             }
         }
 
-        // Dimiourgia neas kratisis kai prosthiki sti lista
+        // Dimiourgia neas kratisis tou visitor gia to event kai prosthiki sti lista
         Reservation newReservation = new Reservation(visitor, event);
         reservations.add(newReservation);
-        return "Reservation made successfully for event: " + event.getName();
+        return "Reservation made successfully for event: " + event.getTitle();
     }
 
-    // Methodos gia akyrwsi kratisis
+    // Methodos gia akyrwsi kratisis tou visitor sto event.
     public String cancelReservation(int visitorId, int eventId) {
         Visitor visitor = visitorServices.getVisitorUsingID(visitorId);
         Event event = eventServices.getEventUsingID(eventId);
@@ -79,7 +79,7 @@ public class ReservationServices {
         // An vrethei i kratisi, afaireitai apo ti lista
         if (reservationToCancel != null) {
             reservations.remove(reservationToCancel);
-            return "Reservation cancelled for event: " + event.getName();
+            return "Reservation cancelled for event: " + event.getTitle();
         }
 
         // Epistrofi minimatos an den vrethei i kratisi
@@ -100,7 +100,7 @@ public class ReservationServices {
 
         List<Reservation> visitorReservations = new ArrayList<>();
 
-        // Prosthiki kratisewn tou visitor sti lista
+        // Prosthiki kratisewn tou sugkekrimenou visitor sti lista.
         for (Reservation reservation : reservations) {
             if (reservation.getVisitor().equals(visitor)) {
                 visitorReservations.add(reservation);
