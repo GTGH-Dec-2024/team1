@@ -20,10 +20,13 @@ public class Event {
 	private int currentCapacity;
 	private int id;
 	private static int counter = 1;
+	private int employeeId;
+	private int organizerId;
 
-	public Event(String title, String theme, String description, String location, int maxCapacity, int day, int month,
-			int year, int hour, int minutes, int duration) {
-		this.id = id;
+	public Event(int organizerId, String title, String theme, String description, String location, int maxCapacity,
+			int day, int month, int year, int hour, int minutes, int duration) {
+
+		this.organizerId = organizerId;
 		this.title = title;
 		this.theme = theme;
 		this.description = description;
@@ -174,6 +177,22 @@ public class Event {
 		currentCapacity++;
 	}
 
+	public void setDeletedBy(int employeeId) {
+		this.employeeId = employeeId;
+	}
+
+	public int getDeletedBy() {
+		return employeeId;
+	}
+	
+	public int getOrganizerId() {
+		return organizerId;
+	}
+
+	public void setOrganizerId(int organizerId) {
+		this.organizerId = organizerId;
+	}
+
 	/*
 	 * public void showMyVisitors() { ArrayList<Visitor> eventVisitors =
 	 * ReservationManager.getInstance().getVisitorsForEvent(this);
@@ -191,17 +210,12 @@ public class Event {
 
 	@Override
 	public String toString() {
-		return "Event [title = " + title 
-					+ ", Theme = " + theme 
-					+ ", Description = " + description
-					+ ", Location = " + location 
-					+ ", Available spaces = " + getCurrentCapacity() + "/" + getMaxCapacity()
-					+ ", Date = " + getDate() 
-					+ ", Time = " + getTime() 
-					+ ", Duration = " + duration 
-					+ ", Organizer = "+ organizer.getName() + " " + organizer.getSurname() 
-					+ ", Status = " + status+"]";
-					//+ ", Reservations = "+ ReservationManager.getInstance().getVisitorsForEvent(this) + "]";
+		return "Event [title = " + title + ", Theme = " + theme + ", Description = " + description + ", Location = "
+				+ location + ", Available spaces = " + getCurrentCapacity() + "/" + getMaxCapacity() + ", Date = "
+				+ getDate() + ", Time = " + getTime() + ", Duration = " + duration + ", Organizer = "
+				+ organizer.getName() + " " + organizer.getSurname() + ", Status = " + status + "]";
+		// + ", Reservations = "+
+		// ReservationManager.getInstance().getVisitorsForEvent(this) + "]";
 	}
 
 }
