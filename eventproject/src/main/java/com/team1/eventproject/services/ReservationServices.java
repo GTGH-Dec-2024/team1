@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.team1.eventproject.entities.Reservation;
 import com.team1.eventproject.entities.Visitor;
+import com.team1.eventproject.entities.ApprovalRequest;
 import com.team1.eventproject.entities.Event;
 
 @Service 
@@ -21,11 +22,13 @@ public class ReservationServices {
     @Autowired
     private VisitorServices visitorServices; // Exartisi gia ta visitor services
 
+    
     // Constructor gia tin arxikopoiisi tis listas
     public ReservationServices() {
         this.reservations = new ArrayList<>();
     }
 
+    
     // Methodos gia prosthiki neas kratisis tou visitor sto event.
     public String addReservation(int visitorId, int eventId) {
         // Vres ton Visitor kai to Event me vasi ta IDs
@@ -53,6 +56,8 @@ public class ReservationServices {
         return "Reservation made successfully for event: " + event.getTitle();
     }
 
+ 
+    
     // Methodos gia akyrwsi kratisis tou visitor sto event.
     public String cancelReservation(int visitorId, int eventId) {
         Visitor visitor = visitorServices.getVisitorUsingID(visitorId);
@@ -146,5 +151,16 @@ public class ReservationServices {
         }
 
         return count;
+    }
+    
+    
+    public Reservation getReservationUsingID (int id)
+    {
+    	for (Reservation temp : reservations) {
+			if (temp.getId() == id) {
+				return temp;
+			}
+		}
+		return null;
     }
 }

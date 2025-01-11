@@ -23,5 +23,12 @@ public class Employee extends User {
 	}
 
 
+	public int getId() {
+		return id;
+	}
+	
+	
+
+
 
 }

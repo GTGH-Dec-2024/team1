@@ -11,12 +11,15 @@ public class Reservation {
 		private final Event event;  // connection with the class Event
 	    // visitor and event must be final so that they can not change for the specific reservation????
 		
+		private static int counter = 1;
+		private int id;
 		
 	    /* Constructor.
 	     * visitor the visitor who makes the reservation to the event.
 	     * event the event for which the reservation is being made. */	     
 	    public Reservation(Visitor visitor, Event event) {
-	        this.visitor = visitor;
+	    	this.id = counter++;
+	    	this.visitor = visitor;
 	        this.event = event;
 	    }
 
@@ -30,6 +33,13 @@ public class Reservation {
 	    public Event getEvent() {
 	        return event;
 	    }
+
+
+		public int getId() {
+			return id;
+		}
+	    
+	    
 	    
 	   
 	           

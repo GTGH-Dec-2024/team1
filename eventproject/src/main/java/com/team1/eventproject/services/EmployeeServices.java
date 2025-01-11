@@ -11,9 +11,9 @@ import com.team1.eventproject.entities.Employee;
 public class EmployeeServices {
 		private ArrayList<Employee> allEmployees;
 		
-		public List<Employee> addEmployee (int id, String name, String surname, String email)
+		public List<Employee> addEmployee (String name, String surname, String email)
 		{
-			Employee temp = new Employee(id, name, surname, email);
+			Employee temp = new Employee(name, surname, email);
 			if (!allEmployees.contains(temp))
 			{
 				allEmployees.add(temp);
