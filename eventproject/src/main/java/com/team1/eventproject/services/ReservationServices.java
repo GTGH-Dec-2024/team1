@@ -153,7 +153,7 @@ public class ReservationServices {
         return count;
     }
     
-    
+    //Vriskei reservation me vash to id tou reservation 
     public Reservation getReservationUsingID (int id)
     {
     	for (Reservation temp : reservations) {

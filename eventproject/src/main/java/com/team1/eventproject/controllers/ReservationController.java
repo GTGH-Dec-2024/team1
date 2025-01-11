@@ -57,7 +57,7 @@ public class ReservationController {
         return reservationServices.countReservationsForEvent(eventId); // Returns the number of reservations for a specific event
     }
 
-    // Endpoint για GET στο /reservations/{id}
+    // Endpoint for GET in /reservations/{id}
     @GetMapping("/{id}")
     public Reservation getReservationById(@PathVariable int id) {
         return reservationServices.getReservationUsingID(id); // Returns a reservation based on its ID
