@@ -1,173 +1,150 @@
 package com.team1.eventproject.services;
-/* H klasi Reservation Services tha xrisimopoieitai san pinakas-vasi dedomenwn opou tha apothikeuontai 
- * oles oi kratiseis pou exoun kanei oi visitors gia ta events pou theloun na parakolouthisoun.
- */
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.team1.eventproject.entities.Reservation;
+import com.team1.eventproject.entities.Visitor;
+import com.team1.eventproject.entities.Event;
+
+@Service 
 public class ReservationServices {
-	
-	private ArrayList<Reservation> allReservations;
-	private static ReservationManager instance;
-	  
 
-	// Constructor
-	public ReservationManager() {
-		allReservations = new ArrayList<>();
-	}
-	
+    private List<Reservation> reservations; // Lista pou apothikeuei oles tis kratiseis
 
-	
-	
-	/*
-	 * This method is called by a Visitor trying to make
-	 * a reservation of an event.
-	 * 
-	 * First, it checks if the specific event is approved
-	 * and if there is space for a reservation. If both of those
-	 * are true, it creates the reservation and adds it to the 
-	 * reservationManager list
-	 * 
-	 * Otherwise, it informs the visitor with a message based on
-	 * the issue that came up
-	 */
-    // Einai i methodos pou tha metaferthei apo ton Visitor
-	public void createReservation(Event anEvent, Visitor aVisitor)
-    {   	
-		//if there is a reservation for this event already
-		if (findReservation(anEvent, aVisitor) != null)
-	      {
-	    	  System.out.println("You have already made a reservation for this event");
-	    	  return;
-	      } 
-		
-		//if the event has not been approved
-		if (!anEvent.getStatus().equalsIgnoreCase("approved"))
-		{
-			System.out.println("The event is not approved!\nYou can't make a reservation!");
-			return;
-		}
-		
-		//if there is no space for another reservation
-		if (!anEvent.hasSpace())
-		{
-			System.out.println("You can't make a reservation to this event, the capacity is full");
-			return;
-	 
-		}
-		
-		//makes the reservation, adds it to the
-		//list of reservations and decreases the capacity of the event
-		allReservations.add(new Reservation (aVisitor, anEvent));
-		anEvent.decreaseCurrentCapacity();
-		
-		
-		System.out.println("A reservation for the event " + anEvent.getTitle()+ " has been made for "
-							+ aVisitor.getName() + " " + aVisitor.getSurname());
-    }    			
+    @Autowired
+    private EventServices eventServices; // Exartisi gia ta event services
 
+    @Autowired
+    private VisitorServices visitorServices; // Exartisi gia ta visitor services
 
+    // Constructor gia tin arxikopoiisi tis listas
+    public ReservationServices() {
+        this.reservations = new ArrayList<>();
+    }
 
-	// Tha ginei to idio me panw
-	public void removeReservation(Event anEvent, Visitor aVisitor)
-	{
-		Reservation temp = findReservation(anEvent, aVisitor);
-		
-		if (temp != null)
-	      {
-			//removes the reservation from the list,
-			//increases the capacity of the event
-			allReservations.remove(temp);
-			anEvent.increaseCurrentCapacity();
-	      } 
-		else
-			System.out.println("You haven't made a reservation for this event");
-		
-	}
-	
-	
-	public ArrayList<Reservation> getAllReservations() {
-		return allReservations;
-	}
+    // Methodos gia prosthiki neas kratisis tou visitor sto event.
+    public String addReservation(int visitorId, int eventId) {
+        // Vres ton Visitor kai to Event me vasi ta IDs
+        Visitor visitor = visitorServices.getVisitorUsingID(visitorId);
+        Event event = eventServices.getEventUsingID(eventId);
 
+        // Elegxos an vrethikan o Visitor kai to Event
+        if (visitor == null) {
+            return "Visitor with ID " + visitorId + " not found.";
+        }
+        if (event == null) {
+            return "Event with ID " + eventId + " not found.";
+        }
 
+        // Elegxos an yparxei idi kratisi gia ton visitor kai to event
+        for (Reservation reservation : reservations) {
+            if (reservation.getVisitor().equals(visitor) && reservation.getEvent().equals(event)) {
+                return "This reservation already exists.";
+            }
+        }
 
+        // Dimiourgia neas kratisis tou visitor gia to event kai prosthiki sti lista
+        Reservation newReservation = new Reservation(visitor, event);
+        reservations.add(newReservation);
+        return "Reservation made successfully for event: " + event.getTitle();
+    }
 
-	/*
-	 * This method helps create and delete a reservation.
-	 * 
-	 * It searches within the allReservations ArrayList and if
-	 * a reservation with the given attributes exists then it
-	 * returns the reservation, otherwise it returns null
-	 * 
-	 * Based on what it returns, the createReservation and
-	 * deleteReservation classes act accordingly
-	 * 
-	 */
-	// Tha anazitoume Reservation me vasi to event kai ton visitor
-	public Reservation findReservation(Event anEvent, Visitor aVisitor)
-	{
-		for (Reservation reservation : allReservations) {
-		      if (reservation.getEvent().equals(anEvent) && reservation.getVisitor().equals(aVisitor))
-		      {
-		    	  return reservation;
-		      }
-	}
-		return null;
-	}
-	
+    // Methodos gia akyrwsi kratisis tou visitor sto event.
+    public String cancelReservation(int visitorId, int eventId) {
+        Visitor visitor = visitorServices.getVisitorUsingID(visitorId);
+        Event event = eventServices.getEventUsingID(eventId);
 
-	
-	
-	/*
-	 * Checks the allReservations ArrayList and returns all
-	 * the events in which a specific visitor has made a reservation
-	 * 
-	*/
-	// Methodos pou tha epistrefei ola ta event sta opoia exei kanei reservation enas visitor
-	public ArrayList<Event> getEventsForVisitor(Visitor aVisitor) {
-	   
-		ArrayList<Event> visitorEvents = new ArrayList<>();
-	    
-	    for (Reservation reservation : allReservations) 
-	    {
-	        if (reservation.getVisitor().equals(aVisitor)) {
-	        	visitorEvents.add(reservation.getEvent());
-	        }
-	    }
-	   
-	   return visitorEvents;
-	    
-	    
-	}
+        // Elegxos an vrethikan o Visitor kai to Event
+        if (visitor == null) {
+            return "Visitor with ID " + visitorId + " not found.";
+        }
+        if (event == null) {
+            return "Event with ID " + eventId + " not found.";
+        }
 
-	/*
-	 * Checks the allReservations ArrayList and returns all
-	 * the Visitors that have made a reservation for a specific Event.
-	 * 
-	*/
-	// Methodos pou tha epistrefei olous tous visitors pou exoun kanei reservation gia sugkekrimeno event
-	public ArrayList<Visitor> getVisitorsForEvent(Event anEvent) {
-	   
-		ArrayList<Visitor> eventVisitors = new ArrayList<>();
-	    
-	    for (Reservation reservation : allReservations) {
-	       
-	    	if (reservation.getEvent().equals(anEvent)) 
-	        {
-	            eventVisitors.add(reservation.getVisitor());
-	        }
-	    }
-	    
-	    return eventVisitors;
-	}
- 
-	// Ti kanei auto???
-	public static ReservationManager getInstance() {
-	    if (instance == null) {
-	       instance = new ReservationManager();
-	     }
-	   return instance;
-	}
-	
-	
+        Reservation reservationToCancel = null;
 
+        // Anazitisi tis kratisis sti lista
+        for (Reservation reservation : reservations) {
+            if (reservation.getVisitor().equals(visitor) && reservation.getEvent().equals(event)) {
+                reservationToCancel = reservation;
+                break;
+            }
+        }
+
+        // An vrethei i kratisi, afaireitai apo ti lista
+        if (reservationToCancel != null) {
+            reservations.remove(reservationToCancel);
+            return "Reservation cancelled for event: " + event.getTitle();
+        }
+
+        // Epistrofi minimatos an den vrethei i kratisi
+        return "Reservation not found in order to be canceled.";
+    }
+
+    // Methodos gia epistrofi olwn twn kratisewn
+    public List<Reservation> getAllReservations() {
+        return new ArrayList<>(reservations); // Epistrofi antigrafou tis listas gia asfaleia
+    }
+
+    // Methodos gia anazitisi kratisewn sugkekrimenou visitor
+    public List<Reservation> getReservationsByVisitor(int visitorId) {
+        Visitor visitor = visitorServices.getVisitorUsingID(visitorId);
+        if (visitor == null) {
+            return new ArrayList<>(); // An o Visitor den vrethei, epistrefetai adeia lista
+        }
+
+        List<Reservation> visitorReservations = new ArrayList<>();
+
+        // Prosthiki kratisewn tou sugkekrimenou visitor sti lista.
+        for (Reservation reservation : reservations) {
+            if (reservation.getVisitor().equals(visitor)) {
+                visitorReservations.add(reservation);
+            }
+        }
+
+        return visitorReservations;
+    }
+
+    // Methodos gia anazitisi kratisewn sugkekrimenou event
+    public List<Reservation> getReservationsByEvent(int eventId) {
+        Event event = eventServices.getEventUsingID(eventId);
+        if (event == null) {
+            return new ArrayList<>(); // An to Event den vrethei, epistrefetai adeia lista
+        }
+
+        List<Reservation> eventReservations = new ArrayList<>();
+
+        // Prosthiki kratisewn tou event sti lista
+        for (Reservation reservation : reservations) {
+            if (reservation.getEvent().equals(event)) {
+                eventReservations.add(reservation);
+            }
+        }
+
+        return eventReservations;
+    }
+
+    // Methodos gia metrisis kratisewn enos sugkekrimenou event
+    public int countReservationsForEvent(int eventId) {
+        Event event = eventServices.getEventUsingID(eventId);
+        if (event == null) {
+            return 0; // An to Event den vrethei, epistrefetai 0
+        }
+
+        int count = 0;
+
+        // Auxisi tou metriti gia kathe kratisi pou antistoixei sto event
+        for (Reservation reservation : reservations) {
+            if (reservation.getEvent().equals(event)) {
+                count++;
+            }
+        }
+
+        return count;
+    }
 }

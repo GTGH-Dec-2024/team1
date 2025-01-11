@@ -9,12 +9,13 @@ import com.team1.eventproject.entities.Visitor;
 
 @Service
 public class VisitorServices {
-	private ArrayList<Visitor> allVisitors;
+	// The class VisitorServices stores all the visitors in the list allVisitors.
+	private ArrayList<Visitor> allVisitors;  
 	
-	
+	// Method addVisitor adds a new visitor to the allVisitors list
 	public List<Visitor> addVisitor (int id, String name, String surname, String email)
 	{
-		Visitor temp = new Visitor(id, name, surname, email);
+		Visitor temp = new Visitor(name, surname, email); // To id den prepei na einai ston constructor giati auto orizetai automata apo tin klasi visitor
 		if (!allVisitors.contains(temp))
 		{
 			allVisitors.add(temp);
@@ -28,7 +29,7 @@ public class VisitorServices {
 	}
 	
 	
-	
+	// Method which returns visitor based on his id
 	public Visitor getVisitorUsingID(int id)
 	{
 		for (Visitor visitor : allVisitors) 
