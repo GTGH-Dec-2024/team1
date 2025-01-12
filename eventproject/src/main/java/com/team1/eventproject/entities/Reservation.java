@@ -50,8 +50,11 @@ public class Reservation {
 			
 		}
 	    
-	    
-	    
+		@Override
+		public String toString() {
+		    return "Reservation [id=" + id + ", visitor=" + visitor + ", event=" + event + "]";
+		}
+	    // Prepei na exei toString h vistor kai h event!
 	   
 	           
 
