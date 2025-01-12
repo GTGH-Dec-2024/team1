@@ -93,7 +93,7 @@ public class ApprovalRequestServices {
 		}
 
 		else {
-			eventServices.deleteEvent(tempRequest.getAnEvent().getId(), employeeID);
+			eventServices.deleteEvent(tempRequest.getAnEvent().getId());
 		}
 
 		tempRequest.setIsApproved(true); // used to return a list of approved requests
@@ -259,4 +259,18 @@ public class ApprovalRequestServices {
 		return null;
 	}
 
+	
+	public String removeApprovalRequest(int id) {
+		ApprovalRequest temp = getApprovalRequestUsingID(id);
+		
+		if (temp.getStatus().equalsIgnoreCase("open"))
+		{
+			allRequests.remove(temp);
+			return "The request to " + temp.getType() +" the event: "
+					+temp.getAnEvent().getTitle()+ " has been removed.";
+		}
+		else
+			return "The request has already been handled, it can't be removed";
+		
+	}
 }

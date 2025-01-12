@@ -48,6 +48,9 @@ public class ReservationServices {
             if (reservation.getVisitor().equals(visitor) && reservation.getEvent().equals(event)) {
                 return "This reservation already exists.";
             }
+            
+            //EVA:Add reservation to the list!!
+            //EVA:Using eventServices, update currentCapacity of Event!
         }
         
         /*
@@ -104,10 +107,13 @@ public class ReservationServices {
         if (reservationToCancel != null) {
             reservations.remove(reservationToCancel);
             return "Reservation cancelled for event: " + event.getTitle();
+            //EVA:Using eventServices, update currentCapacity of Event!
         }
 
         // Epistrofi minimatos an den vrethei i kratisi
         return "Reservation not found in order to be canceled.";
+        
+        
     }
 
     // Methodos gia epistrofi olwn twn kratisewn
@@ -182,4 +188,24 @@ public class ReservationServices {
 		}
 		return null;
     }
+    
+    public String cancelAllReservationsofEvent (int eventID)
+    {
+    	Event anEvent = eventServices.getEventUsingID(eventID);
+    	 if (anEvent == null) 
+    	 {
+    		 return "The id provided doesn't match to any event";
+    	 }
+    	 
+    	 for (Reservation res : reservations)
+    	 {
+    		 if (res.getEvent().equals(anEvent))
+    		 {
+    			 this.cancelReservation(res.getId());
+    		 }
+    	 }
+    	 return "All reservations for the event: " +anEvent.getTitle()
+    	 	+ " have been cancelled";
+    }
+    
 }
