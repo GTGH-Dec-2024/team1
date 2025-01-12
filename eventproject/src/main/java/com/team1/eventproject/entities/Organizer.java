@@ -9,13 +9,12 @@ import com.team1.eventproject.services.EventServices;
 public class Organizer extends User {
 	private String afm;
 	private String description;
-	private static int counter = 1;
 	private int id;
 	private ArrayList<Event> events;
 
-	public Organizer(String name, String surname, String afm, String description) {
+	public Organizer(String name, String surname, String afm, String description, int id) {
 		super(name, surname);
-		this.id = counter++; //the id is given automatically by the program
+		this.id = id;
 		this.afm = afm;
 		this.description = description;
 		this.events = new ArrayList<Event>();
@@ -43,6 +42,12 @@ public class Organizer extends User {
 
 	public void setEvents(ArrayList<Event> events) {
 		this.events = events;
+	}
+	
+	
+
+	public int getId() {
+		return id;
 	}
 
 	@Override
