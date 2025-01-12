@@ -27,165 +27,154 @@ public class ApprovalRequestServices {
 		allRequests = new ArrayList<>();
 	}
 
-	
 	/*
-	 * Makes an ApprovalRequest object by using the ApprovalRequest
-	 * constructor. By default, when making a request its status
-	 * is "open"
+	 * Makes an ApprovalRequest object by using the ApprovalRequest constructor. By
+	 * default, when making a request its status is "open"
 	 * 
-	 * After making the ApprovalRequest, it is added to the list of
-	 * all the Requests.
+	 * After making the ApprovalRequest, it is added to the list of all the
+	 * Requests.
 	 * 
 	 * 
 	 */
-	public void addApprovalRequest(String type, int OrganizerID, int eventID, String comments)
-	{
+	public void addApprovalRequest(String type, int OrganizerID, int eventID, String comments) {
 		Organizer tempOrganizer = organizerServices.getOrganizerUsingID(OrganizerID);
 		Event tempEvent = eventServices.getEventUsingID(eventID);
-		
+
 		/*
-		 * We want all IDs to be given automatically. Therefore, we
-		 * use the allEmployees list to help us. If the list is empty,
-		 * then we know it is the first object that will be made so its
-		 * id will be set to 1.
+		 * We want all IDs to be given automatically. Therefore, we use the allEmployees
+		 * list to help us. If the list is empty, then we know it is the first object
+		 * that will be made so its id will be set to 1.
 		 * 
-		 * Otherwise, we find the ID of the last object that was added,
-		 * and by increasing it by 1 we get the new id!
+		 * Otherwise, we find the ID of the last object that was added, and by
+		 * increasing it by 1 we get the new id!
 		 * 
 		 */
-		int id; 
-		if(allRequests.isEmpty()){
+		int id;
+		if (allRequests.isEmpty()) {
 			id = 1;
-			
-		}else
-		{
+
+		} else {
 			id = allRequests.get(allRequests.size() - 1).getId() + 1;
 		}
-		
-		ApprovalRequest aRequest = new ApprovalRequest(type, LocalDateTime.now(),
-				tempOrganizer, tempEvent, comments, id);
-		
+
+		ApprovalRequest aRequest = new ApprovalRequest(type, LocalDateTime.now(), tempOrganizer, tempEvent, comments,
+				id);
+
 		allRequests.add(aRequest);
-	  
+
 	}
-	
-	
-	
+
 	/*
 	 * First, we check if the request is valid.
 	 * 
-	 * If it is a request to register an Event, we set its status
-	 * to "approved".
+	 * If it is a request to register an Event, we set its status to "approved".
 	 * 
-	 * If it is a request to delete an Event, we call the deleteEvent
-	 * method from EventManager
+	 * If it is a request to delete an Event, we call the deleteEvent method from
+	 * EventManager
 	 * 
-	 * Afterwards, the request is updated to "closed", and we add the 
-	 * employee who handled it. A message is printed.
+	 * Afterwards, the request is updated to "closed", and we add the employee who
+	 * handled it. A message is printed.
 	 * 
 	 */
 
-	public void acceptRequest(int requestID, int employeeID) {
+	public String acceptRequest(int requestID, int employeeID) {
 
-		ApprovalRequest tempRequest = this.isValid(requestID, employeeID);
+		ValidService validationResult = this.isValid(requestID, employeeID);
 
-		if (tempRequest == null)
-			return;
+		if (!validationResult.isValid()) {
+			return validationResult.getMessage();
+		}
 
-		if (tempRequest.getType().equalsIgnoreCase("register")) 
-		{
+		ApprovalRequest tempRequest = validationResult.getRequest();
+
+		if (tempRequest.getType().equalsIgnoreCase("register")) {
 			tempRequest.getAnEvent().setStatus("approved");
-	
+
 		}
-		 
-		else
-		{
-			eventServices.deleteEvent(tempRequest.getAnEvent().getId(),employeeID);
+
+		else {
+			eventServices.deleteEvent(tempRequest.getAnEvent().getId(), employeeID);
 		}
-		
-		tempRequest.setIsApproved(true); //used to return a list of approved requests
+
+		tempRequest.setIsApproved(true); // used to return a list of approved requests
 		Employee tempEmployee = employeeServices.getEmployeeUsingID(employeeID);
 		this.closeRequest(tempRequest, tempEmployee, "The request has been accepted");
 
-		System.out.println(
-				"The employee " + tempEmployee.getName() + " " + tempEmployee.getSurname() + " has just ACCEPTED to "
-						+ tempRequest.getType() + "the following event: " + tempRequest.getAnEvent() + "\n");
+		return "The employee " + tempEmployee.getName() + " " + tempEmployee.getSurname() + " has just ACCEPTED to "
+				+ tempRequest.getType() + "the following event: " + tempRequest.getAnEvent() + "\n";
 
-}
+	}
 
-	
 	/*
 	 * First, we check if the request is valid.
 	 * 
-	 * If it is a request to register an Event, we set its status
-	 * to "not-approved".
+	 * If it is a request to register an Event, we set its status to "not-approved".
 	 * 
-	 * If the request is to delete an Event, when the employee 
-	 * denies it the Event status remains the same
+	 * If the request is to delete an Event, when the employee denies it the Event
+	 * status remains the same
 	 * 
-	 * Afterwards, the request is updated to "closed", and we add the 
-	 * employee who handled it. A message is printed.
+	 * Afterwards, the request is updated to "closed", and we add the employee who
+	 * handled it. A message is printed.
 	 * 
 	 */
-	public void denyRequest(int requestID, int employeeID) {
+	public String denyRequest(int requestID, int employeeID) {
 
-		ApprovalRequest tempRequest = this.isValid(requestID, employeeID);
-		if (tempRequest == null)
-			return;
+		ValidService validationResult = this.isValid(requestID, employeeID);
 
-		if (tempRequest.getType().equalsIgnoreCase("register")) 
-		{
+		if (!validationResult.isValid()) {
+			return validationResult.getMessage();
+		}
+
+		ApprovalRequest tempRequest = validationResult.getRequest();
+		if (tempRequest.getType().equalsIgnoreCase("register")) {
 			tempRequest.getAnEvent().setStatus("not-approved");
 		}
 		// no change when the request type is "delete"
-		
+
 		Employee tempEmployee = employeeServices.getEmployeeUsingID(employeeID);
 
 		closeRequest(tempRequest, tempEmployee, "The request has been denied");
 
-		System.out.println(
-				"The employee " + tempEmployee.getName() + " " + tempEmployee.getSurname() + " has just DENIED to "
-						+ tempRequest.getType() + "the following event: " + tempRequest.getAnEvent() + "\n");
+		return "The employee " + tempEmployee.getName() + " " + tempEmployee.getSurname() + " has just DENIED to "
+						+ tempRequest.getType() + "the following event: " + tempRequest.getAnEvent() + "\n";
 	}
 
-	
 	/*
-	 * Checks if the request can be processed. 
+	 * Checks if the request can be processed.
 	 * 
-	 * Both the Request and the Employee objects have to 
-	 * be !=null, and the Request status must not be "closed"
+	 * * Both the ApprovalRequest and the Employee objects must be non-null, and the Request
+	 * status must not be "closed". If any of these conditions fail, the method
+	 * returns a ValidService object with the appropriate error message.
 	 * 
-	 *
+	 * This method was made to avoid duplicate code in acceptRequest and
+	 * deleteReques. The ValidService class was made to help.
+	 * 
 	 */
-	private ApprovalRequest isValid(int requestID, int employeeID) {
+	private ValidService isValid(int requestID, int employeeID) {
 		Employee tempEmployee = employeeServices.getEmployeeUsingID(employeeID);
 
 		if (tempEmployee == null) {
-			System.out.println("There is no employee with this id! The request can't be handled");
-			return null;
+			return new ValidService(null, false, "There is no employee with this id! The request can't be handled");
 		}
 
 		ApprovalRequest tempRequest = this.getApprovalRequestUsingID(requestID);
 
 		if (tempRequest == null) {
-			System.out.println("The request ID is invalid");
-			return null;
+			return new ValidService(null, false, "The request ID is invalid");
 		}
 
 		if (tempRequest.getStatus().equalsIgnoreCase("closed")) {
-			System.out.println("The request with ID: " + requestID + " has already been handled.");
-			return null;
+			return new ValidService(tempRequest, false,
+					"The request with ID: " + requestID + " has already been handled.");
 		}
 
-		return tempRequest;
+		return new ValidService(tempRequest, true, "Request is valid");
 	}
 
-	
-	
 	/*
-	 * Updates the necessary fields of an ApprovalRequest object
-	 * to close the request
-	 * 		  
+	 * Updates the necessary fields of an ApprovalRequest object to close the
+	 * request
+	 * 
 	 */
 
 	private void closeRequest(ApprovalRequest aRequest, Employee anEmployee, String comment) {
@@ -198,8 +187,6 @@ public class ApprovalRequestServices {
 		}
 	}
 
-	
-	
 	public ApprovalRequest getApprovalRequest(Event anEvent, String requestType) {
 		for (ApprovalRequest i : allRequests) {
 			if (i.getAnEvent().equals(anEvent) && i.getType().equalsIgnoreCase(requestType)) {
@@ -209,7 +196,6 @@ public class ApprovalRequestServices {
 		}
 		return null;
 	}
-
 
 	/*
 	 * Used by the employee to see which requests still haven't been handled.
@@ -226,27 +212,21 @@ public class ApprovalRequestServices {
 		System.out.println("--The pending requests are--/n" + pendingRequests);
 	}
 
-	
-	
 	/*
-	 * Returns all the ApprovalRequests that have been 
-	 * approved by an employee
+	 * Returns all the ApprovalRequests that have been approved by an employee
 	 */
 	public ArrayList<ApprovalRequest> getApprovedRequests() {
 		ArrayList<ApprovalRequest> approvedRequests = new ArrayList<>();
-		
-		
+
 		for (ApprovalRequest aRequest : allRequests) {
-			if (aRequest.getIsApproved())
-			{
+			if (aRequest.getIsApproved()) {
 				approvedRequests.add(aRequest);
 			}
 		}
 		return approvedRequests;
-		
+
 	}
-	
-	
+
 	/*
 	 * Returns all the ApprovalRequests that have been handled by an employee.
 	 * 
@@ -266,10 +246,8 @@ public class ApprovalRequestServices {
 		return myHandlings;
 	}
 
-	
 	/*
-	 * Given the ID of an ApprovalRequest object, it returns the
-	 * object
+	 * Given the ID of an ApprovalRequest object, it returns the object
 	 * 
 	 */
 	public ApprovalRequest getApprovalRequestUsingID(int id) {
