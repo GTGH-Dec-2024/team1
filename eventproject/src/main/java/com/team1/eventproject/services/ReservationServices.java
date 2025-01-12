@@ -79,7 +79,8 @@ public class ReservationServices {
         // Otan prosthetoume kratisi gia ton Visitor prepei to currentCapacity tou antistoixou Events na ginetai -1
     }
 
- 
+     // ERWTHSH: An theloume na akurwsoume to reservation enos sugekrimenou visitor h event pws tha to kanoume?
+     // Tha prepei kapws na vriskoume to id tou reservation se poio visitor kai enent id antistoixei?
     
     // Methodos gia akyrwsi kratisis me vasi to ID tis kratisis
     public String cancelReservation(int reservationId) {

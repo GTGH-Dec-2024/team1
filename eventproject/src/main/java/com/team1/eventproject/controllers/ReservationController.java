@@ -35,8 +35,8 @@ public class ReservationController {
 
     // Endpoint for DELETE in /reservations/cancel
     @DeleteMapping("/cancel")
-    public String cancelReservation(@RequestParam int visitorId, @RequestParam int eventId) {
-        return reservationServices.cancelReservation(visitorId, eventId); // cancels reservation
+    public String cancelReservation(@RequestParam int reservationId) {
+        return reservationServices.cancelReservation(reservationId); // cancels reservation
     }
 
     // Endpoint for GET in /reservations/visitor
