@@ -51,6 +51,7 @@ public class ReservationServices {
             
             //EVA:Add reservation to the list!!
             //EVA:Using eventServices, update currentCapacity of Event!
+            
         }
         
         /*
@@ -76,6 +77,7 @@ public class ReservationServices {
         Reservation newReservation = new Reservation(visitor, event, id);
         reservations.add(newReservation);
         return "Reservation made successfully for event: " + event.getTitle();
+        // Otan prosthetoume kratisi gia ton Visitor prepei to currentCapacity tou antistoixou Events na ginetai -1
     }
 
  
@@ -115,6 +117,41 @@ public class ReservationServices {
         
         
     }
+    
+ // Methodos gia enimerosi kratisis
+    public String updateReservation(int reservationId, int newVisitorId, int newEventId) {
+        // Vres tin kratisi me vasi to ID
+        Reservation reservationToUpdate = getReservationUsingID(reservationId);
+
+        if (reservationToUpdate == null) {
+            return "Reservation with ID " + reservationId + " not found.";
+        }
+
+        // Vres ton neo Visitor kai to neo Event
+        Visitor newVisitor = visitorServices.getVisitorUsingID(newVisitorId);
+        Event newEvent = eventServices.getEventUsingID(newEventId);
+
+        if (newVisitor == null) {
+            return "Visitor with ID " + newVisitorId + " not found.";
+        }
+
+        if (newEvent == null) {
+            return "Event with ID " + newEventId + " not found.";
+        }
+
+        // Enimerosi tou Visitor kai tou Event stin kratisi
+        Event oldEvent = reservationToUpdate.getEvent(); // Gia enimerosi tis xoritikotitas
+        reservationToUpdate.setVisitor(newVisitor);
+        reservationToUpdate.setEvent(newEvent);
+
+        // Enimerosi xoritikotitas
+        //eventServices.updateEventCapacity(oldEvent.getId(), oldEvent.getCurrentCapacity() + 1); // Auxisi xoritikotitas tou paliou event
+        //eventServices.updateEventCapacity(newEvent.getId(), newEvent.getCurrentCapacity() - 1); // Meiosi xoritikotitas tou neou event
+
+        return "Reservation with ID " + reservationId + " updated successfully.";
+    }
+    
+    
 
     // Methodos gia epistrofi olwn twn kratisewn
     public List<Reservation> getAllReservations() {
@@ -189,6 +226,8 @@ public class ReservationServices {
 		return null;
     }
     
+    // Method which deletes all reservations of one event. Called when Event is Deleted?
+    // Den prepei na kanoume alli mia  delete all events of Visitor, otan diagrafetai o Visitor?
     public String cancelAllReservationsofEvent (int eventID)
     {
     	Event anEvent = eventServices.getEventUsingID(eventID);

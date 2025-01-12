@@ -37,6 +37,18 @@ public class Reservation {
 		public int getId() {
 			return id;
 		}
+
+
+		public void setVisitor(Visitor newVisitor) {
+			// TODO Auto-generated method stub
+			
+		}
+
+
+		public void setEvent(Event newEvent) {
+			// TODO Auto-generated method stub
+			
+		}
 	    
 	    
 	    
