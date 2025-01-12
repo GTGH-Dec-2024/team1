@@ -57,6 +57,14 @@ public class EmployeeServices {
 		
 		
 		
+		public String removeEmployee(int id) {
+			Employee temp = getEmployeeUsingID(id);
+			allEmployees.remove(temp);
+			return "Employee " + temp.getName() +"has been removed.";
+		}
+
+
+
 		public Employee getEmployeeUsingID(int id)
 		{
 			for (Employee employee : allEmployees) 

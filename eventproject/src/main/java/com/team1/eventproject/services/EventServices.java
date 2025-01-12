@@ -198,5 +198,13 @@ public class EventServices {
 	public ArrayList<Event> getAllEvents() {
 		return allEvents;
 	}
+	
+	
+	//We need a method to increase currentCapacity of Event
+	//AND another one to decrease it
+	//(they will be called by reservationServices when a reservation
+	//is made or cancelled)
+	
+	
 
 }
