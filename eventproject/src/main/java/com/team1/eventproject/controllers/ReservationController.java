@@ -15,12 +15,7 @@ public class ReservationController {
     @Autowired
     private ReservationServices reservationServices; // Injection of service ReservationServices
 
-    // Endpoint for GET in /reservations/hello
-    @GetMapping("/hello")
-    public String hello() {
-        return "Hello from Reservation Controller";
-    }
-
+    
     // Endpoint for GET in /reservations/all
     @GetMapping("/all")
     public List<Reservation> getAllReservations() {
@@ -30,7 +25,7 @@ public class ReservationController {
     // Endpoint for POST in /reservations/add
     @PostMapping("/add")
     public String addReservation(@RequestParam int visitorId, @RequestParam int eventId) {
-        return reservationServices.addReservation(visitorId, eventId); // Προσθέτει μια νέα κράτηση
+        return reservationServices.addReservation(visitorId, eventId); // adds a new reservation
     }
 
     // Endpoint for DELETE in /reservations/cancel
@@ -38,7 +33,17 @@ public class ReservationController {
     public String cancelReservation(@RequestParam int reservationId) {
         return reservationServices.cancelReservation(reservationId); // cancels reservation
     }
-
+    
+    // Endpoint for UPDATE in /reservations/update/{id}
+    @PutMapping("/update/{id}")
+    public String updateReservation(
+            @PathVariable int id,
+            @RequestParam int newVisitorId,
+            @RequestParam int newEventId) {
+        return reservationServices.updateReservation(id, newVisitorId, newEventId);
+    }
+    
+    
     // Endpoint for GET in /reservations/visitor
     @GetMapping("/visitor")
     public List<Reservation> getReservationsByVisitor(@RequestParam int visitorId) {
@@ -61,5 +66,11 @@ public class ReservationController {
     @GetMapping("/{id}")
     public Reservation getReservationById(@PathVariable int id) {
         return reservationServices.getReservationUsingID(id); // Returns a reservation based on its ID
+    }
+    
+    // Endpoint for DELETE in /delete/event/{eventId}
+    @DeleteMapping("/delete/event/{eventId}")
+    public String cancelAllReservationsOfEvent(@PathVariable int eventId) {
+        return reservationServices.cancelAllReservationsofEvent(eventId);
     }
 }
