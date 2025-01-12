@@ -39,6 +39,12 @@ public class Visitor extends User {
 	}
 
 
+	public void setEmail(String newEmail) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 
 
 }
