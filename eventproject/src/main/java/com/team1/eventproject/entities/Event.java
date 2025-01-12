@@ -19,12 +19,11 @@ public class Event {
 	private String status; // status = "pending" or "approved" or "not-approved" or "deleted"
 	private int currentCapacity;
 	private int id;
-	private static int counter = 1;
 	private int employeeId;
 	private int organizerId;
 
 	public Event(int organizerId, String title, String theme, String description, String location, int maxCapacity,
-			int day, int month, int year, int hour, int minutes, int duration) {
+			int day, int month, int year, int hour, int minutes, int duration, int id) {
 
 		this.organizerId = organizerId;
 		this.title = title;
@@ -39,7 +38,7 @@ public class Event {
 		this.minutes = minutes;
 		this.duration = duration;
 		this.status = "pending";
-		this.id = counter++;
+		this.id = id;
 	}
 
 	public int getId() {

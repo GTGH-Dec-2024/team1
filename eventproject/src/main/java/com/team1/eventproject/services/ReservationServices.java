@@ -49,9 +49,28 @@ public class ReservationServices {
                 return "This reservation already exists.";
             }
         }
-
+        
+        /*
+		 * We want all IDs to be given automatically. Therefore, we
+		 * use the allEmployees list to help us. If the list is empty,
+		 * then we know it is the first object that will be made so its
+		 * id will be set to 1.
+		 * 
+		 * Otherwise, we find the ID of the last object that was added,
+		 * and by increasing it by 1 we get the new id!
+		 * 
+		 */
+		int id; 
+		if(reservations.isEmpty()){
+			id = 1;
+			
+		}else
+		{
+			id = reservations.get(reservations.size() - 1).getId() + 1;
+		}
+        
         // Dimiourgia neas kratisis tou visitor gia to event kai prosthiki sti lista
-        Reservation newReservation = new Reservation(visitor, event);
+        Reservation newReservation = new Reservation(visitor, event, id);
         reservations.add(newReservation);
         return "Reservation made successfully for event: " + event.getTitle();
     }

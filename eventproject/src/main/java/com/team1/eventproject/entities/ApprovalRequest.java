@@ -3,8 +3,7 @@ package com.team1.eventproject.entities;
 import java.time.LocalDateTime;
 
 public class ApprovalRequest {
-	private int id;
-	private static int counter = 1;  
+	private int id;  
 	private String type; //is it to "register" or "delete" event
 	private String status; 
 	//is it open (waiting for answer from employee) or closed (employee has answered)
@@ -19,8 +18,8 @@ public class ApprovalRequest {
 	
 	
 	public ApprovalRequest(String type, LocalDateTime createdAt,
-			Organizer submittedBy, Event anEvent, String comments) {
-		this.id = counter++; //the id is given automatically by the program
+			Organizer submittedBy, Event anEvent, String comments, int id) {
+		this.id = id;//the id is given automatically by the program
 		this.type = type;
 		this.createdAt = createdAt;
 		this.submittedBy = submittedBy;

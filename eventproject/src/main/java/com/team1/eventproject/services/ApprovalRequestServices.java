@@ -43,8 +43,28 @@ public class ApprovalRequestServices {
 		Organizer tempOrganizer = organizerServices.getOrganizerUsingID(OrganizerID);
 		Event tempEvent = eventServices.getEventUsingID(eventID);
 		
+		/*
+		 * We want all IDs to be given automatically. Therefore, we
+		 * use the allEmployees list to help us. If the list is empty,
+		 * then we know it is the first object that will be made so its
+		 * id will be set to 1.
+		 * 
+		 * Otherwise, we find the ID of the last object that was added,
+		 * and by increasing it by 1 we get the new id!
+		 * 
+		 */
+		int id; 
+		if(allRequests.isEmpty()){
+			id = 1;
+			
+		}else
+		{
+			id = allRequests.get(allRequests.size() - 1).getId() + 1;
+		}
+		
 		ApprovalRequest aRequest = new ApprovalRequest(type, LocalDateTime.now(),
-				tempOrganizer, tempEvent, comments);
+				tempOrganizer, tempEvent, comments, id);
+		
 		allRequests.add(aRequest);
 	  
 	}

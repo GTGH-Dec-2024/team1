@@ -11,9 +11,38 @@ import com.team1.eventproject.entities.Employee;
 public class EmployeeServices {
 		private ArrayList<Employee> allEmployees;
 		
+		
+		
+		public EmployeeServices(ArrayList<Employee> allEmployees) {
+			this.allEmployees = allEmployees;
+		}
+		
+
+
 		public List<Employee> addEmployee (String name, String surname, String email)
 		{
-			Employee temp = new Employee(name, surname, email);
+			
+			/*
+			 * We want all IDs to be given automatically. Therefore, we
+			 * use the allEmployees list to help us. If the list is empty,
+			 * then we know it is the first object that will be made so its
+			 * id will be set to 1.
+			 * 
+			 * Otherwise, we find the ID of the last object that was added,
+			 * and by increasing it by 1 we get the new id!
+			 * 
+			 */
+			int id; 
+			if(allEmployees.isEmpty()){
+				id = 1;
+				
+			}else
+			{
+				id = allEmployees.get(allEmployees.size() - 1).getId() + 1;
+			}
+	
+			
+			Employee temp = new Employee(email, name, surname, id);
 			if (!allEmployees.contains(temp))
 			{
 				allEmployees.add(temp);

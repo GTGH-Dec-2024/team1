@@ -34,8 +34,27 @@ public class EventServices {
 	public String addEvent(int eventId, int organizerId, String title, String theme, String description, String location,
 			int maxCapacity, int day, int month, int year, int hour, int minutes, int duration, String comments) {
 
+		/*
+		 * We want all IDs to be given automatically. Therefore, we
+		 * use the allEmployees list to help us. If the list is empty,
+		 * then we know it is the first object that will be made so its
+		 * id will be set to 1.
+		 * 
+		 * Otherwise, we find the ID of the last object that was added,
+		 * and by increasing it by 1 we get the new id!
+		 * 
+		 */
+		int id; 
+		if(allEvents.isEmpty()){
+			id = 1;
+			
+		}else
+		{
+			id = allEvents.get(allEvents.size() - 1).getId() + 1;
+		}
+		
 		Event event = new Event(organizerId, title, theme, description, location, maxCapacity, day, month, year, hour,
-				minutes, duration);
+				minutes, duration, id);
 		
 		String message;
 

@@ -5,13 +5,12 @@ import java.util.ArrayList;
 public class Employee extends User {
 
 	private String email;
-	private static int counter = 1;
 	private int id;
 	private ArrayList <Event> deletionsHistory;
 
-	public Employee(String name, String surname, String email) {
+	public Employee(String name, String surname, String email, int id) {
 		super(name, surname);
-		this.id = counter++; //the id is given automatically by the program
+		this.id = id;
 		this.email = email;
 		deletionsHistory = new ArrayList<>();
 	}
