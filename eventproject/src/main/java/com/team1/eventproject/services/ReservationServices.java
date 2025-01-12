@@ -125,7 +125,7 @@ public class ReservationServices {
         if (newEvent == null) {
             return "Event with ID " + newEventId + " not found.";
         }
-
+        // Den eimai sigouri an einai swstos tropos
         // Enimerosi tou Visitor kai tou Event stin kratisi
         Event oldEvent = reservationToUpdate.getEvent(); // Gia enimerosi tis xoritikotitas
         reservationToUpdate.setVisitor(newVisitor);
