@@ -66,4 +66,5 @@ public class VisitorController {
         }
         return new ResponseEntity<>("Visitor not found.", HttpStatus.NOT_FOUND);
     }
+
 }
