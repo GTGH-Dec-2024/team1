@@ -69,9 +69,16 @@ public class EventServices {
 
 	
 	//method to delete an event given its id
-	public void deleteEvent(Integer eventId) {
+	public String deleteEvent(Integer eventId) {
 		Event event = getEventUsingID(eventId);
+		if (event == null || event.getStatus().equalsIgnoreCase("deleted"))
+		{
+			return "Event not found or has already been deleted";
+		}
 		event.setStatus("deleted");
+		String message = reservationServices.cancelAllReservationsForEvent(eventId);
+		
+		return "The event "+ event.getTitle() +" has been deleted. " +message;
 	}
 
 	

@@ -208,29 +208,33 @@ public class ReservationServices {
 		}
 		return null;
     }
- /*   
+    
     // Method which deletes all reservations of one event. Called when Event is Deleted?
     // Den prepei na kanoume alli mia  delete all events of Visitor, otan diagrafetai o Visitor?
-    public String cancelAllReservationsofEvent (int eventID)
+    public String cancelAllReservationsForEvent (Integer eventID)
     {
     	Event anEvent = eventServices.getEventUsingID(eventID);
     	 if (anEvent == null) 
     	 {
-    		 return "The id provided doesn't match to any event";
+    		 return "There is no such event!";
     	 }
     	 
-    	 for (Reservation res : reservations)
-    	 {
-    		 if (res.getEvent().equals(anEvent))
-    		 {
-    			 this.cancelReservation(res.getId());
-    		 }
-    	 }
-    	 return "All reservations for the event: " +anEvent.getTitle()
-    	 	+ " have been cancelled";
+    	 List<Reservation> tempReservations = getReservationsByEvent(eventID);
+    			 
+    	if(tempReservations.isEmpty())
+    	{
+    		return "This event doesn't have any reservations";
+
+    	}
+    				
+    	 for (Reservation reservation : tempReservations) {
+ 	        cancelReservation(reservation.getId());
+ 	    }		
+    				
+    	 return "All reservations for this event have been cancelled";
     }
     
-    */
+  
     
     
     
@@ -255,12 +259,16 @@ public class ReservationServices {
     }
     
     
+    /*
+     * Takes the ID of a visitor and  then, using the cancelReservation
+     * method, it cancels all the reservations they have made.
+     */
     public String cancelAllReservationsForVisitor (Integer visitorID)
     {
     	 List<Reservation> tempReservations = getReservationsByVisitor(visitorID);
 
     	    if (tempReservations.isEmpty()) {
-    	        return "This visitor hadn't made any reservations";
+    	        return "This visitor hasn't made any reservations";
     	    }
 
 
@@ -268,7 +276,7 @@ public class ReservationServices {
     	        cancelReservation(reservation.getId());
     	    }
 
-    	    return "All reservations for visitor with ID " + visitorID + " have been cancelled.";
+    	    return "All reservations for this visitor have been cancelled.";
     }
     
 }

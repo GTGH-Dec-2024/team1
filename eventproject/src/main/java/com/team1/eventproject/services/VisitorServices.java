@@ -92,16 +92,17 @@ public class VisitorServices {
         return false; // Visitor not found
     }
 
-    // Method to delete a visitor. When a visitor gets deleted, all the
-    //reservations they have made get cancelled automatically.
+    /*
+     *  Method to delete a visitor. When a visitor gets deleted, all the
+     *  reservations they have made get cancelled automatically.
+     */
+   
     public String deleteVisitor(Integer visitorId) {
     	Visitor temp = getVisitorUsingID(visitorId);
-		if (temp == null)
-			return "Visitor not found";
 		
-		if (temp.getStatus().equalsIgnoreCase("deleted"))
-			return "Visitor has already been deleted";
-		
+    	if (temp == null || temp.getStatus().equalsIgnoreCase("deleted"))
+			return "Visitor not found or has already been deleted";
+	
 		temp.setStatus("deleted");
 		
 		String message = reservationServices.cancelAllReservationsForVisitor(visitorId);
