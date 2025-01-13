@@ -2,11 +2,14 @@ package com.team1.eventproject.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.team1.eventproject.entities.Event;
 import com.team1.eventproject.entities.Organizer;
+import com.team1.eventproject.entities.Reservation;
 import com.team1.eventproject.entities.Visitor;
 
 
@@ -17,6 +20,33 @@ public class OrganizerServices {
 	 @Autowired
 	    private EventServices eventServices;
 	 
+	 @Autowired
+	    private ReservationServices reservationServices;
+	 
+	    // Method to get participants of an event by organizer ID and event ID
+	    // O Organizer vlepei lista participant gia tin ekdilosi tou. Sugekrimeni?
+	    public List<Visitor> getEventParticipants(Integer organizerId, Integer eventId) {
+	        // Find the event based on the eventId and organizerId
+	        Event event = eventServices.getEventUsingID(eventId);
+
+	        if (event == null) {
+	            throw new IllegalArgumentException("Event with ID " + eventId + " not found.");
+	        }
+
+	        if (!event.getOrganizerId().equals(organizerId)) {
+	            throw new IllegalArgumentException("Event does not belong to the organizer with ID " + organizerId);
+	        }
+
+	        // Get all reservations for this event
+	        List<Reservation> reservations = reservationServices.getReservationsByEvent(eventId);
+	        
+	        // Get the list of visitors (participants) from the reservations
+	        List<Visitor> participants = reservations.stream()
+	            .map(Reservation::getVisitor) // Get the visitor from each reservation
+	            .collect(Collectors.toList());
+
+	        return participants; // Return the list of participants (Visitors)
+	    }
 	
 	     /*
 	     * Adds a new Organizer to the list.

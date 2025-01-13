@@ -68,13 +68,13 @@ public class VisitorServices {
 		for (Visitor visitor : allVisitors) 
 		{
 			if (visitor.getId().equals(id)) {  // Changed == to .equals() for Integer comparison
-	        {
+	        
 	            return visitor;
 	        }
 	    }
 	    return null;
 	    } 
-	}
+	
 
 	// Method to get all visitors
     public List<Visitor> getAllVisitors() {
