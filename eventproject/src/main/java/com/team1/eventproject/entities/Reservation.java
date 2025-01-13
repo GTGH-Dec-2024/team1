@@ -6,9 +6,9 @@ import java.util.List;
 
 public class Reservation {
 	    // The visitor who has made the reservation
-		private final Visitor visitor;  // connection with the class Visitor 
+		private Visitor visitor;  // connection with the class Visitor 
 	    // The event to which the reservation has been made
-		private final Event event;  // connection with the class Event
+		private Event event;  // connection with the class Event
 	    // visitor and event must be final so that they can not change for the specific reservation????
 		
 		private int id;
