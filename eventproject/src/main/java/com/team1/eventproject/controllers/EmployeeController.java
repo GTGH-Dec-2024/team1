@@ -35,6 +35,11 @@ public class EmployeeController {
 		return employeeservices.getAllEmployees();
 	}
 	
+	@GetMapping("/activeEmployees")
+	public List<Employee> getAllActiveEmployees(){
+		return employeeservices.getAllActiveEmployees();
+	}
+	
 
 
 }

@@ -2,6 +2,7 @@ package com.team1.eventproject.services;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -38,11 +39,26 @@ public class ApprovalRequestServices {
 	 * 
 	 * 
 	 */
-	public void addApprovalRequest(String type, Integer OrganizerID, Integer eventID, String comments) {
+	public String addApprovalRequest(String type, Integer organizerID, Integer eventID, String comments) {
 		
-		Organizer tempOrganizer = organizerServices.getOrganizerUsingID(OrganizerID);
+		Organizer tempOrganizer = organizerServices.getOrganizerUsingID(organizerID);
 		Event tempEvent = eventServices.getEventUsingID(eventID);
-
+		
+		if (tempOrganizer == null)
+		{
+			return "Organizer not found. There is no organizers with ID " +organizerID;
+		}
+		
+		if (tempEvent ==null)
+		{
+			return "Event not found. There is no event with ID " +eventID;
+		}
+		
+		if (!type.equalsIgnoreCase("delete") && !type.equals("add") )
+		{
+			return "The only acceptable types of requests are add/delete.";
+		}
+		
 		/*
 		 * We want all IDs to be given automatically. Therefore, we use the allRequests
 		 * list to help us. If the list is empty, then we know it is the first object
@@ -64,6 +80,9 @@ public class ApprovalRequestServices {
 				id);
 
 		allRequests.add(aRequest);
+		
+		return "A request to " +type+ " the event " +tempEvent.getTitle() +" has been added."
+				+ "The id of the request is: " +aRequest.getId();
 
 	}
 
@@ -205,14 +224,14 @@ public class ApprovalRequestServices {
 	 * 
 	 * When a request hasn't been handled yet, its status is "open"
 	 */
-	public String getPendingRequests() {
+	public List<ApprovalRequest> getPendingRequests() {
 		ArrayList<ApprovalRequest> pendingRequests = new ArrayList<>();
 		for (ApprovalRequest aRequest : allRequests) {
 			if (aRequest.getStatus().equals("open")) {
 				pendingRequests.add(aRequest);
 			}
 		}
-		return "--The pending requests are--/n" + pendingRequests;
+		return pendingRequests;
 	}
 
 	
@@ -267,6 +286,11 @@ public class ApprovalRequestServices {
 	
 	public String removeApprovalRequest(Integer id) {
 		ApprovalRequest temp = getApprovalRequestUsingID(id);
+		
+		if (temp == null)
+		{
+			return "There is no request with the id you provided!";
+		}
 		
 		if (temp.getStatus().equalsIgnoreCase("open"))
 		{
