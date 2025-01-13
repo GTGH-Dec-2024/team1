@@ -107,7 +107,29 @@ public class EmployeeServices {
 		    return activeEmployees;
 		}
 	
-		
+		 /*
+	     * Updates an employee's details.
+	     * Returns a success or error message.
+	     */
+	    public String updateEmployee(Integer id, String newName, String newSurname, String newEmail) {
+	        Employee employee = getEmployeeUsingID(id);
+
+	        if (employee == null) {
+	            return "Employee with ID " + id + " not found.";
+	        }
+
+	        if (employee.getStatus().equalsIgnoreCase("deleted")) {
+	            return "Cannot update a deleted employee.";
+	        }
+
+	        // Update employee details
+	        employee.setName(newName);
+	        employee.setSurname(newSurname);
+	        employee.setEmail(newEmail);
+
+	        return "Employee with ID " + id + " updated successfully.";
+	    }
+	}
 		
 
 }
