@@ -67,29 +67,27 @@ public class EventServices {
 		return message;
 	}
 
-	
-	//method to delete an event given its id
+	// method to delete an event given its id
 	public void deleteEvent(Integer eventId) {
 		Event event = getEventUsingID(eventId);
 		event.setStatus("deleted");
 	}
 
-	
-	//method to update an event's status
+	// method to update an event's status
 	public void updateEvent(Integer eventId, String newEventStatus) {
 		Event event = getEventUsingID(eventId);
 		event.setStatus(newEventStatus);
 	}
-	
+
 	public ArrayList<Event> getEventsForOrganizer(Integer organizerId) {
 		ArrayList<Event> organizerEvents = new ArrayList<>();
-		
-		for(Event event : allEvents) {
-			if(organizerId == event.getOrganizerId()) {
+
+		for (Event event : allEvents) {
+			if (organizerId == event.getOrganizerId()) {
 				organizerEvents.add(event);
 			}
 		}
-		
+
 		return organizerEvents;
 	}
 
@@ -125,9 +123,9 @@ public class EventServices {
 	}
 
 	public void getReservationsForOrganizersEvents() {
-		
+
 	}
-	
+
 	// searchEvents is the same as getting a certain event-->getEvent
 	public List<Event> searchEvents(Integer id, Integer day, Integer month, Integer year, String location,
 			String theme) {
@@ -159,13 +157,32 @@ public class EventServices {
 		return allEvents;
 	}
 
-	
 	// We need a method to increase currentCapacity of Event
 	// AND another one to decrease it
 	// (they will be called by reservationServices when a reservation
 	// is made or cancelled)
-	
-	public void decreaseCurrentCapacity() {}
-	public void increaseCurrentCapacity() {}
 
+	public String decreaseCurrentCapacity(Integer eventId) {
+		Event event = getEventUsingID(eventId);
+		String message;
+		if(event != null) {
+			event.setCurrentCapacity(event.getCurrentCapacity()-1);
+			message="Current capacity of event decreased succesfully!";
+		}else {
+			message="Event not found!";
+		}
+		return message;
+	}
+
+	public String increaseCurrentCapacity(Integer eventId) {
+		Event event = getEventUsingID(eventId);
+		String message;
+		if(event != null && event.getCurrentCapacity()>0) {
+			event.setCurrentCapacity(event.getCurrentCapacity()+1);
+			message="Current capacity of event decreased succesfully!";
+		}else {
+			message="Event not found or the capacity if full!";
+		}
+		return message;
+	}
 }
