@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.springframework.stereotype.Service;
 import com.team1.eventproject.services.EventServices;
 
-@Service
+
 public class Organizer extends User {
 	private String afm;
 	private String description;
