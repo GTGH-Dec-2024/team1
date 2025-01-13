@@ -6,19 +6,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import com.team1.eventproject.entities.Employee;
 import com.team1.eventproject.entities.Event;
 import com.team1.eventproject.entities.Reservation;
-import com.team1.eventproject.entities.Visitor;
 
 @Service
 public class EventServices {
 
 	@Autowired
+	@Lazy
 	ApprovalRequestServices approvalRequestServices;
 	@Autowired
+    @Lazy
+
 	ReservationServices reservationServices;
 
 	private ArrayList<Event> allEvents = new ArrayList<>();
@@ -187,6 +189,13 @@ public class EventServices {
 	}
 	
 	
+	
+	/*
+	 * This method takes the ID of an organizer, and utilizes the
+	 * getUpcomingEventsPerOrganizer method to find and delete
+	 * all their planned events. 
+	 * 
+	 */
 	public String cancelAllEventsForOrganizer(Integer organizerID)	
 	{
 		 List<Event> tempEvents = getUpcomingEventsPerOrganizer(organizerID);
@@ -203,6 +212,10 @@ public class EventServices {
  	    return "All events for this organizer have been cancelled.";
 	}
 	
+	/*
+	 * Utilizes the title of an event (String) to return the event ID
+	 *
+	 */
 	public Integer getEventIDFromTitle(String title)
 	{
 		for (Event event: allEvents)

@@ -19,7 +19,7 @@ public class EmployeeServices {
 		
 
 
-		public List<Employee> addEmployee (String name, String surname, String email)
+		public String addEmployee (String name, String surname, String email)
 		{
 			
 			/*
@@ -49,10 +49,10 @@ public class EmployeeServices {
 			}
 			else
 			{
-				System.out.println("The employee: " +temp.getName()+ temp.getSurname()+
+				return("The employee: " +temp.getName()+ temp.getSurname()+
 						" has already been added");
 			}
-			return allEmployees;
+			return "The employee " +name + " " + surname +" has been added successfully!";
 		}
 		
 		
@@ -79,6 +79,12 @@ public class EmployeeServices {
 		    }
 		    return null; 
 		}
+		
+		
+		public List<Employee> getAllEmployees() {
+			return allEmployees;
+		}
+	
 		
 		
 
