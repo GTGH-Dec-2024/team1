@@ -55,7 +55,7 @@ public class ReservationServices {
         
         /*
 		 * We want all IDs to be given automatically. Therefore, we
-		 * use the allReservations list to help us. If the list is empty,
+		 * use the reservations list to help us. If the list is empty,
 		 * then we know it is the first object that will be made so its
 		 * id will be set to 1.
 		 * 
@@ -69,7 +69,7 @@ public class ReservationServices {
 			
 		}else
 		{
-			id = reservations.get(reservations.size() - 1).getId() + 1; //getId==>tou teleutaiou
+			id = reservations.get(reservations.size() - 1).getId() + 1;
 		}
         
         // Dimiourgia neas kratisis tou visitor gia to event kai prosthiki sti lista
@@ -211,23 +211,72 @@ public class ReservationServices {
     
     // Method which deletes all reservations of one event. Called when Event is Deleted?
     // Den prepei na kanoume alli mia  delete all events of Visitor, otan diagrafetai o Visitor?
-    public String cancelAllReservationsofEvent (int eventID)
+    public String cancelAllReservationsForEvent (Integer eventID)
     {
     	Event anEvent = eventServices.getEventUsingID(eventID);
     	 if (anEvent == null) 
     	 {
-    		 return "The id provided doesn't match to any event";
+    		 return "There is no such event!";
     	 }
     	 
-    	 for (Reservation res : reservations)
-    	 {
-    		 if (res.getEvent().equals(anEvent))
-    		 {
-    			 this.cancelReservation(res.getId());
-    		 }
-    	 }
-    	 return "All reservations for the event: " +anEvent.getTitle()
-    	 	+ " have been cancelled";
+    	 List<Reservation> tempReservations = getReservationsByEvent(eventID);
+    			 
+    	if(tempReservations.isEmpty())
+    	{
+    		return "This event doesn't have any reservations";
+
+    	}
+    				
+    	 for (Reservation reservation : tempReservations) {
+ 	        cancelReservation(reservation.getId());
+ 	    }		
+    				
+    	 return "All reservations for this event have been cancelled";
+    }
+    
+  
+    
+    
+    
+    /*
+     * We want visitors to be able to make reservations to Events 
+     * just by giving their ID and the title of the Event. This
+     * method checks which eventID corresponds to the given title
+     * (by calling the getEventIDFromTitle method).
+     * 
+     * Then, it uses the "original" addReservation method of this class,
+     * so that there are no duplicates
+     * 
+     * (In case of the event not being found, the Event id will be 0.
+     * So when the "original" addReservation checks, it will return
+     * an error message) 
+     */
+    public void addReservation (Integer visitorID, String title)
+    {
+    	Integer eventID = eventServices.getEventIDFromTitle(title);
+    	addReservation(visitorID, eventID);
+    	
+    }
+    
+    
+    /*
+     * Takes the ID of a visitor and  then, using the cancelReservation
+     * method, it cancels all the reservations they have made.
+     */
+    public String cancelAllReservationsForVisitor (Integer visitorID)
+    {
+    	 List<Reservation> tempReservations = getReservationsByVisitor(visitorID);
+
+    	    if (tempReservations.isEmpty()) {
+    	        return "This visitor hasn't made any reservations";
+    	    }
+
+
+    	    for (Reservation reservation : tempReservations) {
+    	        cancelReservation(reservation.getId());
+    	    }
+
+    	    return "All reservations for this visitor have been cancelled.";
     }
     
 }

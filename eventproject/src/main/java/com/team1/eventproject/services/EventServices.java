@@ -36,7 +36,7 @@ public class EventServices {
 			Integer minutes, Integer duration, String comments) {
 
 		/*
-		 * We want all IDs to be given automatically. Therefore, we use the allEmployees
+		 * We want all IDs to be given automatically. Therefore, we use the allEvents
 		 * list to help us. If the list is empty, then we know it is the first object
 		 * that will be made so its id will be set to 1.
 		 * 
@@ -69,9 +69,16 @@ public class EventServices {
 
 	
 	//method to delete an event given its id
-	public void deleteEvent(Integer eventId) {
+	public String deleteEvent(Integer eventId) {
 		Event event = getEventUsingID(eventId);
+		if (event == null || event.getStatus().equalsIgnoreCase("deleted"))
+		{
+			return "Event not found or has already been deleted";
+		}
 		event.setStatus("deleted");
+		String message = reservationServices.cancelAllReservationsForEvent(eventId);
+		
+		return "The event "+ event.getTitle() +" has been deleted. " +message;
 	}
 
 	
@@ -167,5 +174,39 @@ public class EventServices {
 	
 	public void decreaseCurrentCapacity() {}
 	public void increaseCurrentCapacity() {}
+	
+	
+	
+	public Integer getEventIDFromTitle(String title)
+	{
+		for (Event event: allEvents)
+		{
+			if (title.equalsIgnoreCase(event.getTitle())) {
+				return event.getId();
+		}
+		
+		}
+		//all event IDs are bigger than 0, so if an Event is not
+		//found, 0 is returned.
+		return 0;
+		
+	}
+	
+		
+	public String cancelAllEventsForOrganizer(Integer organizerID)	
+	{
+		 List<Event> tempEvents = getUpcomingEventsPerOrganizer(organizerID);
 
+ 	    if (tempEvents.isEmpty()) {
+ 	        return "This organizer doesn't have any upcoming events.";
+ 	    }
+
+
+ 	    for (Event event : tempEvents) {
+ 	        deleteEvent(event.getId());
+ 	    }
+
+ 	    return "All events for this organizer have been cancelled.";
+	}
+		
 }

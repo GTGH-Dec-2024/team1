@@ -9,13 +9,15 @@ import com.team1.eventproject.services.EventServices;
 public class Organizer extends User {
 	private String afm;
 	private String description;
-	private int id;
+	private Integer id;
+	private String status;
 	private ArrayList<Event> events;
 
 	public Organizer(String name, String surname, String afm, String description, int id) {
 		super(name, surname);
 		this.id = id;
 		this.afm = afm;
+		this.status = "active";
 		this.description = description;
 		this.events = new ArrayList<Event>();
 	}
@@ -44,7 +46,14 @@ public class Organizer extends User {
 		this.events = events;
 	}
 	
-	
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	public int getId() {
 		return id;
@@ -55,4 +64,6 @@ public class Organizer extends User {
 		return "Organizer [afm=" + afm + ", description=" + description + ", events=" + events + "]";
 	}
     //na valoume id tou organizer stin toString?
+	
+	
 }

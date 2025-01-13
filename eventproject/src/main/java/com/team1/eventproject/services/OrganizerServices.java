@@ -3,22 +3,26 @@ package com.team1.eventproject.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team1.eventproject.entities.Organizer;
+import com.team1.eventproject.entities.Visitor;
 
 
 @Service
 public class OrganizerServices {
 	private ArrayList<Organizer> allOrganizers;
 	
-	
+	 @Autowired
+	    private EventServices eventServices;
+	 
 	public List<Organizer> addOrganizer (String name, String surname, String afm, String description)
 	{
 		
 		/*
 		 * We want all IDs to be given automatically. Therefore, we
-		 * use the allEmployees list to help us. If the list is empty,
+		 * use the allOrganizers list to help us. If the list is empty,
 		 * then we know it is the first object that will be made so its
 		 * id will be set to 1.
 		 * 
@@ -62,6 +66,27 @@ public class OrganizerServices {
 	    }
 	    return null; 
 	}
+	
+	
+	/*
+	 * When an organizer gets deleted, their status becomes "deleted".
+	 * All of their upcoming Events also get deleted.
+	 * 
+	 */
+	  public String deleteOrganizer(Integer organizerId) {
+	    	Organizer temp = getOrganizerUsingID(organizerId);
+			
+	    	if (temp == null || temp.getStatus().equalsIgnoreCase("deleted"))
+				return "Organizer not found or has already been deleted";
+		
+			temp.setStatus("deleted");
+			
+			String message = eventServices.cancelAllEventsForOrganizer(organizerId);
+			return "Organizer " + temp.getName() +" has been deleted. "+ message;
+	        
+	    }
+	
+	
 
 	
 }

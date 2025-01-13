@@ -22,11 +22,11 @@ public class ValidService {
 	
 
     private ApprovalRequest request;
-	private boolean isValid;
+	private Boolean isValid;
     private String message;
 
 
-    public ValidService(ApprovalRequest request, boolean isValid, String message) {
+    public ValidService(ApprovalRequest request, Boolean isValid, String message) {
 		this.request = request;
 		this.isValid = isValid;
 		this.message = message;
@@ -36,7 +36,7 @@ public class ValidService {
         return request;
     }
     
-    public boolean isValid() {
+    public Boolean isValid() {
         return isValid;
     }
 
