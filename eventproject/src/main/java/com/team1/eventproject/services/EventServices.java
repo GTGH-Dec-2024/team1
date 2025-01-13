@@ -185,4 +185,35 @@ public class EventServices {
 		}
 		return message;
 	}
+	
+	
+	public String cancelAllEventsForOrganizer(Integer organizerID)	
+	{
+		 List<Event> tempEvents = getUpcomingEventsPerOrganizer(organizerID);
+
+ 	    if (tempEvents.isEmpty()) {
+ 	        return "This organizer doesn't have any upcoming events.";
+ 	    }
+
+
+ 	    for (Event event : tempEvents) {
+ 	        deleteEvent(event.getId());
+ 	    }
+
+ 	    return "All events for this organizer have been cancelled.";
+	}
+	
+	public Integer getEventIDFromTitle(String title)
+	{
+		for (Event event: allEvents)
+		{
+			if (title.equalsIgnoreCase(event.getTitle())) {
+				return event.getId();
+		}
+		
+		}
+		//all event IDs are bigger than 0, so if an Event is not
+		//found, 0 is returned.
+		return 0;
+}
 }
