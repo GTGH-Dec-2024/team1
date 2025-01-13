@@ -3,14 +3,20 @@ package com.team1.eventproject.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.team1.eventproject.entities.Employee;
+import com.team1.eventproject.entities.Reservation;
 import com.team1.eventproject.entities.Visitor;
 
 @Service
 public class VisitorServices {
 	// The class VisitorServices stores all the visitors in the list allVisitors.
 	private ArrayList<Visitor> allVisitors;  
+	
+	@Autowired
+    private ReservationServices reservationServices;
 	
 	
 	// Constructor
@@ -57,7 +63,7 @@ public class VisitorServices {
 	
 	
 	// Method which returns visitor based on his id
-	public Visitor getVisitorUsingID(int id)
+	public Visitor getVisitorUsingID(Integer id)
 	{
 		for (Visitor visitor : allVisitors) 
 		{
@@ -86,13 +92,20 @@ public class VisitorServices {
         return false; // Visitor not found
     }
 
-    // Method to delete a visitor
-    public boolean deleteVisitor(int id) {
-        Visitor visitor = getVisitorUsingID(id);
-        if (visitor != null) {
-            allVisitors.remove(visitor);
-            return true; // Deletion successful
-        }
-        return false; // Visitor not found
+    // Method to delete a visitor. When a visitor gets deleted, all the
+    //reservations they have made get cancelled automatically.
+    public String deleteVisitor(Integer visitorId) {
+    	Visitor temp = getVisitorUsingID(visitorId);
+		if (temp == null)
+			return "Visitor not found";
+		
+		if (temp.getStatus().equalsIgnoreCase("deleted"))
+			return "Visitor has already been deleted";
+		
+		temp.setStatus("deleted");
+		
+		String message = reservationServices.cancelAllReservationsForVisitor(visitorId);
+		return "Visitor " + temp.getName() +" has been deleted. "+ message;
+        
     }
 }

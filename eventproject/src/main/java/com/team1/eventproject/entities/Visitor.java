@@ -6,17 +6,18 @@ package com.team1.eventproject.entities;
  * 3)If he changes his mind, he can cancel the reservation that he has done.
  */
 
-import java.util.ArrayList;
 
 /* The class Visitor inherits the abstract class User and he has also an email. */
 public class Visitor extends User {
 	private String email;
-	private int id;
+	private String status;
+	private Integer id;
     
 	// Constructor
     public Visitor(String name, String surname, String email, int id) {
         super(name, surname); // Calls the constructor of the superclass User 
         this.id = id;
+        this.status = "active";
         this.email = email;
     }
     
@@ -44,6 +45,17 @@ public class Visitor extends User {
 	    return "Visitor [id=" + id + ", name=" + name + ", surname=" + surname + ", email=" + email + "]";
 	}
 
+
+	public String getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	
 
 
 }

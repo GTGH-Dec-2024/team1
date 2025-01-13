@@ -32,7 +32,7 @@ public class EmployeeServices {
 			 * and by increasing it by 1 we get the new id!
 			 * 
 			 */
-			int id; 
+			Integer id; 
 			if(allEmployees.isEmpty()){
 				id = 1;
 				
@@ -57,19 +57,22 @@ public class EmployeeServices {
 		
 		
 		
-		public String removeEmployee(int id) {
+		public String deleteEmployee(Integer id) {
 			Employee temp = getEmployeeUsingID(id);
-			allEmployees.remove(temp);
-			return "Employee " + temp.getName() +"has been removed.";
+			if (temp == null || temp.getStatus().equalsIgnoreCase("deleted"))
+				return "Employee not found, or has already been deleted";
+			
+			temp.setStatus("deleted");
+			return "Employee " + temp.getName() +"has been deleted.";
 		}
 
 
 
-		public Employee getEmployeeUsingID(int id)
+		public Employee getEmployeeUsingID(Integer id)
 		{
 			for (Employee employee : allEmployees) 
 			{
-		        if (employee.getId() == id) 
+		        if (employee.getId().equals(id)) 
 		        {
 		            return employee;
 		        }

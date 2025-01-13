@@ -208,7 +208,7 @@ public class ReservationServices {
 		}
 		return null;
     }
-    
+ /*   
     // Method which deletes all reservations of one event. Called when Event is Deleted?
     // Den prepei na kanoume alli mia  delete all events of Visitor, otan diagrafetai o Visitor?
     public String cancelAllReservationsofEvent (int eventID)
@@ -230,6 +230,9 @@ public class ReservationServices {
     	 	+ " have been cancelled";
     }
     
+    */
+    
+    
     
     /*
      * We want visitors to be able to make reservations to Events 
@@ -249,6 +252,23 @@ public class ReservationServices {
     	Integer eventID = eventServices.getEventIDFromTitle(title);
     	addReservation(visitorID, eventID);
     	
+    }
+    
+    
+    public String cancelAllReservationsForVisitor (Integer visitorID)
+    {
+    	 List<Reservation> tempReservations = getReservationsByVisitor(visitorID);
+
+    	    if (tempReservations.isEmpty()) {
+    	        return "This visitor hadn't made any reservations";
+    	    }
+
+
+    	    for (Reservation reservation : tempReservations) {
+    	        cancelReservation(reservation.getId());
+    	    }
+
+    	    return "All reservations for visitor with ID " + visitorID + " have been cancelled.";
     }
     
 }
