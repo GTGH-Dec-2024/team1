@@ -14,7 +14,7 @@ public class EmployeeServices {
 		
 		
 		public EmployeeServices(ArrayList<Employee> allEmployees) {
-			this.allEmployees = allEmployees;
+			this.allEmployees = new ArrayList<>();
 		}
 		
 

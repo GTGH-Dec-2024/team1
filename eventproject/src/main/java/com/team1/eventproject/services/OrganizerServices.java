@@ -17,6 +17,15 @@ public class OrganizerServices {
 	 @Autowired
 	    private EventServices eventServices;
 	 
+	 
+	 
+	 
+	public OrganizerServices(ArrayList<Organizer> allOrganizers) {
+		this.allOrganizers = new ArrayList<>();
+	}
+
+
+
 	public List<Organizer> addOrganizer (String name, String surname, String afm, String description)
 	{
 		

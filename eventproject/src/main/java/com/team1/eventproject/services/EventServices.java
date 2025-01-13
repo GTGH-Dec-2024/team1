@@ -27,7 +27,7 @@ public class EventServices {
 	private ArrayList<Event> deletedEvents = new ArrayList<>();
 
 	public EventServices() {
-		this.allEvents = allEvents;
+		this.allEvents = new ArrayList<>();
 	}
 
 	// method to add an event in the allEvents list, from a specific organizer given
