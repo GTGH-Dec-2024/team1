@@ -31,58 +31,58 @@ public class ReservationServices {
     
     // Methodos gia prosthiki neas kratisis tou visitor sto event.
     public String addReservation(int visitorId, int eventId) {
-        // Vres ton Visitor kai to Event me vasi ta IDs
+        // Find the Visitor and Event using their IDs
         Visitor visitor = visitorServices.getVisitorUsingID(visitorId);
         Event event = eventServices.getEventUsingID(eventId);
 
-        // Elegxos an vrethikan o Visitor kai to Event
+        // Check if the Visitor exists
         if (visitor == null) {
             return "Visitor with ID " + visitorId + " not found.";
         }
+
+        // Check if the Event exists
         if (event == null) {
             return "Event with ID " + eventId + " not found.";
         }
 
-        // Elegxos an yparxei idi kratisi gia ton visitor kai to event
+        // Check if a reservation already exists for the same visitor and event
         for (Reservation reservation : reservations) {
             if (reservation.getVisitor().equals(visitor) && reservation.getEvent().equals(event)) {
                 return "This reservation already exists.";
             }
-            
-            //EVA:Using eventServices, update currentCapacity of Event!
-            
         }
-        
+
+        // Check if the event has available capacity
+        if (event.getCurrentCapacity() <= 0) {
+            return "Event with ID " + eventId + " is fully booked.";
+        }
+
         /*
-		 * We want all IDs to be given automatically. Therefore, we
-		 * use the reservations list to help us. If the list is empty,
-		 * then we know it is the first object that will be made so its
-		 * id will be set to 1.
-		 * 
-		 * Otherwise, we find the ID of the last object that was added,
-		 * and by increasing it by 1 we get the new id!
-		 * 
-		 */
-		int id; 
-		if(reservations.isEmpty()){
-			id = 1;
-			
-		}else
-		{
-			id = reservations.get(reservations.size() - 1).getId() + 1;
-		}
-        
-        // Dimiourgia neas kratisis tou visitor gia to event kai prosthiki sti lista
+         * Generate a new ID for the reservation.
+         * If the reservations list is empty, the ID will be set to 1.
+         * Otherwise, the ID is set to the last reservation's ID + 1.
+         */
+        int id;
+        if (reservations.isEmpty()) {
+            id = 1;
+        } else {
+            id = reservations.get(reservations.size() - 1).getId() + 1;
+        }
+
+        // Create a new reservation for the visitor and add it to the list
         Reservation newReservation = new Reservation(visitor, event, id);
         reservations.add(newReservation);
-        // Call method decreaseCurrentCapacity from EventServices
-        return "Reservation made successfully for event: " + event.getTitle();
-        
-    }
 
-     // ERWTHSH: An theloume na akurwsoume to reservation enos sugekrimenou visitor h event pws tha to kanoume?
-     // Tha prepei kapws na vriskoume to id tou reservation se poio visitor kai enent id antistoixei?
-    
+        // Call the decreaseCurrentCapacity method from EventServices
+        String capacityUpdateMessage = eventServices.decreaseCurrentCapacity(eventId);
+        if (!capacityUpdateMessage.contains("successfully")) {
+            // If capacity decrease fails, remove the reservation to maintain consistency
+            reservations.remove(newReservation);
+            return capacityUpdateMessage;
+        }
+
+        return "Reservation made successfully for event: " + event.getTitle();
+    }
     // Methodos gia akyrwsi kratisis me vasi to ID tis kratisis
     public String cancelReservation(int reservationId) {
         // Vres tin kratisi me vasi to ID
