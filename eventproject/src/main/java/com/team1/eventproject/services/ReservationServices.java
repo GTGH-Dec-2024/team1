@@ -83,25 +83,29 @@ public class ReservationServices {
 
         return "Reservation made successfully for event: " + event.getTitle();
     }
-    // Methodos gia akyrwsi kratisis me vasi to ID tis kratisis
+    
+    // Method which cancels a reservation given the reservation id    
     public String cancelReservation(int reservationId) {
-        // Vres tin kratisi me vasi to ID
+        // Find the reservation using its ID
         Reservation reservationToCancel = getReservationUsingID(reservationId);
 
-        // Elegxos an vrethike i kratisi
+        // Check if the reservation exists
         if (reservationToCancel == null) {
             return "Reservation with ID " + reservationId + " not found.";
         }
 
-        // Pare to Event tis kratisis gia na enimeroseis ti xoritikotita
+        // Get the event of the reservation to update its capacity
         Event event = reservationToCancel.getEvent();
 
-        // Afairesh tis kratisis apo ti lista
+        // Remove the reservation from the list
         reservations.remove(reservationToCancel);
-        // Call increaseCurrentCapacity from EventServices
-          
 
-        return "Reservation with ID " + reservationId + " cancelled successfully for event: " + event.getTitle();
+        // Call increaseCurrentCapacity from EventServices
+        String capacityUpdateMessage = eventServices.increaseCurrentCapacity(event.getId());
+
+        // Return the final message
+        return "Reservation with ID " + reservationId + " cancelled successfully for event: " 
+                + event.getTitle() + ". " + capacityUpdateMessage;
     }
     
     // Methodos gia enimerosi kratisis
