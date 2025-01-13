@@ -55,7 +55,7 @@ public class ReservationServices {
         
         /*
 		 * We want all IDs to be given automatically. Therefore, we
-		 * use the allEmployees list to help us. If the list is empty,
+		 * use the reservations list to help us. If the list is empty,
 		 * then we know it is the first object that will be made so its
 		 * id will be set to 1.
 		 * 

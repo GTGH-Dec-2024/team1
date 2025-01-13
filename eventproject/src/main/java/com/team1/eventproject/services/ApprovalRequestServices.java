@@ -41,7 +41,7 @@ public class ApprovalRequestServices {
 		Event tempEvent = eventServices.getEventUsingID(eventID);
 
 		/*
-		 * We want all IDs to be given automatically. Therefore, we use the allEmployees
+		 * We want all IDs to be given automatically. Therefore, we use the allRequests
 		 * list to help us. If the list is empty, then we know it is the first object
 		 * that will be made so its id will be set to 1.
 		 * 
