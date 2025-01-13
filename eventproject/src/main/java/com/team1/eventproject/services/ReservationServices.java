@@ -75,8 +75,9 @@ public class ReservationServices {
         // Dimiourgia neas kratisis tou visitor gia to event kai prosthiki sti lista
         Reservation newReservation = new Reservation(visitor, event, id);
         reservations.add(newReservation);
+        // Call method decreaseCurrentCapacity from EventServices
         return "Reservation made successfully for event: " + event.getTitle();
-        // Otan prosthetoume kratisi gia ton Visitor prepei to currentCapacity tou antistoixou Events na ginetai -1
+        
     }
 
      // ERWTHSH: An theloume na akurwsoume to reservation enos sugekrimenou visitor h event pws tha to kanoume?
@@ -97,10 +98,8 @@ public class ReservationServices {
 
         // Afairesh tis kratisis apo ti lista
         reservations.remove(reservationToCancel);
-         
-        // Enimerosi xoritikotitas tou Event
-        // Einai swstos o katw tropos gia thn afxisi tis xoritikothtas?
-        // eventServices.updateEventCapacity(event.getId(), event.getCurrentCapacity() + 1);  
+        // Call increaseCurrentCapacity from EventServices
+          
 
         return "Reservation with ID " + reservationId + " cancelled successfully for event: " + event.getTitle();
     }
@@ -127,14 +126,11 @@ public class ReservationServices {
         }
         // Den eimai sigouri an einai swstos tropos
         // Enimerosi tou Visitor kai tou Event stin kratisi
-        Event oldEvent = reservationToUpdate.getEvent(); // Gia enimerosi tis xoritikotitas
+        Event oldEvent = reservationToUpdate.getEvent(); 
         reservationToUpdate.setVisitor(newVisitor);
         reservationToUpdate.setEvent(newEvent);
 
-        // Enimerosi xoritikotitas
-        //eventServices.updateEventCapacity(oldEvent.getId(), oldEvent.getCurrentCapacity() + 1); // Auxisi xoritikotitas tou paliou event
-        //eventServices.updateEventCapacity(newEvent.getId(), newEvent.getCurrentCapacity() - 1); // Meiosi xoritikotitas tou neou event
-
+        
         return "Reservation with ID " + reservationId + " updated successfully.";
     }
     
