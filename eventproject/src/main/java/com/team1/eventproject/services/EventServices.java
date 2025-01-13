@@ -189,5 +189,24 @@ public class EventServices {
 		//all event IDs are bigger than 0, so if an Event is not
 		//found, 0 is returned.
 		return 0;
-}
+		
+	}
+	
+		
+	public String cancelAllEventsForOrganizer(Integer organizerID)	
+	{
+		 List<Event> tempEvents = getUpcomingEventsPerOrganizer(organizerID);
+
+ 	    if (tempEvents.isEmpty()) {
+ 	        return "This organizer doesn't have any upcoming events.";
+ 	    }
+
+
+ 	    for (Event event : tempEvents) {
+ 	        deleteEvent(event.getId());
+ 	    }
+
+ 	    return "All events for this organizer have been cancelled.";
+	}
+		
 }
