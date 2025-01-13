@@ -110,33 +110,33 @@ public class ReservationServices {
                 + event.getTitle() + ". " + capacityUpdateMessage;
     }
     
-    // Methodos gia enimerosi kratisis
     public String updateReservation(Integer reservationId, Integer newVisitorId, Integer newEventId) {
-        // Vres tin kratisi me vasi to ID
+        // Find the reservation based on the provided ID
         Reservation reservationToUpdate = getReservationUsingID(reservationId);
 
+        // Check if the reservation exists
         if (reservationToUpdate == null) {
             return "Reservation with ID " + reservationId + " not found.";
         }
 
-        // Vres ton neo Visitor kai to neo Event
+        // Find the new visitor and the new event based on their IDs
         Visitor newVisitor = visitorServices.getVisitorUsingID(newVisitorId);
         Event newEvent = eventServices.getEventUsingID(newEventId);
 
+        // Check if the new visitor exists
         if (newVisitor == null) {
             return "Visitor with ID " + newVisitorId + " not found.";
         }
 
+        // Check if the new event exists
         if (newEvent == null) {
             return "Event with ID " + newEventId + " not found.";
         }
-        // Den eimai sigouri an einai swstos tropos
-        // Enimerosi tou Visitor kai tou Event stin kratisi
-        Event oldEvent = reservationToUpdate.getEvent(); 
+
+        // Update the visitor and event for the reservation
         reservationToUpdate.setVisitor(newVisitor);
         reservationToUpdate.setEvent(newEvent);
 
-        
         return "Reservation with ID " + reservationId + " updated successfully.";
     }
     
