@@ -230,4 +230,25 @@ public class ReservationServices {
     	 	+ " have been cancelled";
     }
     
+    
+    /*
+     * We want visitors to be able to make reservations to Events 
+     * just by giving their ID and the title of the Event. This
+     * method checks which eventID corresponds to the given title
+     * (by calling the getEventIDFromTitle method).
+     * 
+     * Then, it uses the "original" addReservation method of this class,
+     * so that there are no duplicates
+     * 
+     * (In case of the event not being found, the Event id will be 0.
+     * So when the "original" addReservation checks, it will return
+     * an error message) 
+     */
+    public void addReservation (Integer visitorID, String title)
+    {
+    	Integer eventID = eventServices.getEventIDFromTitle(title);
+    	addReservation(visitorID, eventID);
+    	
+    }
+    
 }

@@ -167,5 +167,20 @@ public class EventServices {
 	
 	public void decreaseCurrentCapacity() {}
 	public void increaseCurrentCapacity() {}
-
+	
+	
+	
+	public Integer getEventIDFromTitle(String title)
+	{
+		for (Event event: allEvents)
+		{
+			if (title.equalsIgnoreCase(event.getTitle())) {
+				return event.getId();
+		}
+		
+		}
+		//all event IDs are bigger than 0, so if an Event is not
+		//found, 0 is returned.
+		return 0;
+}
 }
