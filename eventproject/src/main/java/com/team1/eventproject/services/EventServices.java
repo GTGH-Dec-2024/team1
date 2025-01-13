@@ -36,7 +36,7 @@ public class EventServices {
 			Integer minutes, Integer duration, String comments) {
 
 		/*
-		 * We want all IDs to be given automatically. Therefore, we use the allEvents
+		 * We want all IDs to be given automatically. Therefore, we use the allEmployees
 		 * list to help us. If the list is empty, then we know it is the first object
 		 * that will be made so its id will be set to 1.
 		 * 
@@ -67,36 +67,27 @@ public class EventServices {
 		return message;
 	}
 
-	
-	//method to delete an event given its id
-	public String deleteEvent(Integer eventId) {
+	// method to delete an event given its id
+	public void deleteEvent(Integer eventId) {
 		Event event = getEventUsingID(eventId);
-		if (event == null || event.getStatus().equalsIgnoreCase("deleted"))
-		{
-			return "Event not found or has already been deleted";
-		}
 		event.setStatus("deleted");
-		String message = reservationServices.cancelAllReservationsForEvent(eventId);
-		
-		return "The event "+ event.getTitle() +" has been deleted. " +message;
 	}
 
-	
-	//method to update an event's status
+	// method to update an event's status
 	public void updateEvent(Integer eventId, String newEventStatus) {
 		Event event = getEventUsingID(eventId);
 		event.setStatus(newEventStatus);
 	}
-	
+
 	public ArrayList<Event> getEventsForOrganizer(Integer organizerId) {
 		ArrayList<Event> organizerEvents = new ArrayList<>();
-		
-		for(Event event : allEvents) {
-			if(organizerId == event.getOrganizerId()) {
+
+		for (Event event : allEvents) {
+			if (organizerId == event.getOrganizerId()) {
 				organizerEvents.add(event);
 			}
 		}
-		
+
 		return organizerEvents;
 	}
 
@@ -132,9 +123,9 @@ public class EventServices {
 	}
 
 	public void getReservationsForOrganizersEvents() {
-		
+
 	}
-	
+
 	// searchEvents is the same as getting a certain event-->getEvent
 	public List<Event> searchEvents(Integer id, Integer day, Integer month, Integer year, String location,
 			String theme) {
@@ -166,47 +157,32 @@ public class EventServices {
 		return allEvents;
 	}
 
-	
 	// We need a method to increase currentCapacity of Event
 	// AND another one to decrease it
 	// (they will be called by reservationServices when a reservation
 	// is made or cancelled)
-	
-	public void decreaseCurrentCapacity() {}
-	public void increaseCurrentCapacity() {}
-	
-	
-	
-	public Integer getEventIDFromTitle(String title)
-	{
-		for (Event event: allEvents)
-		{
-			if (title.equalsIgnoreCase(event.getTitle())) {
-				return event.getId();
+
+	public String decreaseCurrentCapacity(Integer eventId) {
+		Event event = getEventUsingID(eventId);
+		String message;
+		if(event != null) {
+			event.setCurrentCapacity(event.getCurrentCapacity()-1);
+			message="Current capacity of event decreased succesfully!";
+		}else {
+			message="Event not found!";
 		}
-		
+		return message;
+	}
+
+	public String increaseCurrentCapacity(Integer eventId) {
+		Event event = getEventUsingID(eventId);
+		String message;
+		if(event != null && event.getCurrentCapacity()>0) {
+			event.setCurrentCapacity(event.getCurrentCapacity()+1);
+			message="Current capacity of event decreased succesfully!";
+		}else {
+			message="Event not found or the capacity if full!";
 		}
-		//all event IDs are bigger than 0, so if an Event is not
-		//found, 0 is returned.
-		return 0;
-		
+		return message;
 	}
-	
-		
-	public String cancelAllEventsForOrganizer(Integer organizerID)	
-	{
-		 List<Event> tempEvents = getUpcomingEventsPerOrganizer(organizerID);
-
- 	    if (tempEvents.isEmpty()) {
- 	        return "This organizer doesn't have any upcoming events.";
- 	    }
-
-
- 	    for (Event event : tempEvents) {
- 	        deleteEvent(event.getId());
- 	    }
-
- 	    return "All events for this organizer have been cancelled.";
-	}
-		
 }

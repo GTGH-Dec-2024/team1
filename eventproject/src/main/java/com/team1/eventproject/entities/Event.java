@@ -8,22 +8,23 @@ public class Event {
 	private String theme;
 	private String description;
 	private String location;
-	private int maxCapacity;
-	private int day;
-	private int month;
-	private int year;
-	private int hour;
-	private int minutes;
-	private int duration;
+	private Integer maxCapacity;
+	private Integer day;
+	private Integer month;
+	private Integer year;
+	private Integer hour;
+	private Integer minutes;
+	private Integer duration;
 	private Organizer organizer;
 	private String status; // status = "pending" or "approved" or "not-approved" or "deleted"
-	private int currentCapacity;
-	private int id;
-	private int employeeId;
-	private int organizerId;
+	private Integer currentCapacity;
+	private Integer id;
+	private Integer employeeId;
+	private Integer organizerId;
 
-	public Event(int organizerId, String title, String theme, String description, String location, int maxCapacity,
-			int day, int month, int year, int hour, int minutes, int duration, int id) {
+	public Event(Integer organizerId, String title, String theme, String description, String location,
+			Integer maxCapacity, Integer day, Integer month, Integer year, Integer hour, Integer minutes,
+			Integer duration, Integer id) {
 
 		this.organizerId = organizerId;
 		this.title = title;
@@ -31,6 +32,7 @@ public class Event {
 		this.description = description;
 		this.location = location;
 		this.maxCapacity = maxCapacity;
+		this.currentCapacity = 0;
 		this.day = day;
 		this.month = month;
 		this.year = year;
@@ -41,11 +43,11 @@ public class Event {
 		this.id = id;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -89,7 +91,7 @@ public class Event {
 		return day;
 	}
 
-	public void setDay(int day) {
+	public void setDay(Integer day) {
 		this.day = day;
 	}
 
@@ -97,15 +99,15 @@ public class Event {
 		return month;
 	}
 
-	public void setMonth(int month) {
+	public void setMonth(Integer month) {
 		this.month = month;
 	}
 
-	public int getYear() {
+	public Integer getYear() {
 		return year;
 	}
 
-	public void setYear(int year) {
+	public void setYear(Integer year) {
 		this.year = year;
 	}
 
@@ -113,19 +115,19 @@ public class Event {
 		return String.format("%02d/%02d/%04d", day, month, year);
 	}
 
-	public int getHour() {
+	public Integer getHour() {
 		return hour;
 	}
 
-	public void setHour(int hour) {
+	public void setHour(Integer hour) {
 		this.hour = hour;
 	}
 
-	public int getMinutes() {
+	public Integer getMinutes() {
 		return minutes;
 	}
 
-	public void setMinutes(int minutes) {
+	public void setMinutes(Integer minutes) {
 		this.minutes = minutes;
 	}
 
@@ -137,7 +139,7 @@ public class Event {
 		return duration;
 	}
 
-	public void setDuration(int duration) {
+	public void setDuration(Integer duration) {
 		this.duration = duration;
 	}
 
@@ -176,7 +178,23 @@ public class Event {
 		currentCapacity++;
 	}
 
-	public void setDeletedBy(int employeeId) {
+	public Integer getEmployeeId() {
+		return employeeId;
+	}
+
+	public void setEmployeeId(Integer employeeId) {
+		this.employeeId = employeeId;
+	}
+
+	public void setMaxCapacity(Integer maxCapacity) {
+		this.maxCapacity = maxCapacity;
+	}
+
+	public void setCurrentCapacity(Integer currentCapacity) {
+		this.currentCapacity = currentCapacity;
+	}
+
+	public void setDeletedBy(Integer employeeId) {
 		this.employeeId = employeeId;
 	}
 
@@ -184,13 +202,14 @@ public class Event {
 		return employeeId;
 	}
 	
-	public int getOrganizerId() {
+	public void setOrganizerId(Integer organizerId) {
+		this.organizerId = organizerId;
+	}
+
+	public Integer getOrganizerId() {
 		return organizerId;
 	}
 
-	public void setOrganizerId(int organizerId) {
-		this.organizerId = organizerId;
-	}
 
 	/*
 	 * public void showMyVisitors() { ArrayList<Visitor> eventVisitors =
@@ -213,8 +232,6 @@ public class Event {
 				+ location + ", Available spaces = " + getCurrentCapacity() + "/" + getMaxCapacity() + ", Date = "
 				+ getDate() + ", Time = " + getTime() + ", Duration = " + duration + ", Organizer = "
 				+ organizer.getName() + " " + organizer.getSurname() + ", Status = " + status + "]";
-		// + ", Reservations = "+
-		// ReservationManager.getInstance().getVisitorsForEvent(this) + "]";
 	}
 
 }
