@@ -55,7 +55,7 @@ public class ReservationServices {
         
         /*
 		 * We want all IDs to be given automatically. Therefore, we
-		 * use the allEmployees list to help us. If the list is empty,
+		 * use the allReservations list to help us. If the list is empty,
 		 * then we know it is the first object that will be made so its
 		 * id will be set to 1.
 		 * 
@@ -69,7 +69,7 @@ public class ReservationServices {
 			
 		}else
 		{
-			id = reservations.get(reservations.size() - 1).getId() + 1;
+			id = reservations.get(reservations.size() - 1).getId() + 1; //getId==>tou teleutaiou
 		}
         
         // Dimiourgia neas kratisis tou visitor gia to event kai prosthiki sti lista
