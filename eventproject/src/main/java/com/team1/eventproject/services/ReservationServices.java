@@ -32,7 +32,7 @@ public class ReservationServices {
 
     
     // Methodos gia prosthiki neas kratisis tou visitor sto event.
-    public String addReservation(int visitorId, int eventId) {
+    public String addReservation(int visitorId, Integer eventId) {
         // Find the Visitor and Event using their IDs
         Visitor visitor = visitorServices.getVisitorUsingID(visitorId);
         Event event = eventServices.getEventUsingID(eventId);
@@ -64,7 +64,7 @@ public class ReservationServices {
          * If the reservations list is empty, the ID will be set to 1.
          * Otherwise, the ID is set to the last reservation's ID + 1.
          */
-        int id;
+        Integer id;  // xreiazetai? afou ta id xekinan upoxrewtika apo to 1.
         if (reservations.isEmpty()) {
             id = 1;
         } else {
@@ -87,7 +87,7 @@ public class ReservationServices {
     }
     
     // Method which cancels a reservation given the reservation id    
-    public String cancelReservation(int reservationId) {
+    public String cancelReservation(Integer reservationId) {
         // Find the reservation using its ID
         Reservation reservationToCancel = getReservationUsingID(reservationId);
 
@@ -111,7 +111,7 @@ public class ReservationServices {
     }
     
     // Methodos gia enimerosi kratisis
-    public String updateReservation(int reservationId, int newVisitorId, int newEventId) {
+    public String updateReservation(Integer reservationId, Integer newVisitorId, Integer newEventId) {
         // Vres tin kratisi me vasi to ID
         Reservation reservationToUpdate = getReservationUsingID(reservationId);
 
@@ -148,7 +148,7 @@ public class ReservationServices {
     }
 
     // Methodos gia anazitisi kratisewn sugkekrimenou visitor
-    public List<Reservation> getReservationsByVisitor(int visitorId) {
+    public List<Reservation> getReservationsByVisitor(Integer visitorId) {
         Visitor visitor = visitorServices.getVisitorUsingID(visitorId);
         if (visitor == null) {
             return new ArrayList<>(); // An o Visitor den vrethei, epistrefetai adeia lista
@@ -158,7 +158,7 @@ public class ReservationServices {
 
         // Prosthiki kratisewn tou sugkekrimenou visitor sti lista.
         for (Reservation reservation : reservations) {
-            if (reservation.getVisitor().equals(visitor)) {
+            if (reservation.getVisitor().equals(visitor)) { // We use equals() instead of '=='
                 visitorReservations.add(reservation);
             }
         }
@@ -167,7 +167,7 @@ public class ReservationServices {
     }
 
     // Methodos gia anazitisi kratisewn sugkekrimenou event
-    public List<Reservation> getReservationsByEvent(int eventId) {
+    public List<Reservation> getReservationsByEvent(Integer eventId) {
         Event event = eventServices.getEventUsingID(eventId);
         if (event == null) {
             return new ArrayList<>(); // An to Event den vrethei, epistrefetai adeia lista
@@ -186,7 +186,7 @@ public class ReservationServices {
     }
 
     // Methodos gia metrisis kratisewn enos sugkekrimenou event
-    public int countReservationsForEvent(int eventId) {
+    public int countReservationsForEvent(Integer eventId) {
         Event event = eventServices.getEventUsingID(eventId);
         if (event == null) {
             return 0; // An to Event den vrethei, epistrefetai 0
@@ -205,10 +205,10 @@ public class ReservationServices {
     }
     
     //Vriskei reservation me vash to id tou reservation 
-    public Reservation getReservationUsingID (int id)
+    public Reservation getReservationUsingID (Integer id)
     {
     	for (Reservation temp : reservations) {
-			if (temp.getId() == id) {
+    		if (temp.getId().equals(id)) { 
 				return temp;
 			}
 		}

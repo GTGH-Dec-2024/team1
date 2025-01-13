@@ -67,12 +67,13 @@ public class VisitorServices {
 	{
 		for (Visitor visitor : allVisitors) 
 		{
-	        if (visitor.getId() == id) 
+			if (visitor.getId().equals(id)) {  // Changed == to .equals() for Integer comparison
 	        {
 	            return visitor;
 	        }
 	    }
-	    return null; 
+	    return null;
+	    } 
 	}
 
 	// Method to get all visitors
@@ -80,16 +81,16 @@ public class VisitorServices {
         return new ArrayList<>(allVisitors); // Return a copy to ensure immutability
     }
 
-    // Method to update a visitor
-    public boolean updateVisitor(int id, String newName, String newSurname, String newEmail) {
+ // Method to update a visitor
+    public Boolean updateVisitor(Integer id, String newName, String newSurname, String newEmail) {
         Visitor visitor = getVisitorUsingID(id);
         if (visitor != null) {
             visitor.setName(newName);
             visitor.setSurname(newSurname);
             visitor.setEmail(newEmail);
-            return true; // Update successful
+            return Boolean.TRUE; // Update successful
         }
-        return false; // Visitor not found
+        return Boolean.FALSE; // Visitor not found
     }
 
     /*

@@ -11,19 +11,19 @@ public class Reservation {
 		private Event event;  // connection with the class Event
 	    // visitor and event must be final so that they can not change for the specific reservation????
 		
-		private int id;
+		private Integer id; // Changed to Integer for null safety
 		
 	    /* Constructor.
 	     * visitor the visitor who makes the reservation to the event.
 	     * event the event for which the reservation is being made. */	     
-	    public Reservation(Visitor visitor, Event event, int id) {
+	    public Reservation(Visitor visitor, Event event, Integer id) {
 	    	this.id = id;
 	    	this.visitor = visitor;
 	        this.event = event;
 	    }
 
 	  
-	    // Getters and Setters for the fields Visitor and Reservation
+	    // GETTERS FOR ALL FIELDS
 	    public Visitor getVisitor() {
 	        return visitor;
 	    }
@@ -34,21 +34,36 @@ public class Reservation {
 	    }
 
 
-		public int getId() {
+		public Integer getId() {
 			return id;
 		}
 
-
+        // SETTERS FOR VISITOR AND EVENT with null checks (einai aparaithtoi edw?)
 		public void setVisitor(Visitor newVisitor) {
-			// TODO Auto-generated method stub
-			
-		}
+	        if (newVisitor != null) { // Added null check 
+	            this.visitor = newVisitor;
+	        } else {
+	            System.out.println("Visitor cannot be null."); // Added message for null case 
+	        }
+	    }
 
 
 		public void setEvent(Event newEvent) {
-			// TODO Auto-generated method stub
-			
-		}
+	        if (newEvent != null) { // Added null check 
+	            this.event = newEvent;
+	        } else {
+	            System.out.println("Event cannot be null."); // Added message for null case 
+	        }
+	    }
+		
+		// BORW NA PEIRAZW ME SETTER to id? Prepei na ginetai?
+		public void setId(Integer newId) { // id changed to Integer 
+	        if (newId != null) { // Added null check 
+	            this.id = newId;
+	        } else {
+	            System.out.println("ID cannot be null."); // Added message for null case 
+	        }
+	    }
 	    
 		@Override
 		public String toString() {
