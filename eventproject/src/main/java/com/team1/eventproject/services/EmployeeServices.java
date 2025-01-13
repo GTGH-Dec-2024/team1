@@ -52,7 +52,8 @@ public class EmployeeServices {
 				return("The employee: " +temp.getName()+ temp.getSurname()+
 						" has already been added");
 			}
-			return "The employee " +name + " " + surname +" has been added successfully!";
+			return "The employee " +name + " " + surname +" has been added successfully,"
+					+ "with id: "+ id+ "!";
 		}
 		
 		
@@ -63,7 +64,7 @@ public class EmployeeServices {
 				return "Employee not found, or has already been deleted";
 			
 			temp.setStatus("deleted");
-			return "Employee " + temp.getName() +"has been deleted.";
+			return "Employee " + temp.getName() + " " + temp.getSurname() +" has been deleted.";
 		}
 
 
@@ -83,6 +84,27 @@ public class EmployeeServices {
 		
 		public List<Employee> getAllEmployees() {
 			return allEmployees;
+		}
+		
+		
+		/*
+		 * The employee list contains all the employees, even the 
+		 * ones that have been deleted (status.equalsIgnoreCase("deleted")
+		 * The following method returns a list with the employees that
+		 * are active
+		 * 
+		 */
+		public List<Employee> getAllActiveEmployees() {
+
+		    List<Employee> activeEmployees = new ArrayList<>();
+
+		    for (Employee em : allEmployees) {
+		        if (em.getStatus().equalsIgnoreCase("active")) {
+		            activeEmployees.add(em);
+		        }
+		    }
+
+		    return activeEmployees;
 		}
 	
 		
