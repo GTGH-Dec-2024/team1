@@ -17,55 +17,63 @@ public class OrganizerServices {
 	 @Autowired
 	    private EventServices eventServices;
 	 
-	public List<Organizer> addOrganizer (String name, String surname, String afm, String description)
-	{
-		
-		/*
-		 * We want all IDs to be given automatically. Therefore, we
-		 * use the allOrganizers list to help us. If the list is empty,
-		 * then we know it is the first object that will be made so its
-		 * id will be set to 1.
-		 * 
-		 * Otherwise, we find the ID of the last object that was added,
-		 * and by increasing it by 1 we get the new id!
-		 * 
-		 */
-		int id; 
-		if(allOrganizers.isEmpty()){
-			id = 1;
-			
-		}else
-		{
-			id = allOrganizers.get(allOrganizers.size() - 1).getId() + 1;
-		}
-		
-		
-		Organizer temp = new Organizer(name, surname, afm, description,id);
-		if (!allOrganizers.contains(temp))
-		{
-			allOrganizers.add(temp);
-		}
-		else
-		{
-			System.out.println("The Organizer: " +temp.getName() +temp.getSurname()+
-					" has already been added");
-		}
-		return allOrganizers;
-	}
 	
-	
-	
-	public Organizer getOrganizerUsingID(int id)
-	{
-		for (Organizer organizer : allOrganizers) 
-		{
-	        if (organizer.getId() == id) 
-	        {
-	            return organizer;
+	     /*
+	     * Adds a new Organizer to the list.
+	     * Returns a success message or error message if the organizer already exists.
+	     */
+	    public String addOrganizer(String name, String surname, String afm, String description) {
+	        Integer id;
+	        if (allOrganizers.isEmpty()) {
+	            id = 1; // Assign ID as 1 for the first organizer
+	        } else {
+	            id = allOrganizers.get(allOrganizers.size() - 1).getId() + 1; // Increment ID
+	        }
+
+	        Organizer temp = new Organizer(name, surname, afm, description, id);
+
+	        if (!allOrganizers.contains(temp)) {
+	            allOrganizers.add(temp); // Add organizer if not already present
+	            return "Organizer " + temp.getName() + " " + temp.getSurname() + " added successfully.";
+	        } else {
+	            return "The Organizer: " + temp.getName() + " " + temp.getSurname() + " already exists.";
 	        }
 	    }
-	    return null; 
-	}
+
+	
+	
+	    /*
+	     * Retrieves an Organizer by their ID.
+	     * Returns the Organizer or null if not found.
+	     */
+	    public Organizer getOrganizerUsingID(Integer id) {
+	        for (Organizer organizer : allOrganizers) {
+	            if (organizer.getId().equals(id)) { // Use equals() for Integer comparison
+	                return organizer;
+	            }
+	        }
+	        return null; // Organizer not found
+	    }
+	    
+	    /*
+	     * Updates an Organizer's details.
+	     * Returns a success or error message.
+	     */
+	    public String updateOrganizer(Integer id, String newName, String newSurname, String newAfm, String newDescription) {
+	        Organizer organizer = getOrganizerUsingID(id);
+
+	        if (organizer == null) {
+	            return "Organizer with ID " + id + " not found.";
+	        }
+
+	        // Update details
+	        organizer.setName(newName);
+	        organizer.setSurname(newSurname);
+	        organizer.setAfm(newAfm);
+	        organizer.setDescription(newDescription);
+
+	        return "Organizer with ID " + id + " updated successfully.";
+	    }
 	
 	
 	/*
@@ -86,7 +94,13 @@ public class OrganizerServices {
 	        
 	    }
 	
-	
+	  /*
+	     * Retrieves all Organizers.
+	     * Returns the list of all organizers.
+	     */
+	    public List<Organizer> getAllOrganizers() {
+	        return new ArrayList<>(allOrganizers); // Return a copy to ensure immutability
+	    }
 
 	
 }
