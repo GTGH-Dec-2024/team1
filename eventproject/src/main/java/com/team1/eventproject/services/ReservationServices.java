@@ -49,8 +49,8 @@ public class ReservationServices {
                 return "This reservation already exists.";
             }
             
-            //EVA:Add reservation to the list!!
             //EVA:Using eventServices, update currentCapacity of Event!
+            
         }
         
         /*
@@ -76,45 +76,69 @@ public class ReservationServices {
         Reservation newReservation = new Reservation(visitor, event, id);
         reservations.add(newReservation);
         return "Reservation made successfully for event: " + event.getTitle();
+        // Otan prosthetoume kratisi gia ton Visitor prepei to currentCapacity tou antistoixou Events na ginetai -1
     }
 
- 
+     // ERWTHSH: An theloume na akurwsoume to reservation enos sugekrimenou visitor h event pws tha to kanoume?
+     // Tha prepei kapws na vriskoume to id tou reservation se poio visitor kai enent id antistoixei?
     
-    // Methodos gia akyrwsi kratisis tou visitor sto event.
-    public String cancelReservation(int visitorId, int eventId) {
-        Visitor visitor = visitorServices.getVisitorUsingID(visitorId);
-        Event event = eventServices.getEventUsingID(eventId);
+    // Methodos gia akyrwsi kratisis me vasi to ID tis kratisis
+    public String cancelReservation(int reservationId) {
+        // Vres tin kratisi me vasi to ID
+        Reservation reservationToCancel = getReservationUsingID(reservationId);
 
-        // Elegxos an vrethikan o Visitor kai to Event
-        if (visitor == null) {
-            return "Visitor with ID " + visitorId + " not found.";
-        }
-        if (event == null) {
-            return "Event with ID " + eventId + " not found.";
+        // Elegxos an vrethike i kratisi
+        if (reservationToCancel == null) {
+            return "Reservation with ID " + reservationId + " not found.";
         }
 
-        Reservation reservationToCancel = null;
+        // Pare to Event tis kratisis gia na enimeroseis ti xoritikotita
+        Event event = reservationToCancel.getEvent();
 
-        // Anazitisi tis kratisis sti lista
-        for (Reservation reservation : reservations) {
-            if (reservation.getVisitor().equals(visitor) && reservation.getEvent().equals(event)) {
-                reservationToCancel = reservation;
-                break;
-            }
-        }
+        // Afairesh tis kratisis apo ti lista
+        reservations.remove(reservationToCancel);
+         
+        // Enimerosi xoritikotitas tou Event
+        // Einai swstos o katw tropos gia thn afxisi tis xoritikothtas?
+        // eventServices.updateEventCapacity(event.getId(), event.getCurrentCapacity() + 1);  
 
-        // An vrethei i kratisi, afaireitai apo ti lista
-        if (reservationToCancel != null) {
-            reservations.remove(reservationToCancel);
-            return "Reservation cancelled for event: " + event.getTitle();
-            //EVA:Using eventServices, update currentCapacity of Event!
-        }
-
-        // Epistrofi minimatos an den vrethei i kratisi
-        return "Reservation not found in order to be canceled.";
-        
-        
+        return "Reservation with ID " + reservationId + " cancelled successfully for event: " + event.getTitle();
     }
+    
+    // Methodos gia enimerosi kratisis
+    public String updateReservation(int reservationId, int newVisitorId, int newEventId) {
+        // Vres tin kratisi me vasi to ID
+        Reservation reservationToUpdate = getReservationUsingID(reservationId);
+
+        if (reservationToUpdate == null) {
+            return "Reservation with ID " + reservationId + " not found.";
+        }
+
+        // Vres ton neo Visitor kai to neo Event
+        Visitor newVisitor = visitorServices.getVisitorUsingID(newVisitorId);
+        Event newEvent = eventServices.getEventUsingID(newEventId);
+
+        if (newVisitor == null) {
+            return "Visitor with ID " + newVisitorId + " not found.";
+        }
+
+        if (newEvent == null) {
+            return "Event with ID " + newEventId + " not found.";
+        }
+        // Den eimai sigouri an einai swstos tropos
+        // Enimerosi tou Visitor kai tou Event stin kratisi
+        Event oldEvent = reservationToUpdate.getEvent(); // Gia enimerosi tis xoritikotitas
+        reservationToUpdate.setVisitor(newVisitor);
+        reservationToUpdate.setEvent(newEvent);
+
+        // Enimerosi xoritikotitas
+        //eventServices.updateEventCapacity(oldEvent.getId(), oldEvent.getCurrentCapacity() + 1); // Auxisi xoritikotitas tou paliou event
+        //eventServices.updateEventCapacity(newEvent.getId(), newEvent.getCurrentCapacity() - 1); // Meiosi xoritikotitas tou neou event
+
+        return "Reservation with ID " + reservationId + " updated successfully.";
+    }
+    
+    
 
     // Methodos gia epistrofi olwn twn kratisewn
     public List<Reservation> getAllReservations() {
@@ -178,7 +202,7 @@ public class ReservationServices {
         return count;
     }
     
-    
+    //Vriskei reservation me vash to id tou reservation 
     public Reservation getReservationUsingID (int id)
     {
     	for (Reservation temp : reservations) {
@@ -189,6 +213,8 @@ public class ReservationServices {
 		return null;
     }
     
+    // Method which deletes all reservations of one event. Called when Event is Deleted?
+    // Den prepei na kanoume alli mia  delete all events of Visitor, otan diagrafetai o Visitor?
     public String cancelAllReservationsofEvent (int eventID)
     {
     	Event anEvent = eventServices.getEventUsingID(eventID);

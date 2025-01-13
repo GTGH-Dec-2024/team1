@@ -37,9 +37,24 @@ public class Reservation {
 		public int getId() {
 			return id;
 		}
+
+
+		public void setVisitor(Visitor newVisitor) {
+			// TODO Auto-generated method stub
+			
+		}
+
+
+		public void setEvent(Event newEvent) {
+			// TODO Auto-generated method stub
+			
+		}
 	    
-	    
-	    
+		@Override
+		public String toString() {
+		    return "Reservation [id=" + id + ", visitor=" + visitor + ", event=" + event + "]";
+		}
+	    // Prepei na exei toString h visitor kai h event!
 	   
 	           
 

@@ -27,7 +27,6 @@ public class Employee extends User {
 	}
 	
 	
-
-
+   // Na valoume mia toString?
 
 }

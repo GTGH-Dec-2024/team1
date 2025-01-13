@@ -32,12 +32,17 @@ public class Visitor extends User {
 		return email;
 	}
 
-	@Override
-	public String toString()
-	{
-		return name + surname;
-	}
+	
 
+
+	public void setEmail(String newEmail) {
+		
+		
+	}
+	@Override
+	public String toString() {
+	    return "Visitor [id=" + id + ", name=" + name + ", surname=" + surname + ", email=" + email + "]";
+	}
 
 
 

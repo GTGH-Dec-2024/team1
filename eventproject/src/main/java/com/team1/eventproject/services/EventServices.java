@@ -3,12 +3,14 @@ package com.team1.eventproject.services;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team1.eventproject.entities.Employee;
 import com.team1.eventproject.entities.Event;
+import com.team1.eventproject.entities.Reservation;
 import com.team1.eventproject.entities.Visitor;
 
 @Service
@@ -16,8 +18,6 @@ public class EventServices {
 
 	@Autowired
 	ApprovalRequestServices approvalRequestServices;
-	@Autowired
-	EmployeeServices employeeServices;
 	@Autowired
 	ReservationServices reservationServices;
 
@@ -31,31 +31,30 @@ public class EventServices {
 	// method to add an event in the allEvents list, from a specific organizer given
 	// his id so as an employee later on (hopefully) approves it by changing its
 	// status to either approved (or not-approved)
-	public String addEvent(int eventId, int organizerId, String title, String theme, String description, String location,
-			int maxCapacity, int day, int month, int year, int hour, int minutes, int duration, String comments) {
+	public String addEvent(Integer eventId, Integer organizerId, String title, String theme, String description,
+			String location, Integer maxCapacity, Integer day, Integer month, Integer year, Integer hour,
+			Integer minutes, Integer duration, String comments) {
 
 		/*
-		 * We want all IDs to be given automatically. Therefore, we
-		 * use the allEmployees list to help us. If the list is empty,
-		 * then we know it is the first object that will be made so its
-		 * id will be set to 1.
+		 * We want all IDs to be given automatically. Therefore, we use the allEmployees
+		 * list to help us. If the list is empty, then we know it is the first object
+		 * that will be made so its id will be set to 1.
 		 * 
-		 * Otherwise, we find the ID of the last object that was added,
-		 * and by increasing it by 1 we get the new id!
+		 * Otherwise, we find the ID of the last object that was added, and by
+		 * increasing it by 1 we get the new id!
 		 * 
 		 */
-		int id; 
-		if(allEvents.isEmpty()){
+		int id;
+		if (allEvents.isEmpty()) {
 			id = 1;
-			
-		}else
-		{
+
+		} else {
 			id = allEvents.get(allEvents.size() - 1).getId() + 1;
 		}
-		
+
 		Event event = new Event(organizerId, title, theme, description, location, maxCapacity, day, month, year, hour,
 				minutes, duration, id);
-		
+
 		String message;
 
 		if (allEvents.contains(event.getId())) {
@@ -63,32 +62,38 @@ public class EventServices {
 		} else {
 			allEvents.add(event);
 			approvalRequestServices.addApprovalRequest("delete", organizerId, eventId, comments);
-			message = "The registration for the event "+event.getId()+" have been sent for approval.";
+			message = "The registration for the event " + event.getId() + " have been sent for approval.";
 		}
 		return message;
 	}
 
-	public void deleteEvent(int eventId, int employeeId) {
+	
+	//method to delete an event given its id
+	public void deleteEvent(Integer eventId) {
 		Event event = getEventUsingID(eventId);
-		//Employee employee = employeeServices.getEmployeeUsingID(employeeId);
 		event.setStatus("deleted");
-		//event.setDeletedBy(employeeId);
-		//deletedEvents.add(event);
 	}
 
-	/*
-	 * public ArrayList<Event> getEventsDeletedFromEmployee(int employeeId) {
-	 * 
-	 * ArrayList<Event> events = new ArrayList<>();
-	 * 
-	 * for (Event event : deletedEvents) { if (event.getDeletedBy() == employeeId) {
-	 * events.add(event); } }
-	 * 
-	 * return events; }
-	 */
-
 	
-	public ArrayList<Event> getUpcomingEventsPerOrganizer(int organizerId) {
+	//method to update an event's status
+	public void updateEvent(Integer eventId, String newEventStatus) {
+		Event event = getEventUsingID(eventId);
+		event.setStatus(newEventStatus);
+	}
+	
+	public ArrayList<Event> getEventsForOrganizer(Integer organizerId) {
+		ArrayList<Event> organizerEvents = new ArrayList<>();
+		
+		for(Event event : allEvents) {
+			if(organizerId == event.getOrganizerId()) {
+				organizerEvents.add(event);
+			}
+		}
+		
+		return organizerEvents;
+	}
+
+	public ArrayList<Event> getUpcomingEventsPerOrganizer(Integer organizerId) {
 		ArrayList<Event> upcomingEvents = new ArrayList<>();
 
 		LocalDate currentDate = LocalDate.now();
@@ -107,85 +112,40 @@ public class EventServices {
 
 		for (Event event : allEvents) {
 			System.out.println("Event: " + event.getTitle());
-			ArrayList<Visitor> visitorsForThisEvent = reservationServices.getVisitorsForEvent(event);
-			if (visitorsForThisEvent.isEmpty()) {
+			List<Reservation> reservationsForThisEvent = reservationServices.getReservationsByEvent(event.getId());
+			if (reservationsForThisEvent.isEmpty()) {
 				System.out.println("No visitors yet!");
 			} else {
-				for (Visitor visitor : visitorsForThisEvent) {
-					System.out.println(visitor.getName() + " " + visitor.getSurname() + " (" + visitor.getId() + ")");
+				for (Reservation reservation : reservationsForThisEvent) {
+					System.out.println(reservation.getVisitor().getName() + " " + reservation.getVisitor().getSurname()
+							+ " (" + reservation.getVisitor().getId() + ")");
 				}
 			}
 		}
 	}
 
-	public ArrayList<Event> searchEvents(int day, int month, int year, String location, String theme) {
-		ArrayList<Event> events = new ArrayList<>();
-
-		LocalDate givenDate = LocalDate.of(year, month, day);
-
-		for (Event event : allEvents) {
-			LocalDate eventDate = LocalDate.of(event.getYear(), event.getMonth(), event.getDay());
-			if (givenDate.isEqual(eventDate)!=null || location.equals(event.getLocation()!=null || theme.equals(event.getTheme())!=null) {
-				events.add(event);
+	public void getReservationsForOrganizersEvents() {
+		
+	}
+	
+	// searchEvents is the same as getting a certain event-->getEvent
+	public List<Event> searchEvents(Integer id, Integer day, Integer month, Integer year, String location,
+			String theme) {
+		return getAllEvents().stream().filter(event -> id == null || id.equals(event.getId())).filter(event -> {
+			if (day != null && month != null && year != null) {
+				LocalDate givenDate = LocalDate.of(year, month, day);
+				LocalDate eventDate = LocalDate.of(event.getYear(), event.getMonth(), event.getDay());
+				return givenDate.isEqual(eventDate);
 			}
-		}
-
-		return events;
+			return true;
+		}).filter(event -> location == null || location.equals(event.getLocation()))
+				.filter(event -> theme == null || theme.equals(event.getTheme())).collect(Collectors.toList());
 	}
 
-	
-	//να βλεπω αναφορες με την κατασταση των εκδηλωσεων 1ο απο το doc 
-	
-	/*
-	 * // 1st method to search the events, from the whole events list, given
-	 * attributes // like date, location and theme public ArrayList<Event>
-	 * searchEvents(int day, int month, int year, String location, String theme) {
-	 * ArrayList<Event> events = new ArrayList<>();
-	 * 
-	 * LocalDate givenDate = LocalDate.of(year, month, day);
-	 * 
-	 * for (Event event : allEvents) { LocalDate eventDate =
-	 * LocalDate.of(event.getYear(), event.getMonth(), event.getDay()); if
-	 * (givenDate.isEqual(eventDate) && location.equals(event.getLocation()) &&
-	 * theme.equals(event.getTheme())) { events.add(event); } }
-	 * 
-	 * return events; }
-	 * 
-	 * 
-	 * // 2nd method to search the events, from the whole events list, given only
-	 * the // theme attribute public ArrayList<Event> searchEventsByTheme(String
-	 * theme) {
-	 * 
-	 * ArrayList<Event> events = new ArrayList<>(); for (Event event : allEvents) {
-	 * if (theme.equals(event.getTheme())) { events.add(event); } }
-	 * 
-	 * return events; }
-	 * 
-	 * // 3rd method to search the events, from the whole events list, given only
-	 * the // location attribute public ArrayList<Event>
-	 * searchEventsByLocation(String location) {
-	 * 
-	 * ArrayList<Event> events = new ArrayList<>(); for (Event event : allEvents) {
-	 * if (location.equals(event.getLocation())) { events.add(event); } }
-	 * 
-	 * return events; }
-	 * 
-	 * // 4rth method to search the events, from the whole events list, given only
-	 * the // date attribute public ArrayList<Event> searchEventsByDate(int day, int
-	 * month, int year) {
-	 * 
-	 * ArrayList<Event> events = new ArrayList<>(); LocalDate givenDate =
-	 * LocalDate.of(year, month, day);
-	 * 
-	 * for (Event event : allEvents) { LocalDate eventDate =
-	 * LocalDate.of(event.getYear(), event.getMonth(), event.getDay()); if
-	 * (givenDate.isEqual(eventDate)) { events.add(event); } }
-	 * 
-	 * return events; }
-	 */
+	// να βλεπω αναφορες με την κατασταση των εκδηλωσεων 1ο απο το doc
 
 	// method that finds a specific event given an id as a parameter
-	public Event getEventUsingID(int eventId) {
+	public Event getEventUsingID(Integer eventId) {
 		for (Event event : allEvents) {
 			if (eventId == event.getId()) {
 				return event;
@@ -198,13 +158,14 @@ public class EventServices {
 	public ArrayList<Event> getAllEvents() {
 		return allEvents;
 	}
+
 	
+	// We need a method to increase currentCapacity of Event
+	// AND another one to decrease it
+	// (they will be called by reservationServices when a reservation
+	// is made or cancelled)
 	
-	//We need a method to increase currentCapacity of Event
-	//AND another one to decrease it
-	//(they will be called by reservationServices when a reservation
-	//is made or cancelled)
-	
-	
+	public void decreaseCurrentCapacity() {}
+	public void increaseCurrentCapacity() {}
 
 }

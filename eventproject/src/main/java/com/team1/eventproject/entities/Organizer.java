@@ -54,5 +54,5 @@ public class Organizer extends User {
 	public String toString() {
 		return "Organizer [afm=" + afm + ", description=" + description + ", events=" + events + "]";
 	}
-
+    //na valoume id tou organizer stin toString?
 }

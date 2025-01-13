@@ -13,7 +13,7 @@ public class VisitorServices {
 	private ArrayList<Visitor> allVisitors;  
 	
 	
-	
+	// Constructor
 	public VisitorServices(ArrayList<Visitor> allVisitors) {
 		this.allVisitors = allVisitors;
 	}
@@ -69,4 +69,30 @@ public class VisitorServices {
 	    return null; 
 	}
 
+	// Method to get all visitors
+    public List<Visitor> getAllVisitors() {
+        return new ArrayList<>(allVisitors); // Return a copy to ensure immutability
+    }
+
+    // Method to update a visitor
+    public boolean updateVisitor(int id, String newName, String newSurname, String newEmail) {
+        Visitor visitor = getVisitorUsingID(id);
+        if (visitor != null) {
+            visitor.setName(newName);
+            visitor.setSurname(newSurname);
+            visitor.setEmail(newEmail);
+            return true; // Update successful
+        }
+        return false; // Visitor not found
+    }
+
+    // Method to delete a visitor
+    public boolean deleteVisitor(int id) {
+        Visitor visitor = getVisitorUsingID(id);
+        if (visitor != null) {
+            allVisitors.remove(visitor);
+            return true; // Deletion successful
+        }
+        return false; // Visitor not found
+    }
 }
