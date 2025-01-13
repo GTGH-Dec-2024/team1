@@ -32,7 +32,7 @@ public class Event {
 		this.description = description;
 		this.location = location;
 		this.maxCapacity = maxCapacity;
-		this.currentCapacity = 0;
+		this.currentCapacity = maxCapacity;
 		this.day = day;
 		this.month = month;
 		this.year = year;
