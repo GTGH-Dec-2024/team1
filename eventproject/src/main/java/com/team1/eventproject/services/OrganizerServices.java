@@ -47,7 +47,8 @@ public class OrganizerServices {
 		Organizer temp = new Organizer(name, surname, afm, description, id);
 		if (!allOrganizers.contains(temp)) {
 			allOrganizers.add(temp);
-			message="The Organizer: " + temp.getName() + temp.getSurname() + " has been added succesfully";
+			message="The Organizer: " + temp.getName() + temp.getSurname() + " has been added succesfully"
+					+" and given the ID " +id;;
 		} else {
 			System.out.println("The Organizer: " + temp.getName() + temp.getSurname() + " has already been added");
 		}

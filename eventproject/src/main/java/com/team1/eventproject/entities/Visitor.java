@@ -1,17 +1,9 @@
 package com.team1.eventproject.entities;
-/* The class Visitor represents one visitor who attends an event.
- * 1)The visitor can search the events that he would like to attend based on specific
- * criteria such as: The date, the location , the theme of the event (mipos kai kati allo?)
- * 2)After that, he can do a reservation to the Event that he wants to attend.
- * 3)If he changes his mind, he can cancel the reservation that he has done.
- */
 
-
-/* The class Visitor inherits the abstract class User and he has also an email. */
 public class Visitor extends User {
 	private String email;
 	private String status;
-	private Integer id;  // Changed primitive int to Integer
+	private Integer id; 
     
 	// Constructor
     public Visitor(String name, String surname, String email, Integer id) {
@@ -42,11 +34,13 @@ public class Visitor extends User {
 		this.status = status;
 	}
 
-	public void setEmail(String newEmail) {
-				
+	
+	
+	
+	public void setEmail(String email) {
+		this.email = email;
 	}
-	
-	
+
 	// toString method
 	@Override
 	public String toString() {

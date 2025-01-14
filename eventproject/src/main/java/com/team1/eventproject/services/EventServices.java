@@ -39,7 +39,7 @@ public class EventServices {
 	// method to add an event in the allEvents list, from a specific organizer given
 	// his id so as an employee later on (hopefully) approves it by changing its
 	// status to either approved (or not-approved)
-	public String addEvent(Integer eventId, Integer organizerId, String title, String theme, String description,
+	public String addEvent(Integer organizerId, String title, String theme, String description,
 			String location, Integer maxCapacity, Integer day, Integer month, Integer year, Integer hour,
 			Integer minutes, Integer duration, String comments) {
 
@@ -63,16 +63,15 @@ public class EventServices {
 		Event event = new Event(organizerId, title, theme, description, location, maxCapacity, day, month, year, hour,
 				minutes, duration, id);
 
-		String message;
 
-		if (allEvents.contains(event.getId())) {
-			message = "Event already exists in the events list!";
+		if (allEvents.contains(event)) {
+			return "Event already exists in the events list!";
 		} else {
 			allEvents.add(event);
-			approvalRequestServices.addApprovalRequest("delete", organizerId, eventId, comments);
-			message = "The registration for the event " + event.getId() + " have been sent for approval.";
+			approvalRequestServices.addApprovalRequest("delete", organizerId, id, comments);
+			return "The registration for the event " + event.getId() + " have been sent for approval.";
 		}
-		return message;
+	
 	}
 
 	// method to delete an event given its id

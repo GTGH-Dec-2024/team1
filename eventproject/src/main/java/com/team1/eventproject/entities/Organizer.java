@@ -1,17 +1,12 @@
 package com.team1.eventproject.entities;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import org.springframework.stereotype.Service;
-import com.team1.eventproject.services.EventServices;
-
 
 public class Organizer extends User {
 	private String afm;
 	private String description;
 	private Integer id;
 	private String status;
-	private ArrayList<Event> events;
+
 
 	public Organizer(String name, String surname, String afm, String description, Integer id) {
 		super(name, surname);
@@ -19,7 +14,6 @@ public class Organizer extends User {
 		this.afm = afm;
 		this.status = "active";
 		this.description = description;
-		this.events = new ArrayList<Event>();
 	}
 
 	public String getAfm() {
@@ -37,14 +31,6 @@ public class Organizer extends User {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	public ArrayList<Event> getEvents() {
-		return events;
-	}
-
-	public void setEvents(ArrayList<Event> events) {
-		this.events = events;
-	}
 	
 
 	public String getStatus() {
@@ -61,9 +47,9 @@ public class Organizer extends User {
 
 	@Override
 	public String toString() {
-		return "Organizer [afm=" + afm + ", description=" + description + ", events=" + events + "]";
+		return "Organizer [afm=" + afm + ", description=" + description + "]";
 	}
-    //na valoume id tou organizer stin toString?
+
 	
 	
 }

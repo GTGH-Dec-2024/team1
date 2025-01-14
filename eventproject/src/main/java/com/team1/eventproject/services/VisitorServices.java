@@ -26,7 +26,7 @@ public class VisitorServices {
 
 
 	// Method addVisitor adds a new visitor to the allVisitors list
-	public List<Visitor> addVisitor (String name, String surname, String email)
+	public String addVisitor (String name, String surname, String email)
 	{
 		/*
 		 * We want all IDs to be given automatically. Therefore, we
@@ -38,7 +38,7 @@ public class VisitorServices {
 		 * and by increasing it by 1 we get the new id!
 		 * 
 		 */
-		int id; 
+		Integer id; 
 		if(allVisitors.isEmpty()){
 			id = 1;
 			
@@ -46,19 +46,19 @@ public class VisitorServices {
 		{
 			id = allVisitors.get(allVisitors.size() - 1).getId() + 1;
 		}
+	
 		
-		
-		Visitor temp = new Visitor(name, surname, email, id); // To id den prepei na einai ston constructor giati auto orizetai automata apo tin klasi visitor
+		Visitor temp = new Visitor(name, surname, email, id); 
 		if (!allVisitors.contains(temp))
 		{
 			allVisitors.add(temp);
 		}
 		else
 		{
-			System.out.println("The Visitor: " +temp.getName() +temp.getSurname()+
-					" has already been added");
+			 return "The Visitor: " +temp.getName() +" "+temp.getSurname()+ " has already been added";
 		}
-		return allVisitors;
+		return "The Visitor "+temp.getName() +" "+ temp.getSurname()+ " has been added successfully"
+				+" and given the ID " +id;
 	}
 	
 	
@@ -106,15 +106,15 @@ public class VisitorServices {
      */
    
     // Method to delete a visitor
-    public boolean deleteVisitor(Integer visitorId) {
+    public String deleteVisitor(Integer visitorId) {
         Visitor visitor = getVisitorUsingID(visitorId);
         if (visitor == null || visitor.getStatus().equalsIgnoreCase("deleted")) {
-            return false; // Visitor not found or already deleted
+            return "The Visitor with ID " +visitorId+ " doesn't exist or has already been deleted";
         }
         
         visitor.setStatus("deleted"); // Mark as deleted
         reservationServices.cancelAllReservationsForVisitor(visitorId); // Cancel all related reservations
-        return true; // Deletion successful
+        return "The Visitor with ID " +visitorId+ " has been deleted";
     }
     
 }
