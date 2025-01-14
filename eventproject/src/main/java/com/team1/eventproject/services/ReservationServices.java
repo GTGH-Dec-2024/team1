@@ -28,11 +28,9 @@ public class ReservationServices {
     private List<Reservation> reservations; // Lista pou apothikeuei oles tis kratiseis
 
     @Autowired
-    @Lazy
     private EventServices eventServices; // Exartisi gia ta event services
 
     @Autowired
-    @Lazy
     private VisitorServices visitorServices; // Exartisi gia ta visitor services
 
     
