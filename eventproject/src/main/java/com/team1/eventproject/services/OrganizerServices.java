@@ -76,7 +76,7 @@ public class OrganizerServices {
 
 	}
 
-	public List<Organizer> getAllOrganizers() {
+	public ArrayList<Organizer> getAllOrganizers() {
 		return allOrganizers;
 	}
 
