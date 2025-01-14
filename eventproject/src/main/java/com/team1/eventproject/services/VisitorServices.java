@@ -68,13 +68,13 @@ public class VisitorServices {
 		for (Visitor visitor : allVisitors) 
 		{
 			if (visitor.getId().equals(id)) {  // Changed == to .equals() for Integer comparison
-	        {
+	        
 	            return visitor;
 	        }
 	    }
 	    return null;
 	    } 
-	}
+	
 
 	// Method to get all visitors
     public List<Visitor> getAllVisitors() {
@@ -98,16 +98,16 @@ public class VisitorServices {
      *  reservations they have made get cancelled automatically.
      */
    
-    public String deleteVisitor(Integer visitorId) {
-    	Visitor temp = getVisitorUsingID(visitorId);
-		
-    	if (temp == null || temp.getStatus().equalsIgnoreCase("deleted"))
-			return "Visitor not found or has already been deleted";
-	
-		temp.setStatus("deleted");
-		
-		String message = reservationServices.cancelAllReservationsForVisitor(visitorId);
-		return "Visitor " + temp.getName() +" has been deleted. "+ message;
+    // Method to delete a visitor
+    public boolean deleteVisitor(Integer visitorId) {
+        Visitor visitor = getVisitorUsingID(visitorId);
+        if (visitor == null || visitor.getStatus().equalsIgnoreCase("deleted")) {
+            return false; // Visitor not found or already deleted
+        }
         
+        visitor.setStatus("deleted"); // Mark as deleted
+        reservationServices.cancelAllReservationsForVisitor(visitorId); // Cancel all related reservations
+        return true; // Deletion successful
     }
+    
 }

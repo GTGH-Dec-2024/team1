@@ -1,69 +1,109 @@
 package com.team1.eventproject.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import com.team1.eventproject.entities.Visitor;
 import com.team1.eventproject.services.VisitorServices;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("visitors")
+@RestController // Declares this class as a REST controller.
+@RequestMapping("/visitors") // Base URL for all visitor-related endpoints.
 public class VisitorController {
-	@Autowired
+
+    @Autowired // Automatically injects the VisitorServices dependency.
     private VisitorServices visitorServices;
 
-    // Endpoint to get all visitors
+    /*
+     * Get all visitors.
+     * - HTTP Method: GET
+     * - URL: /visitors
+     * - Description: Returns a list of all visitors in the system.
+     */
     @GetMapping
-    public ResponseEntity<List<Visitor>> getAllVisitors() {
-        List<Visitor> visitors = visitorServices.getAllVisitors();
-        return new ResponseEntity<>(visitors, HttpStatus.OK);
+    public List<Visitor> getAllVisitors() {
+        return visitorServices.getAllVisitors(); // Fetch and return all visitors.
     }
 
-    // Endpoint to get a visitor by ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Visitor> getVisitorById(@PathVariable int id) {
+    /*
+     * Get a visitor by ID.
+     * - HTTP Method: GET
+     * - URL: /visitors/by-id
+     * - Request Parameter: id - The ID of the visitor to fetch.
+     * - Description: Returns the visitor's details if found, or a message if not.
+     */
+    @GetMapping("/by-id")
+    public String getVisitorById(@RequestParam(required = false) Integer id) {
+        // Check if the ID is null.
+        if (id == null) {
+            return "Error: Visitor ID must be provided!"; // Return an error message if ID is missing.
+        }
+
+        // Try to fetch the visitor based on ID.
         Visitor visitor = visitorServices.getVisitorUsingID(id);
-        if (visitor != null) {
-            return new ResponseEntity<>(visitor, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return (visitor != null)
+                ? visitor.toString() // If found, return visitor details.
+                : "Visitor not found!"; // If not found, return an error message.
     }
 
-    // Endpoint to add a new visitor
+    /*
+     * Add a new visitor.
+     * - HTTP Method: POST
+     * - URL: /visitors
+     * - Request Parameters: name, surname, email.
+     * - Description: Adds a new visitor and returns a success message.
+     */
     @PostMapping
-    public ResponseEntity<List<Visitor>> addVisitor(
-            @RequestParam String name,
-            @RequestParam String surname,
-            @RequestParam String email) {
-        List<Visitor> updatedVisitors = visitorServices.addVisitor(name, surname, email);
-        return new ResponseEntity<>(updatedVisitors, HttpStatus.CREATED);
+    public String addVisitor(
+            @RequestParam String name,     // Name of the visitor.
+            @RequestParam String surname,  // Surname of the visitor.
+            @RequestParam String email) {  // Email of the visitor.
+        visitorServices.addVisitor(name, surname, email); // Add the visitor.
+        return "Visitor added successfully!"; // Return success message.
     }
 
-    // Endpoint to update a visitor by ID
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateVisitor(
-            @PathVariable int id,
-            @RequestParam String newName,
-            @RequestParam String newSurname,
-            @RequestParam String newEmail) {
-        boolean updated = visitorServices.updateVisitor(id, newName, newSurname, newEmail);
-        if (updated) {
-            return new ResponseEntity<>("Visitor updated successfully.", HttpStatus.OK);
+    /*
+     * Update an existing visitor.
+     * - HTTP Method: PUT
+     * - URL: /visitors
+     * - Request Parameters: id, newName, newSurname, newEmail.
+     * - Description: Updates the visitor's details and returns a message.
+     */
+    @PutMapping
+    public String updateVisitor(
+            @RequestParam(required = false) Integer id,  // ID of the visitor to update (optional).
+            @RequestParam String newName,                 // New name of the visitor.
+            @RequestParam String newSurname,              // New surname of the visitor.
+            @RequestParam String newEmail) {              // New email of the visitor.
+        
+        // Check if the ID is null.
+        if (id == null) {
+            return "Error: Visitor ID must be provided!"; // Return an error message if ID is missing.
         }
-        return new ResponseEntity<>("Visitor not found.", HttpStatus.NOT_FOUND);
+
+        // Try to update the visitor.
+        return visitorServices.updateVisitor(id, newName, newSurname, newEmail)
+                ? "Visitor updated successfully!" // If update is successful, return success message.
+                : "Visitor not found!"; // If the visitor does not exist, return error message.
     }
 
-    // Endpoint to delete a visitor by ID
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteVisitor(@PathVariable int id) {
-        boolean deleted = visitorServices.deleteVisitor(id);
-        if (deleted) {
-            return new ResponseEntity<>("Visitor deleted successfully.", HttpStatus.OK);
+    /*
+     * Delete a visitor by ID.
+     * - HTTP Method: DELETE
+     * - URL: /visitors
+     * - Request Parameter: id - The ID of the visitor to delete.
+     * - Description: Deletes the visitor and cancels their reservations.
+     */
+    @DeleteMapping
+    public String deleteVisitor(@RequestParam(required = false) Integer id) {
+        // Check if the ID is null.
+        if (id == null) {
+            return "Error: Visitor ID must be provided!"; // Return an error message if ID is missing.
         }
-        return new ResponseEntity<>("Visitor not found.", HttpStatus.NOT_FOUND);
+
+        // Try to delete the visitor.
+        return visitorServices.deleteVisitor(id)
+                ? "Visitor deleted successfully!" // If deletion is successful, return success message.
+                : "Visitor not found or already deleted!"; // If the visitor does not exist or is already deleted.
     }
 }
