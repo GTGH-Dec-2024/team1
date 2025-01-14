@@ -3,6 +3,7 @@ package com.team1.eventproject.services;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,8 +66,22 @@ public class ReservationManagerServices {
         return true; // Successful deletion
     }
 
-	public void getReservationsForOrganizersEvents() {
-    // NA SUMPLIRWSW AUTHN THN METHODO
+	
+		public void getReservationsForOrganizersEvents(Integer organizerId) {
+		    // Get the events of the organizer using EventServices
+		    List<Event> organizerEvents = EventServices.getEventsForOrganizer(organizerId);
+
+		    // Create a list to store reservations for the organizer's events
+		    List<Reservation> reservationsForOrganizerEvents = new ArrayList<>();
+
+		    // Loop through each event to get the reservations
+		    for (Event event : organizerEvents) {
+		        // Get the reservations for the current event
+		        List<Reservation> eventReservations = ReservationServices.getReservationsByEvent(event.getId());
+
+		        // Add the reservations of the event to the list
+		        reservationsForOrganizerEvents.addAll(eventReservations);
+		    }
 	}
 	
 	
