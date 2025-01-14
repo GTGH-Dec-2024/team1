@@ -223,7 +223,7 @@ public class EventServices {
 			}
 
 			writer.write("********RESERVATIONS FOR EACH EVENT*********");
-			ArrayList<Event> allEvents = eventServices.getAllEvents();
+			ArrayList<Event> allEvents = getAllEvents();
 			for (Event event : allEvents) {
 				writer.write("Event: " + event.getTitle() + " (" + event.getId() + ")");
 				List<Reservation> reservations = reservationServices.getReservationsByEvent(event.getId());
