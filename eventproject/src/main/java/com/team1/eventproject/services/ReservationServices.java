@@ -64,7 +64,7 @@ public class ReservationServices {
          * If the reservations list is empty, the ID will be set to 1.
          * Otherwise, the ID is set to the last reservation's ID + 1.
          */
-        Integer id;  // xreiazetai? afou ta id xekinan upoxrewtika apo to 1.
+        Integer id;  
         if (reservations.isEmpty()) {
             id = 1;
         } else {
