@@ -9,7 +9,7 @@ public class ApprovalRequest {
 	//is it open (waiting for answer from employee) or closed (employee has answered)
 	private LocalDateTime createdAt;
 	private LocalDateTime closedAt; 
-	private Employee handledBy; 
+	private Integer handledBy; 
 	private String comments;
 	private Boolean isApproved;
 	
@@ -56,7 +56,7 @@ public class ApprovalRequest {
 	}
 
 
-	public void setHandledBy(Employee handledBy) {
+	public void setHandledBy(Integer handledBy) {
 		this.handledBy = handledBy;
 	}
 
@@ -75,7 +75,7 @@ public class ApprovalRequest {
 
 
 
-	public Employee getHandledBy() {
+	public Integer getHandledBy() {
 		return handledBy;
 	}
 	
@@ -84,12 +84,14 @@ public class ApprovalRequest {
 	public Integer getId() {
 		return id;
 	}
+	
+	
 
 
 
 	@Override
 	public String toString() {	
-		String print = "REQUEST ID: " +id+ "\n A request to " +type+ " the event with ID"+EventID+" was created at" + createdAt;
+		String print = "REQUEST ID: " +id+ "\n A request to " +type+ " the event with ID "+EventID+" was created at" + createdAt;
 		if (closedAt!=null && handledBy!=null )
 			print += "\n It was handled at " +closedAt;
 		

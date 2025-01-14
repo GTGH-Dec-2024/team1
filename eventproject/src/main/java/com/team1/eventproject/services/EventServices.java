@@ -23,16 +23,15 @@ import com.team1.eventproject.entities.Reservation;
 public class EventServices {
 
 	@Autowired
-	@Lazy
-	ApprovalRequestServices approvalRequestServices;
-	@Autowired
     @Lazy
-
 	ReservationServices reservationServices;
+	
+	@Autowired
+	ApprovalRequestServices approvalRequestServices;
 
 	private ArrayList<Event> allEvents = new ArrayList<>();
-	private ArrayList<Event> deletedEvents = new ArrayList<>();
-
+	
+	
 	public EventServices() {
 		this.allEvents = new ArrayList<>();
 	}

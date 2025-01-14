@@ -3,13 +3,24 @@ package com.team1.eventproject.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.team1.eventproject.entities.ApprovalRequest;
 import com.team1.eventproject.entities.Employee;
 
 @Service
 public class EmployeeServices {
-		private ArrayList<Employee> allEmployees;
+		
+	@Autowired
+	ApprovalRequestServices approvalRequestServices; 
+	
+	@Autowired
+	EventServices eventServices;
+	
+	
+	
+	private ArrayList<Employee> allEmployees;
 		
 		
 		
@@ -107,6 +118,102 @@ public class EmployeeServices {
 		    return activeEmployees;
 		}
 	
+		
+		public String acceptRequest(Integer requestID, Integer employeeID) {
+
+			ValidService validationResult = this.isValid(requestID, employeeID);
+
+			if (!validationResult.isValid()) {
+				return validationResult.getMessage();
+			}
+
+			ApprovalRequest tempRequest = validationResult.getRequest();
+
+			if (tempRequest.getType().equalsIgnoreCase("register")) 
+			{
+				eventServices.updateEvent(tempRequest.getEventID(), "approved");
+			}
+
+			else {
+				eventServices.deleteEvent(tempRequest.getEventID());
+			}
+
+			tempRequest.setIsApproved(true); // used to return a list of approved requests
+			approvalRequestServices.closeRequest(requestID, employeeID, "The request has been accepted");
+
+			return "The employee with ID " + employeeID + " has just ACCEPTED to "
+			+ tempRequest.getType() + " the event with ID: " + tempRequest.getEventID() + "\n";
+
+		}
+		
+		
+		/*
+		 * First, we check if the request is valid.
+		 * 
+		 * If it is a request to register an Event, we set its status to "not-approved".
+		 * 
+		 * If the request is to delete an Event, when the employee denies it the Event
+		 * status remains the same
+		 * 
+		 * Afterwards, the request is updated to "closed", and we add the employee who
+		 * handled it. A message is printed.
+		 * 
+		 */
+		public String denyRequest(Integer requestID, Integer employeeID) {
+
+			ValidService validationResult = this.isValid(requestID, employeeID);
+
+			if (!validationResult.isValid()) {
+				return validationResult.getMessage();
+			}
+
+			ApprovalRequest tempRequest = validationResult.getRequest();
+			if (tempRequest.getType().equalsIgnoreCase("register")) {
+				eventServices.updateEvent(tempRequest.getEventID(), "not-approved");
+
+			}
+			// no change when the request type is "delete"
+
+
+			approvalRequestServices.closeRequest(requestID, employeeID, "The request has been denied");
+
+			return "The employee with ID " + employeeID + " has just DENIED to "
+			+ tempRequest.getType() + " the event with ID: " + tempRequest.getEventID() + "\n";
+
+		}
+
+
+		/*
+		 * Checks if the request can be processed.
+		 * 
+		 * * Both the ApprovalRequest and the Employee objects must be non-null, and the Request
+		 * status must not be "closed". If any of these conditions fail, the method
+		 * returns a ValidService object with the appropriate error message.
+		 * 
+		 * This method was made to avoid duplicate code in acceptRequest and
+		 * deleteReques. The ValidService class was made to help.
+		 * 
+		 */
+		
+		private ValidService isValid(Integer requestID, Integer employeeID) {
+			
+			if (getEmployeeUsingID(employeeID) == null) {
+				return new ValidService(null, false, "There is no employee with this id! The request can't be handled");
+			}
+
+			ApprovalRequest tempRequest = approvalRequestServices.getApprovalRequestUsingID(requestID);
+
+			if (tempRequest == null) {
+				return new ValidService(null, false, "The request ID is invalid");
+			}
+
+			if (tempRequest.getStatus().equalsIgnoreCase("closed")) {
+				return new ValidService(tempRequest, false,
+						"The request with ID: " + requestID + " has already been handled.");
+			}
+
+			return new ValidService(tempRequest, true, "Request is valid");
+		}
 		
 		
 
