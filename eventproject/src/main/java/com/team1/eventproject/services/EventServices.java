@@ -108,22 +108,17 @@ public class EventServices {
 
 		LocalDate currentDate = LocalDate.now();
 
-		for (Event event : allEvents) {
-			try {
-				if (isValidDate(event.getYear(), event.getMonth(), event.getDay()) && isValidOrganizer(organizerId)) {
-					LocalDate date = LocalDate.of(event.getYear(), event.getMonth(), event.getDay());
-					if (currentDate.isBefore(date) && organizerId == event.getOrganizerId()) {
-						upcomingEvents.add(event);
-					}
-				}
-			} catch (Exception e) {
-				System.err.println("Error trying to retrieve upcomming events(date or organizer not valid): "+e.getMessage());
+		for (Event event : allEvents)
+		{
+			LocalDate date = LocalDate.of(event.getYear(), event.getMonth(), event.getDay());
+			if (currentDate.isBefore(date) && organizerId.equals(event.getOrganizerId()))
+			{
+				upcomingEvents.add(event);
 			}
-
+			
 		}
-
-		return upcomingEvents;
-	}
+			return upcomingEvents;
+		}
 
 	/*
 	 * public void visitorsPerEvent() {
@@ -299,16 +294,18 @@ public class EventServices {
 			return false;
 		}
 	}
-
-	private Boolean isValidOrganizer(Integer organizerId) {
-		boolean isValid = false;
-		for (Organizer organizer : organizerServices.getAllOrganizers()) {
-			if (organizerId.equals(organizer.getId())) {
-				isValid = true;
-			} else {
-				isValid = false;
-			}
-		}
-		return isValid;
-	}
+	
+	
+//
+//	private Boolean isValidOrganizer(Integer organizerId) {
+//		boolean isValid = false;
+//		for (Organizer organizer : organizerServices.getAllOrganizers()) {
+//			if (organizerId.equals(organizer.getId())) {
+//				isValid = true;
+//			} else {
+//				isValid = false;
+//			}
+//		}
+//		return isValid;
+//	}
 }
