@@ -13,7 +13,7 @@ public class Organizer extends User {
 	private String status;
 	private ArrayList<Event> events;
 
-	public Organizer(String name, String surname, String afm, String description, int id) {
+	public Organizer(String name, String surname, String afm, String description, Integer id) {
 		super(name, surname);
 		this.id = id;
 		this.afm = afm;
@@ -55,7 +55,7 @@ public class Organizer extends User {
 		this.status = status;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
