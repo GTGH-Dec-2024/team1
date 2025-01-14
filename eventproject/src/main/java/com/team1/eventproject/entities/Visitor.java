@@ -13,38 +13,42 @@ public class Visitor extends User {
         this.email = email;
     }
     
-    // GETTERS FOR ALL FIELDS
-	public Integer getId() {
-		
-		return id;
-	} 
 
-	public String getEmail() 
-	{
+
+	public String getEmail() {
 		return email;
 	}
-    
-		
-	public String getStatus() {
-		return status;
-	}
 
-	// SETTERS FOR THE FIELDS STATUS AND EMAIL (to id den exei setter gt den mporoume na to allaxoume-ginetai mono automata?)
-	public void setStatus(String status) {
-		this.status = status;
-	}
 
-	
-	
-	
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
+
+
+	public String getStatus() {
+		return status;
+	}
+
+
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+
+
+	public Integer getId() {
+		return id;
+	}
+
+
+
 	// toString method
 	@Override
 	public String toString() {
-	    return "Visitor [id=" + id + ", name=" + name + ", surname=" + surname + ", email=" + email + "]";
+	    return "Visitor [id=" + id + ", name=" + this.getName() + ", surname=" + this.getSurname() + ", email=" + email + "]";
 	}
 
 

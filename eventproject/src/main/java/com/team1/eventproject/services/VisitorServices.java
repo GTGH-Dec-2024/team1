@@ -85,7 +85,8 @@ public class VisitorServices {
 
  // Method to update a visitor
     public String updateVisitor(Integer id, String newName, String newSurname, String newEmail) {
-        for (Visitor visitor : allVisitors)
+    
+    	for (Visitor visitor : allVisitors)
         {
         	if (visitor.getId().equals(id)) {
         		if (newName != null)
@@ -98,7 +99,7 @@ public class VisitorServices {
         	return "The visitor has been updated";
         	}  
         }
-        return "The visitor ID you provided is not correct";
+    	return "The visitor ID you provided is not correct";
     }
     
     

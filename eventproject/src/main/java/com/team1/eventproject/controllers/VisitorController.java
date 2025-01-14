@@ -30,6 +30,25 @@ public class VisitorController {
  	public String deleteVisitor (@RequestParam Integer id){
  		return visitorServices.deleteVisitor(id);
  	}
+    
+    @GetMapping("/visitorById")
+    public Visitor getVisitorUsingID(@RequestParam Integer id) {
+    	return visitorServices.getVisitorUsingID(id);
+    }
+    
+    @GetMapping ("/allVisitors")
+    public List<Visitor> getAllVisitors()
+    {
+    	return visitorServices.getAllVisitors();
+    }
+    
+    @PutMapping ("/update")
+    public String updateVisitor(@RequestParam Integer id, @RequestParam(required=false) String name,
+    		@RequestParam(required=false) String surname, @RequestParam(required=false) String email)
+    {
+    	return visitorServices.updateVisitor(id, name, surname, email);
+    }
+    
      
     
 
