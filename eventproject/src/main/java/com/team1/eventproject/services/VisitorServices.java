@@ -94,16 +94,5 @@ public class VisitorServices {
      *  reservations they have made get cancelled automatically.
      */
    
-    // Method to delete a visitor
-    public boolean deleteVisitor(Integer visitorId) {
-        Visitor visitor = getVisitorUsingID(visitorId);
-        if (visitor == null || visitor.getStatus().equalsIgnoreCase("deleted")) {
-            return false; // Visitor not found or already deleted
-        }
-        
-        visitor.setStatus("deleted"); // Mark as deleted
-        ReservationServices.cancelAllReservationsForVisitor(visitorId); // Cancel all related reservations
-        return true; // Deletion successful
-    }
     
 }

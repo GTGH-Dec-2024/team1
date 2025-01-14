@@ -174,59 +174,7 @@ public class EventServices {
 		return message;
 	}
 
-    // SOS SOS !! AN AUTH H METHODOS PAIRNEI EVENT KAI RESERVATION NA PAEI STI RESERVATIONMANAGERSERVICES
-	public String writeEventAgendaToFile() {
-		String message;
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter("event-agenda.txt"))) {
-
-			writer.write("********UPCOMING EVENTS FOR EACH ORGANIZER*********");
-			List<Organizer> allOrganizers = organizerServices.getAllOrganizers();
-			for (Organizer organizer : allOrganizers) {
-				writer.write("Organizer: " + organizer.getName() + " " + organizer.getSurname() + " ("
-						+ organizer.getId() + ")");
-				List<Event> upcomingEvents = getUpcomingEventsPerOrganizer(organizer.getId());
-				if (upcomingEvents.isEmpty()) {
-					writer.write("No upcoming events!\n");
-				} else {
-					for (Event event : upcomingEvents) {
-						writer.write("-" + event.toString() + "\n");
-					}
-				}
-			}
-
-			writer.write("********RESERVATIONS FOR EACH EVENT*********");
-			List<Event> allEvents = eventServices.getAllEvents();
-			for (Event event : allEvents) {
-				writer.write("Event: " + event.getTitle() + " (" + event.getId() + ")");
-				List<Reservation> reservations = getReservationsByEvent(event.getId());
-				if (reservations.isEmpty()) {
-					writer.write("No reservations for that event!\n");
-				} else {
-					for (Reservation reservation : reservations) {
-						writer.write("-" + reservation.toString() + "\n");
-					}
-				}
-			}
-
-			writer.write("********ALL PENDING REQUESTS*********");
-			List<ApprovalRequest> pendingRequests = approvalRequestServices.getPendingRequests();
-			
-			if (pendingRequests.isEmpty()) {
-				writer.write("No pending requests!");
-			} else {
-				for (ApprovalRequest request : pendingRequests) {
-					writer.write("Request: " + request.toString() + "\n");
-				}
-			}
-
-			message = "The event agenda was succesfully written to event-agenda.txt file";
-		} catch (IOException e) {
-			message = "Error while writing the file: " + e.getMessage();
-		}
-
-		return message;
-	}
-		
+    
 	
 	
 	/*
