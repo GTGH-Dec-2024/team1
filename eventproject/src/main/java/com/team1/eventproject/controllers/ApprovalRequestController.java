@@ -43,6 +43,20 @@ public class ApprovalRequestController {
 		return approvalrequestservices.getPendingRequests();
 	}
 	
+	@GetMapping("/approvedRequests")
+	public List<ApprovalRequest> getApprovedRequests()
+	{
+		return approvalrequestservices.getApprovedRequests();
+	}
+	
+	@GetMapping("/requestsForEvent")
+	public List<ApprovalRequest> getRequestsForEvent(@RequestParam Integer eventID)
+	{
+		return approvalrequestservices.getRequestsForEvent(eventID);
+	}
+	
+	
+	
 	
 
 
