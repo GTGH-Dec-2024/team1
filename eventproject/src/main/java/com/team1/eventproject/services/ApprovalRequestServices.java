@@ -2,8 +2,10 @@ package com.team1.eventproject.services;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.team1.eventproject.entities.ApprovalRequest;
@@ -17,6 +19,7 @@ public class ApprovalRequestServices {
 	@Autowired
 	EmployeeServices employeeServices;
 	@Autowired
+    @Lazy
 	EventServices eventServices;
 	@Autowired
 	OrganizerServices organizerServices;
@@ -36,12 +39,28 @@ public class ApprovalRequestServices {
 	 * 
 	 * 
 	 */
-	public void addApprovalRequest(String type, int OrganizerID, int eventID, String comments) {
-		Organizer tempOrganizer = organizerServices.getOrganizerUsingID(OrganizerID);
+	public String addApprovalRequest(String type, Integer organizerID, Integer eventID, String comments) {
+		
+		Organizer tempOrganizer = organizerServices.getOrganizerUsingID(organizerID);
 		Event tempEvent = eventServices.getEventUsingID(eventID);
-
+		
+		if (tempOrganizer == null)
+		{
+			return "Organizer not found. There is no organizers with ID " +organizerID;
+		}
+		
+		if (tempEvent ==null)
+		{
+			return "Event not found. There is no event with ID " +eventID;
+		}
+		
+		if (!type.equalsIgnoreCase("delete") && !type.equals("add") )
+		{
+			return "The only acceptable types of requests are add/delete.";
+		}
+		
 		/*
-		 * We want all IDs to be given automatically. Therefore, we use the allEmployees
+		 * We want all IDs to be given automatically. Therefore, we use the allRequests
 		 * list to help us. If the list is empty, then we know it is the first object
 		 * that will be made so its id will be set to 1.
 		 * 
@@ -49,7 +68,7 @@ public class ApprovalRequestServices {
 		 * increasing it by 1 we get the new id!
 		 * 
 		 */
-		int id;
+		Integer id;
 		if (allRequests.isEmpty()) {
 			id = 1;
 
@@ -61,6 +80,9 @@ public class ApprovalRequestServices {
 				id);
 
 		allRequests.add(aRequest);
+		
+		return "A request to " +type+ " the event " +tempEvent.getTitle() +" has been added."
+				+ "The id of the request is: " +aRequest.getId();
 
 	}
 
@@ -77,7 +99,7 @@ public class ApprovalRequestServices {
 	 * 
 	 */
 
-	public String acceptRequest(int requestID, int employeeID) {
+	public String acceptRequest(Integer requestID, Integer employeeID) {
 
 		ValidService validationResult = this.isValid(requestID, employeeID);
 
@@ -117,7 +139,7 @@ public class ApprovalRequestServices {
 	 * handled it. A message is printed.
 	 * 
 	 */
-	public String denyRequest(int requestID, int employeeID) {
+	public String denyRequest(Integer requestID, Integer employeeID) {
 
 		ValidService validationResult = this.isValid(requestID, employeeID);
 
@@ -150,7 +172,7 @@ public class ApprovalRequestServices {
 	 * deleteReques. The ValidService class was made to help.
 	 * 
 	 */
-	private ValidService isValid(int requestID, int employeeID) {
+	private ValidService isValid(Integer requestID, Integer employeeID) {
 		Employee tempEmployee = employeeServices.getEmployeeUsingID(employeeID);
 
 		if (tempEmployee == null) {
@@ -202,16 +224,18 @@ public class ApprovalRequestServices {
 	 * 
 	 * When a request hasn't been handled yet, its status is "open"
 	 */
-	public void getPendingRequests() {
+	public List<ApprovalRequest> getPendingRequests() {
 		ArrayList<ApprovalRequest> pendingRequests = new ArrayList<>();
 		for (ApprovalRequest aRequest : allRequests) {
 			if (aRequest.getStatus().equals("open")) {
 				pendingRequests.add(aRequest);
 			}
 		}
-		System.out.println("--The pending requests are--/n" + pendingRequests);
+		return pendingRequests;
 	}
 
+	
+	
 	/*
 	 * Returns all the ApprovalRequests that have been approved by an employee
 	 */
@@ -250,7 +274,7 @@ public class ApprovalRequestServices {
 	 * Given the ID of an ApprovalRequest object, it returns the object
 	 * 
 	 */
-	public ApprovalRequest getApprovalRequestUsingID(int id) {
+	public ApprovalRequest getApprovalRequestUsingID(Integer id) {
 		for (ApprovalRequest temp : allRequests) {
 			if (temp.getId() == id) {
 				return temp;
@@ -260,8 +284,13 @@ public class ApprovalRequestServices {
 	}
 
 	
-	public String removeApprovalRequest(int id) {
+	public String removeApprovalRequest(Integer id) {
 		ApprovalRequest temp = getApprovalRequestUsingID(id);
+		
+		if (temp == null)
+		{
+			return "There is no request with the id you provided!";
+		}
 		
 		if (temp.getStatus().equalsIgnoreCase("open"))
 		{

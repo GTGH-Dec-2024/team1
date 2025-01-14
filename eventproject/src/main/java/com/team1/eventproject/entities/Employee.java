@@ -5,34 +5,62 @@ import java.util.ArrayList;
 public class Employee extends User {
 
 	private String email;
-	private int id;
-	private ArrayList <Event> deletionsHistory;
+	private Integer id;
+	private String status; 
+	// active or deleted. When an entity gets "deleted", it doesn't
+	//actually get removed from the list. Its status just changes 
+	//to "deleted"
+	//private ArrayList <Event> deletionsHistory;
 
-	public Employee(String name, String surname, String email, int id) {
+	public Employee(String name, String surname, String email, Integer id) {
 		super(name, surname);
 		this.id = id;
 		this.email = email;
-		deletionsHistory = new ArrayList<>();
+		this.status = "active";
+		//deletionsHistory = new ArrayList<>();
 	}
 	
-	
+	/*
+	 * a method for the "nice to have" feature of keeping
+	 * an archive of all the Events an employee has deleted.
+	 * Probably will not be implemented
+	 * 
 	public void addDeletion(Event anEvent)
 	{
 		deletionsHistory.add(anEvent);
 	}
+*/
 
-
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
 
 
-   // Na valoume mia toString?
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+	public String getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	@Override
 	public String toString() {
-		return "Employee [email=" + email + ", id=" + id + ", deletionsHistory=" + deletionsHistory + "]";
+		return "Employee [email=" + email + ", id=" + id + ", status=" + status + "]";
 	}
+	
 	
 		
 }

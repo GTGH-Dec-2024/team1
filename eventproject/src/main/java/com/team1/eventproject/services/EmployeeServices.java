@@ -14,12 +14,12 @@ public class EmployeeServices {
 		
 		
 		public EmployeeServices(ArrayList<Employee> allEmployees) {
-			this.allEmployees = allEmployees;
+			this.allEmployees = new ArrayList<>();
 		}
 		
 
 
-		public List<Employee> addEmployee (String name, String surname, String email)
+		public String addEmployee (String name, String surname, String email)
 		{
 			
 			/*
@@ -32,7 +32,7 @@ public class EmployeeServices {
 			 * and by increasing it by 1 we get the new id!
 			 * 
 			 */
-			int id; 
+			Integer id; 
 			if(allEmployees.isEmpty()){
 				id = 1;
 				
@@ -49,33 +49,64 @@ public class EmployeeServices {
 			}
 			else
 			{
-				System.out.println("The employee: " +temp.getName()+ temp.getSurname()+
+				return("The employee: " +temp.getName()+ temp.getSurname()+
 						" has already been added");
 			}
-			return allEmployees;
+			return "The employee " +name + " " + surname +" has been added successfully,"
+					+ "with id: "+ id+ "!";
 		}
 		
 		
 		
-		public String removeEmployee(int id) {
+		public String deleteEmployee(Integer id) {
 			Employee temp = getEmployeeUsingID(id);
-			allEmployees.remove(temp);
-			return "Employee " + temp.getName() +"has been removed.";
+			if (temp == null || temp.getStatus().equalsIgnoreCase("deleted"))
+				return "Employee not found, or has already been deleted";
+			
+			temp.setStatus("deleted");
+			return "Employee " + temp.getName() + " " + temp.getSurname() +" has been deleted.";
 		}
 
 
 
-		public Employee getEmployeeUsingID(int id)
+		public Employee getEmployeeUsingID(Integer id)
 		{
 			for (Employee employee : allEmployees) 
 			{
-		        if (employee.getId() == id) 
+		        if (employee.getId().equals(id)) 
 		        {
 		            return employee;
 		        }
 		    }
 		    return null; 
 		}
+		
+		
+		public List<Employee> getAllEmployees() {
+			return allEmployees;
+		}
+		
+		
+		/*
+		 * The employee list contains all the employees, even the 
+		 * ones that have been deleted (status.equalsIgnoreCase("deleted")
+		 * The following method returns a list with the employees that
+		 * are active
+		 * 
+		 */
+		public List<Employee> getAllActiveEmployees() {
+
+		    List<Employee> activeEmployees = new ArrayList<>();
+
+		    for (Employee em : allEmployees) {
+		        if (em.getStatus().equalsIgnoreCase("active")) {
+		            activeEmployees.add(em);
+		        }
+		    }
+
+		    return activeEmployees;
+		}
+	
 		
 		
 

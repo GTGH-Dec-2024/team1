@@ -2,7 +2,7 @@ package com.team1.eventproject.entities;
 
 import org.springframework.stereotype.Service;
 
-@Service
+
 public class Event {
 	private String title;
 	private String theme;

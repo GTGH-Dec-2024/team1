@@ -3,7 +3,7 @@ package com.team1.eventproject.entities;
 import java.time.LocalDateTime;
 
 public class ApprovalRequest {
-	private int id;  
+	private Integer id;  
 	private String type; //is it to "register" or "delete" event
 	private String status; 
 	//is it open (waiting for answer from employee) or closed (employee has answered)
@@ -11,14 +11,14 @@ public class ApprovalRequest {
 	private LocalDateTime closedAt; 
 	private Employee handledBy; 
 	private String comments;
-	private boolean isApproved;
+	private Boolean isApproved;
 	
 	private Organizer submittedBy;
 	private Event anEvent;
 	
 	
 	public ApprovalRequest(String type, LocalDateTime createdAt,
-			Organizer submittedBy, Event anEvent, String comments, int id) {
+			Organizer submittedBy, Event anEvent, String comments, Integer id) {
 		this.id = id;//the id is given automatically by the program
 		this.type = type;
 		this.createdAt = createdAt;
@@ -81,7 +81,7 @@ public class ApprovalRequest {
 	
 	
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
@@ -106,7 +106,7 @@ public class ApprovalRequest {
 
 
 
-	public boolean getIsApproved() {
+	public Boolean getIsApproved() {
 		return isApproved;
 	}
 	

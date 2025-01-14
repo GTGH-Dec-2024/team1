@@ -3,6 +3,8 @@ package com.team1.eventproject.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.team1.eventproject.entities.Visitor;
@@ -11,6 +13,10 @@ import com.team1.eventproject.entities.Visitor;
 public class VisitorServices {
 	// The class VisitorServices stores all the visitors in the list allVisitors.
 	private ArrayList<Visitor> allVisitors;  
+	
+	@Autowired
+    @Lazy
+    private ReservationServices reservationServices;
 	
 	
 	// Constructor
@@ -24,7 +30,7 @@ public class VisitorServices {
 	{
 		/*
 		 * We want all IDs to be given automatically. Therefore, we
-		 * use the allEmployees list to help us. If the list is empty,
+		 * use the allVisitors list to help us. If the list is empty,
 		 * then we know it is the first object that will be made so its
 		 * id will be set to 1.
 		 * 
@@ -57,16 +63,17 @@ public class VisitorServices {
 	
 	
 	// Method which returns visitor based on his id
-	public Visitor getVisitorUsingID(int id)
+	public Visitor getVisitorUsingID(Integer id)
 	{
 		for (Visitor visitor : allVisitors) 
 		{
-	        if (visitor.getId() == id) 
+			if (visitor.getId().equals(id)) {  // Changed == to .equals() for Integer comparison
 	        {
 	            return visitor;
 	        }
 	    }
-	    return null; 
+	    return null;
+	    } 
 	}
 
 	// Method to get all visitors
@@ -74,25 +81,33 @@ public class VisitorServices {
         return new ArrayList<>(allVisitors); // Return a copy to ensure immutability
     }
 
-    // Method to update a visitor
-    public boolean updateVisitor(int id, String newName, String newSurname, String newEmail) {
+ // Method to update a visitor
+    public Boolean updateVisitor(Integer id, String newName, String newSurname, String newEmail) {
         Visitor visitor = getVisitorUsingID(id);
         if (visitor != null) {
             visitor.setName(newName);
             visitor.setSurname(newSurname);
             visitor.setEmail(newEmail);
-            return true; // Update successful
+            return Boolean.TRUE; // Update successful
         }
-        return false; // Visitor not found
+        return Boolean.FALSE; // Visitor not found
     }
 
-    // Method to delete a visitor
-    public boolean deleteVisitor(int id) {
-        Visitor visitor = getVisitorUsingID(id);
-        if (visitor != null) {
-            allVisitors.remove(visitor);
-            return true; // Deletion successful
-        }
-        return false; // Visitor not found
+    /*
+     *  Method to delete a visitor. When a visitor gets deleted, all the
+     *  reservations they have made get cancelled automatically.
+     */
+   
+    public String deleteVisitor(Integer visitorId) {
+    	Visitor temp = getVisitorUsingID(visitorId);
+		
+    	if (temp == null || temp.getStatus().equalsIgnoreCase("deleted"))
+			return "Visitor not found or has already been deleted";
+	
+		temp.setStatus("deleted");
+		
+		String message = reservationServices.cancelAllReservationsForVisitor(visitorId);
+		return "Visitor " + temp.getName() +" has been deleted. "+ message;
+        
     }
 }
