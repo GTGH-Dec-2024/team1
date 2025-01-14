@@ -41,19 +41,19 @@ public class ApprovalRequestServices {
 	 */
 	public String addApprovalRequest(String type, Integer organizerID, Integer eventID, String comments) {
 		
-		Organizer tempOrganizer = organizerServices.getOrganizerUsingID(organizerID);
-		Event tempEvent = eventServices.getEventUsingID(eventID);
-		
-		if (tempOrganizer == null)
-		{
-			return "Organizer not found. There is no organizers with ID " +organizerID;
-		}
-		
-		if (tempEvent ==null)
-		{
-			return "Event not found. There is no event with ID " +eventID;
-		}
-		
+//		Organizer tempOrganizer = organizerServices.getOrganizerUsingID(organizerID);
+//		Event tempEvent = eventServices.getEventUsingID(eventID);
+//		
+//		if (tempOrganizer == null)
+//		{
+//			return "Organizer not found. There is no organizers with ID " +organizerID;
+//		}
+//		
+//		if (tempEvent ==null)
+//		{
+//			return "Event not found. There is no event with ID " +eventID;
+//		}
+//		
 		if (!type.equalsIgnoreCase("delete") && !type.equals("add") )
 		{
 			return "The only acceptable types of requests are add/delete.";
@@ -76,11 +76,11 @@ public class ApprovalRequestServices {
 			id = allRequests.get(allRequests.size() - 1).getId() + 1;
 		}
 
-		ApprovalRequest aRequest = new ApprovalRequest(type, LocalDateTime.now(), tempOrganizer, tempEvent, comments,id);
+		ApprovalRequest aRequest = new ApprovalRequest(type, LocalDateTime.now(), organizerID, eventID, comments,id);
 
 		allRequests.add(aRequest);
 		
-		return "A request to " +type+ " the event " +tempEvent.getTitle() +" has been added."
+		return "A request to " +type+ " the event with ID" +eventID +" has been added."
 				+ "The id of the request is: " +aRequest.getId();
 
 	}
@@ -109,12 +109,12 @@ public class ApprovalRequestServices {
 		ApprovalRequest tempRequest = validationResult.getRequest();
 
 		if (tempRequest.getType().equalsIgnoreCase("register")) {
-			tempRequest.getAnEvent().setStatus("approved");
+			tempRequest);
 
 		}
 
 		else {
-			eventServices.deleteEvent(tempRequest.getAnEvent().getId());
+			eventServices.deleteEvent(tempRequest.getEventID());
 		}
 
 		tempRequest.setIsApproved(true); // used to return a list of approved requests

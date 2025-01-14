@@ -13,17 +13,17 @@ public class ApprovalRequest {
 	private String comments;
 	private Boolean isApproved;
 	
-	private Organizer submittedBy;
-	private Event anEvent;
+	private Integer submittedBy;//the ID of the Organizer
+	private Integer EventID;//the ID of the Event
 	
 	
 	public ApprovalRequest(String type, LocalDateTime createdAt,
-			Organizer submittedBy, Event anEvent, String comments, Integer id) {
+			Integer submittedBy, Integer EventID, String comments, Integer id) {
 		this.id = id;//the id is given automatically by the program
 		this.type = type;
 		this.createdAt = createdAt;
 		this.submittedBy = submittedBy;
-		this.anEvent = anEvent;
+		this.EventID = EventID;
 		this.comments = "Organizer's comment: " + comments;
 		this.status = "open"; //by default, since the organizer makes the request
 		this.closedAt = null; //based on when the employee handles it
@@ -40,8 +40,8 @@ public class ApprovalRequest {
 	}
 
 
-	public Event getAnEvent() {
-		return anEvent;
+	public Integer getEventID() {
+		return EventID;
 	}
 
 
@@ -89,7 +89,7 @@ public class ApprovalRequest {
 
 	@Override
 	public String toString() {	
-		String print = "REQUEST ID: " +id+ "\n A request to " +type+ " the event "+anEvent.getTitle()+" was created at" + createdAt;
+		String print = "REQUEST ID: " +id+ "\n A request to " +type+ " the event with ID"+EventID+" was created at" + createdAt;
 		if (closedAt!=null && handledBy!=null )
 			print += "\n It was handled at " +closedAt;
 		
