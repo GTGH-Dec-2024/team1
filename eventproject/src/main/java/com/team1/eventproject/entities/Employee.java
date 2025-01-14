@@ -25,8 +25,14 @@ public class Employee extends User {
 	public int getId() {
 		return id;
 	}
-	
-	
-   // Na valoume mia toString?
 
+
+
+   // Na valoume mia toString?
+	@Override
+	public String toString() {
+		return "Employee [email=" + email + ", id=" + id + ", deletionsHistory=" + deletionsHistory + "]";
+	}
+	
+		
 }

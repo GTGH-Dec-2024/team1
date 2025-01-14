@@ -63,5 +63,22 @@ public class OrganizerServices {
 	    return null; 
 	}
 
+	public ArrayList<Organizer> getAllOrganizers() {
+		return allOrganizers;
+	}
+	
+	public String deleteOrganizer(Integer organizerId) {
+		String message;
+		
+		for(Organizer organizer : allOrganizers) {
+			if(organizerId.equals(organizer.getId())) {
+				allOrganizers.remove(organizer);
+				message="Organizer removed successfully!";
+			}else {
+				message="Organizer not found!";
+			}
+		}
+		return message;
+	}
 	
 }
