@@ -23,12 +23,12 @@ public class EventController {
 	EventServices eventServices;
 	
 	@PostMapping("/add")
-	public String addEvent(@RequestParam Integer eventId, @RequestParam Integer organizerId, @RequestParam String title,
+	public String addEvent(@RequestParam Integer organizerId, @RequestParam String title,
 			@RequestParam String theme, @RequestParam String description, @RequestParam String location,
 			@RequestParam Integer maxCapacity, @RequestParam Integer day, @RequestParam Integer month,
 			@RequestParam Integer year, @RequestParam Integer hour, @RequestParam Integer minutes,
 			@RequestParam Integer duration, @RequestParam String comments) {
-		return eventServices.addEvent(eventId, organizerId, title, theme, description, location, maxCapacity, day,
+		return eventServices.addEvent(organizerId, title, theme, description, location, maxCapacity, day,
 				month, year, hour, minutes, duration, comments);
 	}
 

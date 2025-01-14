@@ -25,40 +25,42 @@ public class VisitorServices {
 	}
 
 
-	// Method addVisitor adds a new visitor to the allVisitors list
-	public String addVisitor (String name, String surname, String email)
+	public String addVisitor(String name, String surname, String email)
 	{
-		/*
-		 * We want all IDs to be given automatically. Therefore, we
-		 * use the allVisitors list to help us. If the list is empty,
-		 * then we know it is the first object that will be made so its
-		 * id will be set to 1.
-		 * 
-		 * Otherwise, we find the ID of the last object that was added,
-		 * and by increasing it by 1 we get the new id!
-		 * 
-		 */
-		Integer id; 
-		if(allVisitors.isEmpty()){
-			id = 1;
-			
-		}else
-		{
-			id = allVisitors.get(allVisitors.size() - 1).getId() + 1;
-		}
-	
-		
-		Visitor temp = new Visitor(name, surname, email, id); 
-		if (!allVisitors.contains(temp))
-		{
-			allVisitors.add(temp);
-		}
-		else
-		{
-			 return "The Visitor: " +temp.getName() +" "+temp.getSurname()+ " has already been added";
-		}
-		return "The Visitor "+temp.getName() +" "+ temp.getSurname()+ " has been added successfully"
-				+" and given the ID " +id;
+	    /*
+	     * We want all IDs to be given automatically. Therefore, we
+	     * use the allVisitors list to help us. If the list is empty,
+	     * then we know it is the first object that will be made so its
+	     * id will be set to 1.
+	     * 
+	     * Otherwise, we find the ID of the last object that was added,
+	     * and by increasing it by 1 we get the new id!
+	     */
+	    Integer id; 
+	    if(allVisitors.isEmpty()){
+	        id = 1;
+	    }else{
+	        id = allVisitors.get(allVisitors.size() - 1).getId() + 1;
+	    }
+
+	    // We create a new Visitor object
+	    Visitor temp = new Visitor(name, surname, email, id); 
+
+	    /*
+	     * We consider the email to be unique, so we check if the visitor is
+	     * already on the list using the email.
+	     */
+	    for (Visitor visitor : allVisitors) {
+	        if (visitor.getEmail().equals(email)) {
+	            return "The Visitor: " + temp.getName() + " " + temp.getSurname() +" has already been added";
+	        }
+	    }
+
+	 
+	    allVisitors.add(temp); 
+	    
+	    return "The Visitor " + temp.getName() + " " + temp.getSurname() + " has been added successfully "
+	    		+ "and given the ID " + id;
 	}
 	
 	

@@ -26,7 +26,16 @@ public class OrganizerServices {
 	}
 
 	public String addOrganizer(String name, String surname, String afm, String description) {
-		String message="";
+		
+		/*
+		 * AFM is unique to each organizer. Therefore, we use it to check if an organizer has
+		 * already been added to the database
+		 */
+		for (Organizer organizer : allOrganizers) {
+			if (organizer.getAfm().equals(afm)) {
+				return "The Organizer: " + name + " " + surname + " has already been added";
+			}
+		}
 		/*
 		 * We want all IDs to be given automatically. Therefore, we use the
 		 * allOrganizers list to help us. If the list is empty, then we know it is the
@@ -45,14 +54,11 @@ public class OrganizerServices {
 		}
 
 		Organizer temp = new Organizer(name, surname, afm, description, id);
-		if (!allOrganizers.contains(temp)) {
-			allOrganizers.add(temp);
-			message="The Organizer: " + temp.getName() + temp.getSurname() + " has been added succesfully"
-					+" and given the ID " +id;;
-		} else {
-			System.out.println("The Organizer: " + temp.getName() + temp.getSurname() + " has already been added");
-		}
-		return message;
+
+		allOrganizers.add(temp);
+		return "The Organizer: " + temp.getName() + temp.getSurname() + " has been added succesfully"
+				+ " and given the ID " + id;
+
 	}
 
 	public Organizer getOrganizerUsingID(Integer id) {
@@ -94,6 +100,5 @@ public class OrganizerServices {
 	 * message="Organizer removed successfully!"; }else {
 	 * message="Organizer not found!"; } } return message; }
 	 */
-
 
 }
