@@ -22,7 +22,7 @@ public class EventAgendaServices {
 	@Autowired
 	private OrganizerServices organizerServices;
 	@Autowired
-	private ApprovalRequestServices apprivalRequestServices;
+	private ApprovalRequestServices approvalRequestServices;
 	@Autowired
 	private ReservationServices reservationServices;
 	
@@ -36,7 +36,7 @@ public class EventAgendaServices {
 			for (Organizer organizer : allOrganizers) {
 				writer.write("Organizer: " + organizer.getName() + " " + organizer.getSurname() + " ("
 						+ organizer.getId() + ")");
-				List<Event> upcomingEvents = organizerServices.getUpcomingEventsPerOrganizer(organizer.getId());
+				List<Event> upcomingEvents = eventServices.getUpcomingEventsPerOrganizer(organizer.getId());
 				if (upcomingEvents.isEmpty()) {
 					writer.write("No upcoming events!\n");
 				} else {
