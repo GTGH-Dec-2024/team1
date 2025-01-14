@@ -26,9 +26,14 @@ public class EventServices {
 	@Lazy
 	ApprovalRequestServices approvalRequestServices;
 	@Autowired
-    @Lazy
-
+	@Lazy
 	ReservationServices reservationServices;
+	@Autowired
+	@Lazy
+	EventServices eventServices;
+	@Autowired
+	@Lazy
+	OrganizerServices organizerServices;
 
 	private ArrayList<Event> allEvents = new ArrayList<>();
 	private ArrayList<Event> deletedEvents = new ArrayList<>();
@@ -77,15 +82,19 @@ public class EventServices {
 	}
 
 	// method to delete an event given its id
-	public void deleteEvent(Integer eventId) {
+	public String deleteEvent(Integer eventId) {
+		String message = "Event with id " + eventId + " deleted sucessfully";
 		Event event = getEventUsingID(eventId);
 		event.setStatus("deleted");
+		return message;
 	}
 
 	// method to update an event's status
-	public void updateEvent(Integer eventId, String newEventStatus) {
+	public String updateEvent(Integer eventId, String newEventStatus) {
+		String message = "Event with id " + eventId + " updated succesfully!";
 		Event event = getEventUsingID(eventId);
 		event.setStatus(newEventStatus);
+		return message;
 	}
 
 	public ArrayList<Event> getEventsForOrganizer(Integer organizerId) {
@@ -106,30 +115,35 @@ public class EventServices {
 		LocalDate currentDate = LocalDate.now();
 
 		for (Event event : allEvents) {
-			LocalDate date = LocalDate.of(event.getYear(), event.getMonth(), event.getDay());
-			if (currentDate.equals(date) && organizerId == event.getOrganizerId()) {
-				upcomingEvents.add(event);
+			try {
+				if (isValidDate(event.getYear(), event.getMonth(), event.getDay()) && isValidOrganizer(organizerId)) {
+					LocalDate date = LocalDate.of(event.getYear(), event.getMonth(), event.getDay());
+					if (currentDate.isBefore(date) && organizerId == event.getOrganizerId()) {
+						upcomingEvents.add(event);
+					}
+				}
+			} catch (Exception e) {
+				System.err.println("Error trying to retrieve upcomming events(date or organizer not valid): "+e.getMessage());
 			}
+
 		}
 
 		return upcomingEvents;
 	}
 
-	public void visitorsPerEvent() {
-
-		for (Event event : allEvents) {
-			System.out.println("Event: " + event.getTitle());
-			List<Reservation> reservationsForThisEvent = reservationServices.getReservationsByEvent(event.getId());
-			if (reservationsForThisEvent.isEmpty()) {
-				System.out.println("No visitors yet!");
-			} else {
-				for (Reservation reservation : reservationsForThisEvent) {
-					System.out.println(reservation.getVisitor().getName() + " " + reservation.getVisitor().getSurname()
-							+ " (" + reservation.getVisitor().getId() + ")");
-				}
-			}
-		}
-	}
+	/*
+	 * public void visitorsPerEvent() {
+	 * 
+	 * for (Event event : allEvents) { System.out.println("Event: " +
+	 * event.getTitle()); List<Reservation> reservationsForThisEvent =
+	 * reservationServices.getReservationsByEvent(event.getId()); if
+	 * (reservationsForThisEvent.isEmpty()) {
+	 * System.out.println("No visitors yet!"); } else { for (Reservation reservation
+	 * : reservationsForThisEvent) {
+	 * System.out.println(reservation.getVisitor().getName() + " " +
+	 * reservation.getVisitor().getSurname() + " (" +
+	 * reservation.getVisitor().getId() + ")"); } } } }
+	 */
 
 	public void getReservationsForOrganizersEvents() {
 
@@ -195,13 +209,12 @@ public class EventServices {
 		return message;
 	}
 
-
 	public String writeEventAgendaToFile() {
 		String message;
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter("event-agenda.txt"))) {
 
 			writer.write("********UPCOMING EVENTS FOR EACH ORGANIZER*********");
-			List<Organizer> allOrganizers = organizerServices.getAllOrganizers();
+			ArrayList<Organizer> allOrganizers = organizerServices.getAllOrganizers();
 			for (Organizer organizer : allOrganizers) {
 				writer.write("Organizer: " + organizer.getName() + " " + organizer.getSurname() + " ("
 						+ organizer.getId() + ")");
@@ -216,10 +229,10 @@ public class EventServices {
 			}
 
 			writer.write("********RESERVATIONS FOR EACH EVENT*********");
-			List<Event> allEvents = eventServices.getAllEvents();
+			ArrayList<Event> allEvents = eventServices.getAllEvents();
 			for (Event event : allEvents) {
 				writer.write("Event: " + event.getTitle() + " (" + event.getId() + ")");
-				List<Reservation> reservations = getReservationsByEvent(event.getId());
+				List<Reservation> reservations = reservationServices.getReservationsByEvent(event.getId());
 				if (reservations.isEmpty()) {
 					writer.write("No reservations for that event!\n");
 				} else {
@@ -231,7 +244,7 @@ public class EventServices {
 
 			writer.write("********ALL PENDING REQUESTS*********");
 			List<ApprovalRequest> pendingRequests = approvalRequestServices.getPendingRequests();
-			
+
 			if (pendingRequests.isEmpty()) {
 				writer.write("No pending requests!");
 			} else {
@@ -247,47 +260,61 @@ public class EventServices {
 
 		return message;
 	}
-		
-	
-	
+
 	/*
 	 * This method takes the ID of an organizer, and utilizes the
-	 * getUpcomingEventsPerOrganizer method to find and delete
-	 * all their planned events. 
+	 * getUpcomingEventsPerOrganizer method to find and delete all their planned
+	 * events.
 	 * 
 	 */
-	public String cancelAllEventsForOrganizer(Integer organizerID)	
-	{
-		 List<Event> tempEvents = getUpcomingEventsPerOrganizer(organizerID);
+	public String cancelAllEventsForOrganizer(Integer organizerID) {
+		List<Event> tempEvents = getUpcomingEventsPerOrganizer(organizerID);
 
- 	    if (tempEvents.isEmpty()) {
- 	        return "This organizer doesn't have any upcoming events.";
- 	    }
+		if (tempEvents.isEmpty()) {
+			return "This organizer doesn't have any upcoming events.";
+		}
 
+		for (Event event : tempEvents) {
+			deleteEvent(event.getId());
+		}
 
- 	    for (Event event : tempEvents) {
- 	        deleteEvent(event.getId());
- 	    }
-
- 	    return "All events for this organizer have been cancelled.";
+		return "All events for this organizer have been cancelled.";
 	}
-	
+
 	/*
 	 * Utilizes the title of an event (String) to return the event ID
 	 *
 	 */
-	public Integer getEventIDFromTitle(String title)
-	{
-		for (Event event: allEvents)
-		{
+	public Integer getEventIDFromTitle(String title) {
+		for (Event event : allEvents) {
 			if (title.equalsIgnoreCase(event.getTitle())) {
 				return event.getId();
-		}
-		
-		}
-		//all event IDs are bigger than 0, so if an Event is not
-		//found, 0 is returned.
-		return 0;
-}
+			}
 
+		}
+		// all event IDs are bigger than 0, so if an Event is not
+		// found, 0 is returned.
+		return 0;
+	}
+
+	private Boolean isValidDate(Integer year, Integer month, Integer day) {
+		try {
+			LocalDate.of(year, month, day);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	private Boolean isValidOrganizer(Integer organizerId) {
+		boolean isValid = false;
+		for (Organizer organizer : organizerServices.getAllOrganizers()) {
+			if (organizerId.equals(organizer.getId())) {
+				isValid = true;
+			} else {
+				isValid = false;
+			}
+		}
+		return isValid;
+	}
 }
