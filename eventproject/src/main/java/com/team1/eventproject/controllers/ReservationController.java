@@ -85,26 +85,18 @@ public class ReservationController {
      */
     @PostMapping("/add")
     public ResponseEntity<String> addReservation(@RequestParam Integer visitorID, @RequestParam String title) {
-        try {
-            reservationServices.addReservation(visitorID, title);
-            return ResponseEntity.ok("Reservation added successfully for visitor ID: " + visitorID + " and event: " + title);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to add reservation: " + e.getMessage());
-        }
+        reservationServices.addReservation(visitorID, title);
+        return ResponseEntity.ok("Reservation added successfully.");
     }
 
     /*
      * Endpoint to cancel all reservations for a specific visitor.
      *
      * @param visitorID The ID of the visitor whose reservations will be canceled.
-     * @return Response message indicating success or failure.
      */
     @DeleteMapping("/cancel/all")
     public ResponseEntity<String> cancelAllReservationsForVisitor(@RequestParam Integer visitorID) {
-        String response = reservationServices.cancelAllReservationsForVisitor(visitorID);
-        if (response.contains("hasn't made any reservations")) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-        }
-        return ResponseEntity.ok(response);
+        reservationServices.cancelAllReservationsForVisitor(visitorID);
+        return ResponseEntity.ok("All reservations canceled successfully.");
     }
 }
