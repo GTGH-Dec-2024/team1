@@ -31,7 +31,7 @@ public class OrganizerServices {
 		 * increasing it by 1 we get the new id!
 		 * 
 		 */
-		int id;
+		Integer id;
 		if (allOrganizers.isEmpty()) {
 			id = 1;
 
@@ -49,7 +49,7 @@ public class OrganizerServices {
 		return message;
 	}
 
-	public Organizer getOrganizerUsingID(int id) {
+	public Organizer getOrganizerUsingID(Integer id) {
 		for (Organizer organizer : allOrganizers) {
 			if (organizer.getId() == id) {
 				return organizer;
@@ -76,7 +76,7 @@ public class OrganizerServices {
 
 	}
 
-	public ArrayList<Organizer> getAllOrganizers() {
+	public List<Organizer> getAllOrganizers() {
 		return allOrganizers;
 	}
 
