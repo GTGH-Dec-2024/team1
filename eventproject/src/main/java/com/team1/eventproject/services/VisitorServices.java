@@ -72,8 +72,8 @@ public class VisitorServices {
 	            return visitor;
 	        }
 	    }
-	    return null;
-	    } 
+	    }
+		return null; 
 	}
 
 	// Method to get all visitors
@@ -82,17 +82,24 @@ public class VisitorServices {
     }
 
  // Method to update a visitor
-    public Boolean updateVisitor(Integer id, String newName, String newSurname, String newEmail) {
-        Visitor visitor = getVisitorUsingID(id);
-        if (visitor != null) {
-            visitor.setName(newName);
-            visitor.setSurname(newSurname);
-            visitor.setEmail(newEmail);
-            return Boolean.TRUE; // Update successful
+    public String updateVisitor(Integer id, String newName, String newSurname, String newEmail) {
+        for (Visitor visitor : allVisitors)
+        {
+        	if (visitor.getId().equals(id)) {
+        		if (newName != null)
+					visitor.setName(newName);
+        		if (newSurname!=null)
+        			visitor.setSurname(newSurname);
+        		if (newEmail!=null)
+        			visitor.setEmail(newEmail);
+        		
+        	return "The visitor has been updated";
+        	}  
         }
-        return Boolean.FALSE; // Visitor not found
+        return "The visitor ID you provided is not correct";
     }
-
+    
+    
     /*
      *  Method to delete a visitor. When a visitor gets deleted, all the
      *  reservations they have made get cancelled automatically.
