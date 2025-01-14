@@ -52,7 +52,7 @@ public class VisitorServices {
 	     */
 	    for (Visitor visitor : allVisitors) {
 	        if (visitor.getEmail().equals(email)) {
-	            return "The Visitor: " + temp.getName() + " " + temp.getSurname() +" has already been added";
+	            return "The Visitor: " +name+ " " + surname +" has already been added";
 	        }
 	    }
 

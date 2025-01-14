@@ -30,41 +30,36 @@ public class EmployeeServices {
 		
 
 
-		public String addEmployee (String name, String surname, String email)
-		{
-			
-			/*
-			 * We want all IDs to be given automatically. Therefore, we
-			 * use the allEmployees list to help us. If the list is empty,
-			 * then we know it is the first object that will be made so its
-			 * id will be set to 1.
-			 * 
-			 * Otherwise, we find the ID of the last object that was added,
-			 * and by increasing it by 1 we get the new id!
-			 * 
-			 */
-			Integer id; 
-			if(allEmployees.isEmpty()){
-				id = 1;
-				
-			}else
-			{
-				id = allEmployees.get(allEmployees.size() - 1).getId() + 1;
-			}
-	
-			
-			Employee temp = new Employee(email, name, surname, id);
-			if (!allEmployees.contains(temp))
-			{
-				allEmployees.add(temp);
-			}
-			else
-			{
-				return("The employee: " +temp.getName()+ temp.getSurname()+
-						" has already been added");
-			}
-			return "The employee " +name + " " + surname +" has been added successfully,"
-					+ "with id: "+ id+ "!";
+		public String addEmployee(String name, String surname, String email) {
+		    /*
+		     * We want all IDs to be given automatically. Therefore, we use the
+		     * allEmployees list to help us. If the list is empty, then we know it is the
+		     * first object that will be made so its id will be set to 1.
+		     * 
+		     * Otherwise, we find the ID of the last object that was added,
+		     * and by increasing it by 1 we get the new id!
+		     */
+		    Integer id;
+		    if (allEmployees.isEmpty()) {
+		        id = 1;
+		    } else {
+		        id = allEmployees.get(allEmployees.size() - 1).getId() + 1;
+		    }
+
+		   
+		    Employee temp = new Employee(email, name, surname, id);
+
+		    
+		    for (Employee employee : allEmployees) {
+		        if (employee.getEmail().equals(email)) {
+		            return "The Employee: " + name + " " + surname + " has already been added.";
+		        }
+		    }
+
+		   
+		    allEmployees.add(temp);
+		    
+		    return "The Employee: " + name + " " + surname + " has been added successfully and given the ID " + id ;
 		}
 		
 		
@@ -219,25 +214,29 @@ public class EmployeeServices {
 	     * Updates an employee's details.
 	     * Returns a success or error message.
 	     */
-	    public String updateEmployee(Integer id, String newName, String newSurname, String newEmail) {
-	        Employee employee = getEmployeeUsingID(id);
-
-	        if (employee == null) {
-	            return "Employee with ID " + id + " not found.";
-	        }
-
-	        if (employee.getStatus().equalsIgnoreCase("deleted")) {
-	            return "Cannot update a deleted employee.";
-	        }
-
-	        // Update employee details
-	        employee.setName(newName);
-	        employee.setSurname(newSurname);
-	        employee.setEmail(newEmail);
-
-	        return "Employee with ID " + id + " updated successfully.";
-	    }
-	}
+		public String updateEmployee(Integer id, String newName, String newSurname, String newEmail) {
+		   
+			for (Employee employee : allEmployees) {
+		        if (employee.getId().equals(id)) {
+		      
+		            if (newName != null) {
+		                employee.setName(newName);
+		            }
+		            
+		            if (newSurname != null) {
+		                employee.setSurname(newSurname);
+		            }
+		          
+		            if (newEmail != null) {
+		                employee.setEmail(newEmail);
+		            }
+		           
+		            return "The employee has been updated";
+		        }
+		    }
+		    return "The employee ID you provided is not correct";
+		}
+}
 		
 
 
