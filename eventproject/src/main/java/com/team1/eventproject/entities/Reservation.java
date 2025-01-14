@@ -1,76 +1,63 @@
 package com.team1.eventproject.entities;
-/* The class Reservation represents one reservation that one visitor has made for an Event */
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Reservation {
-	    // The visitor who has made the reservation
-		private Visitor visitor;  // connection with the class Visitor 
-	    // The event to which the reservation has been made
-		private Event event;  // connection with the class Event
-	    // visitor and event must be final so that they can not change for the specific reservation????
-		
-		private Integer id; // Changed to Integer for null safety
-		
-	    /* Constructor.
-	     * visitor the visitor who makes the reservation to the event.
-	     * event the event for which the reservation is being made. */	     
-	    public Reservation(Visitor visitor, Event event, Integer id) {
-	    	this.id = id;
-	    	this.visitor = visitor;
-	        this.event = event;
-	    }
+    // The IDs for the visitor and event
+    private Integer visitorId;  // Connection to the Visitor ID
+    private Integer eventId;    // Connection to the Event ID
+    private Integer id;         // Reservation ID
+    
+    /* Constructor.
+     * visitorId the ID of the visitor who makes the reservation to the event.
+     * eventId the ID of the event for which the reservation is being made. 
+     * id the unique ID of the reservation.
+     */
+    public Reservation(Integer visitorId, Integer eventId, Integer id) {
+        this.visitorId = visitorId;
+        this.eventId = eventId;
+        this.id = id;
+    }
 
-	  
-	    // GETTERS FOR ALL FIELDS
-	    public Visitor getVisitor() {
-	        return visitor;
-	    }
+    // GETTERS FOR ALL FIELDS
+    public Integer getVisitorId() {
+        return visitorId;
+    }
 
+    public Integer getEventId() {
+        return eventId;
+    }
 
-	    public Event getEvent() {
-	        return event;
-	    }
+    public Integer getId() {
+        return id;
+    }
 
+    // SETTERS FOR visitorId AND eventId with null checks
+    public void setVisitorId(Integer newVisitorId) {
+        if (newVisitorId != null) { // Added null check
+            this.visitorId = newVisitorId;
+        } else {
+            System.out.println("Visitor ID cannot be null.");
+        }
+    }
 
-		public Integer getId() {
-			return id;
-		}
+    public void setEventId(Integer newEventId) {
+        if (newEventId != null) { // Added null check
+            this.eventId = newEventId;
+        } else {
+            System.out.println("Event ID cannot be null.");
+        }
+    }
 
-        // SETTERS FOR VISITOR AND EVENT with null checks (einai aparaithtoi edw?)
-		public void setVisitor(Visitor newVisitor) {
-	        if (newVisitor != null) { // Added null check 
-	            this.visitor = newVisitor;
-	        } else {
-	            System.out.println("Visitor cannot be null."); // Added message for null case 
-	        }
-	    }
+    // SETTER FOR id
+    public void setId(Integer newId) {
+        if (newId != null) { // Added null check
+            this.id = newId;
+        } else {
+            System.out.println("ID cannot be null.");
+        }
+    }
 
-
-		public void setEvent(Event newEvent) {
-	        if (newEvent != null) { // Added null check 
-	            this.event = newEvent;
-	        } else {
-	            System.out.println("Event cannot be null."); // Added message for null case 
-	        }
-	    }
-		
-		// BORW NA PEIRAZW ME SETTER to id? Prepei na ginetai?
-		public void setId(Integer newId) { // id changed to Integer 
-	        if (newId != null) { // Added null check 
-	            this.id = newId;
-	        } else {
-	            System.out.println("ID cannot be null."); // Added message for null case 
-	        }
-	    }
-	    
-		@Override
-		public String toString() {
-		    return "Reservation [id=" + id + ", visitor=" + visitor + ", event=" + event + "]";
-		}
-	    // Prepei na exei toString h visitor kai h event!
-	   
-	           
-
+    @Override
+    public String toString() {
+        return "Reservation [id=" + id + ", visitorId=" + visitorId + ", eventId=" + eventId + "]";
+    }
 }
