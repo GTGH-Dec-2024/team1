@@ -51,7 +51,7 @@ public class OrganizerServices {
 
 	public Organizer getOrganizerUsingID(Integer id) {
 		for (Organizer organizer : allOrganizers) {
-			if (organizer.getId() == id) {
+			if (id.equals(organizer.getId())) {
 				return organizer;
 			}
 		}
