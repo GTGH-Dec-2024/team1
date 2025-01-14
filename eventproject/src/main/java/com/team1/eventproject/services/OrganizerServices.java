@@ -1,12 +1,17 @@
 package com.team1.eventproject.services;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.team1.eventproject.entities.ApprovalRequest;
+import com.team1.eventproject.entities.Event;
 import com.team1.eventproject.entities.Organizer;
+import com.team1.eventproject.entities.Reservation;
 import com.team1.eventproject.entities.Visitor;
 
 @Service
@@ -88,5 +93,6 @@ public class OrganizerServices {
 	 * message="Organizer removed successfully!"; }else {
 	 * message="Organizer not found!"; } } return message; }
 	 */
+
 
 }

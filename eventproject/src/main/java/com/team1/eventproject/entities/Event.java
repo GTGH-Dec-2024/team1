@@ -15,7 +15,6 @@ public class Event {
 	private Integer hour;
 	private Integer minutes;
 	private Integer duration;
-	private Organizer organizer;
 	private String status; // status = "pending" or "approved" or "not-approved" or "deleted"
 	private Integer currentCapacity;
 	private Integer id;
@@ -143,14 +142,6 @@ public class Event {
 		this.duration = duration;
 	}
 
-	public Organizer getOrganizer() {
-		return organizer;
-	}
-
-	public void setOrganizer(Organizer organizer) {
-		this.organizer = organizer;
-	}
-
 	public String getStatus() {
 		return status;
 	}
@@ -231,7 +222,7 @@ public class Event {
 		return "Event [title = " + title + ", Theme = " + theme + ", Description = " + description + ", Location = "
 				+ location + ", Available spaces = " + getCurrentCapacity() + "/" + getMaxCapacity() + ", Date = "
 				+ getDate() + ", Time = " + getTime() + ", Duration = " + duration + ", Organizer = "
-				+ organizer.getName() + " " + organizer.getSurname() + ", Status = " + status + "]";
+				+ organizerId + ", Status = " + status + "]";
 	}
 
 }

@@ -40,6 +40,18 @@ public class EmployeeController {
 		return employeeservices.getAllActiveEmployees();
 	}
 	
+	@PostMapping("/acceptRequest")
+	public String acceptRequest(@RequestParam Integer requestID, @RequestParam Integer employeeID)
+	{
+		return employeeservices.acceptRequest(requestID, employeeID);
+	}
+	
+	@PostMapping("/denyRequest")
+	public String denyRequest(@RequestParam Integer requestID, @RequestParam Integer employeeID)
+	{
+		return employeeservices.denyRequest(requestID, employeeID);
+	}
+	
 
 
 }

@@ -25,18 +25,6 @@ public class ApprovalRequestController {
 		return approvalrequestservices.addApprovalRequest(type, OrganizerID, eventID, comments);
 	}
 	
-	@PostMapping("/accept")
-	public String acceptRequest(@RequestParam Integer requestID, @RequestParam Integer employeeID)
-	{
-		return approvalrequestservices.acceptRequest(requestID, employeeID);
-	}
-	
-	@PostMapping("/deny")
-	public String denyRequest(@RequestParam Integer requestID, @RequestParam Integer employeeID)
-	{
-		return approvalrequestservices.denyRequest(requestID, employeeID);
-	}
-	
 	@GetMapping("/pendingRequests")
 	public List<ApprovalRequest> getPendingRequests()
 	{
