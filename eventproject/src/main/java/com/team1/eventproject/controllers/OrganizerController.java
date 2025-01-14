@@ -1,6 +1,7 @@
 package com.team1.eventproject.controllers;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,6 +38,11 @@ public class OrganizerController {
 	@GetMapping("/allOrganizers")
 	public ArrayList<Organizer> getAllOrganizers() {
 		return organizerServices.getAllOrganizers();
+	}
+	
+	@GetMapping("/activeOrganizes")
+	public List<Organizer> getAllActiveOrganizers(){
+		return organizerServices.getAllActiveOrganizers();
 	}
 	
 }

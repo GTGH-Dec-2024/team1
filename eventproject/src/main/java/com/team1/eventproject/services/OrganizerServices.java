@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team1.eventproject.entities.ApprovalRequest;
+import com.team1.eventproject.entities.Employee;
 import com.team1.eventproject.entities.Event;
 import com.team1.eventproject.entities.Organizer;
 import com.team1.eventproject.entities.Reservation;
@@ -90,6 +91,26 @@ public class OrganizerServices {
 
 	public ArrayList<Organizer> getAllOrganizers() {
 		return allOrganizers;
+	}
+	
+	/*
+	 * The organizer list contains all the organizers, even the 
+	 * ones that have been deleted (status.equalsIgnoreCase("deleted")
+	 * The following method returns a list with the organizers that
+	 * are active
+	 * 
+	 */
+	public List<Organizer> getAllActiveOrganizers() {
+
+	    List<Organizer> activeOrganizers = new ArrayList<>();
+
+	    for (Organizer om : allOrganizers) {
+	        if (om.getStatus().equalsIgnoreCase("active")) {
+	        	activeOrganizers.add(om);
+	        }
+	    }
+
+	    return activeOrganizers;
 	}
 
 	/*
