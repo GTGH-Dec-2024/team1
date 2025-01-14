@@ -97,7 +97,7 @@ public class EventServices {
 		ArrayList<Event> organizerEvents = new ArrayList<>();
 
 		for (Event event : allEvents) {
-			if (organizerId == event.getOrganizerId()) {
+			if (organizerId.equals(event.getOrganizerId())) {
 				organizerEvents.add(event);
 			}
 		}
@@ -114,7 +114,7 @@ public class EventServices {
 			try {
 				if (isValidDate(event.getYear(), event.getMonth(), event.getDay()) && isValidOrganizer(organizerId)) {
 					LocalDate date = LocalDate.of(event.getYear(), event.getMonth(), event.getDay());
-					if (currentDate.isBefore(date) && organizerId == event.getOrganizerId()) {
+					if (currentDate.isBefore(date) && organizerId.equals(event.getOrganizerId())) {
 						upcomingEvents.add(event);
 					}
 				}
@@ -148,15 +148,15 @@ public class EventServices {
 	// searchEvents is the same as getting a certain event-->getEvent
 	public List<Event> searchEvents(Integer id, Integer day, Integer month, Integer year, String location,
 			String theme) {
-		return getAllEvents().stream().filter(event -> id == null || id.equals(event.getId())).filter(event -> {
+		return getAllEvents().stream().filter(event -> id.equals(null) || id.equals(event.getId())).filter(event -> {
 			if (day != null && month != null && year != null) {
 				LocalDate givenDate = LocalDate.of(year, month, day);
 				LocalDate eventDate = LocalDate.of(event.getYear(), event.getMonth(), event.getDay());
 				return givenDate.isEqual(eventDate);
 			}
 			return true;
-		}).filter(event -> location == null || location.equals(event.getLocation()))
-				.filter(event -> theme == null || theme.equals(event.getTheme())).collect(Collectors.toList());
+		}).filter(event -> location.equals(null) || location.equals(event.getLocation()))
+				.filter(event -> theme.equals(null) || theme.equals(event.getTheme())).collect(Collectors.toList());
 	}
 
 	// να βλεπω αναφορες με την κατασταση των εκδηλωσεων 1ο απο το doc
@@ -164,7 +164,7 @@ public class EventServices {
 	// method that finds a specific event given an id as a parameter
 	public Event getEventUsingID(Integer eventId) {
 		for (Event event : allEvents) {
-			if (eventId == event.getId()) {
+			if (eventId.equals(event.getId())) {
 				return event;
 			}
 		}
@@ -253,7 +253,7 @@ public class EventServices {
 	}
 
 	private Boolean isValidOrganizer(Integer organizerId) {
-		boolean isValid = false;
+		Boolean isValid = false;
 		for (Organizer organizer : organizerServices.getAllOrganizers()) {
 			if (organizerId.equals(organizer.getId())) {
 				isValid = true;

@@ -83,11 +83,11 @@ public class Event {
 		this.location = location;
 	}
 
-	public int getMaxCapacity() {
+	public Integer getMaxCapacity() {
 		return maxCapacity;
 	}
 
-	public int getDay() {
+	public Integer getDay() {
 		return day;
 	}
 
@@ -95,7 +95,7 @@ public class Event {
 		this.day = day;
 	}
 
-	public int getMonth() {
+	public Integer getMonth() {
 		return month;
 	}
 
@@ -135,7 +135,7 @@ public class Event {
 		return String.format("%02d:%02d", hour, minutes);
 	}
 
-	public int getDuration() {
+	public Integer getDuration() {
 		return duration;
 	}
 
@@ -159,7 +159,7 @@ public class Event {
 		this.status = status;
 	}
 
-	public int getCurrentCapacity() {
+	public Integer getCurrentCapacity() {
 		return currentCapacity;
 	}
 
@@ -198,7 +198,7 @@ public class Event {
 		this.employeeId = employeeId;
 	}
 
-	public int getDeletedBy() {
+	public Integer getDeletedBy() {
 		return employeeId;
 	}
 	
