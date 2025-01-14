@@ -31,20 +31,32 @@ public class ReservationManagerServices {
 
     //EDW THA MPEI H METHODOS VISITORSPEREVENT
     public void visitorsPerEvent() {
+        // Loop through all events
+        for (Event event : EventServices.getAllEvents()) {
+            System.out.println("Event: " + event.getTitle());
+            
+            // Get the reservations for the current event using the eventId
+            List<Reservation> reservationsForThisEvent = ReservationServices.getReservationsByEvent(event.getId());
+            
+            if (reservationsForThisEvent.isEmpty()) {
+                System.out.println("No visitors yet!");
+            } else {
+                // Loop through each reservation and get visitor details
+                for (Reservation reservation : reservationsForThisEvent) {
+                    // Fetch the visitor by the visitorId from VisitorServices
+                    Visitor visitor = VisitorServices.getVisitorUsingID(reservation.getVisitorId());
+                    
+                    if (visitor != null) {
+                        // Print the visitor's details
+                        System.out.println(visitor.getName() + " " + visitor.getSurname() + " (" + visitor.getId() + ")");
+                    } else {
+                        System.out.println("Visitor with ID " + reservation.getVisitorId() + " not found.");
+                    }
+                }
+            }
+        }
+    }
 
-		for (Event event : EventServices.getAllEvents()) {
-			System.out.println("Event: " + event.getTitle());
-			List<Reservation> reservationsForThisEvent = ReservationServices.getReservationsByEvent(event.getId());
-			if (reservationsForThisEvent.isEmpty()) {
-				System.out.println("No visitors yet!");
-			} else {
-				for (Reservation reservation : reservationsForThisEvent) {
-					System.out.println(reservation.getVisitor().getName() + " " + reservation.getVisitor().getSurname()
-							+ " (" + reservation.getVisitor().getId() + ")");
-				}
-			}
-		}
-	}
     
  // Method to delete a visitor
     public boolean deleteVisitor(Integer visitorId) {
@@ -85,7 +97,7 @@ public class ReservationManagerServices {
 	}
 	
 	
-	// SOS SOS !! AN AUTH H METHODOS PAIRNEI EVENT KAI RESERVATION NA PAEI STI RESERVATIONMANAGERSERVICES
+	
 		public String writeEventAgendaToFile() {
 			String message;
 			try (BufferedWriter writer = new BufferedWriter(new FileWriter("event-agenda.txt"))) {
