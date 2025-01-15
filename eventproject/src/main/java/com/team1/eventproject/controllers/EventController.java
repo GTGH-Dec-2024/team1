@@ -37,9 +37,16 @@ public class EventController {
 		return eventServices.deleteEvent(eventId);
 	}
 	
-	@PutMapping("/update")
-	public String updateEvent(@RequestParam Integer eventId, @RequestParam String newEventStatus) {
-		return eventServices.updateEvent(eventId, newEventStatus);
+	@PutMapping("/updateEventStatu")
+	public String updateEventStatus(@RequestParam Integer eventId, @RequestParam String newEventStatus) {
+		return eventServices.updateEventStatus(eventId, newEventStatus);
+	}
+	
+	@PutMapping("/updateEvent")
+	public String updateEvent(Integer eventId, Integer organizerId, String title, String theme, String description, String location,
+			  Integer maxCapacity, Integer day, Integer month, Integer year, Integer hour,
+			  Integer minutes, Integer duration, Integer id) {
+		return eventServices.updateEvent(eventId, organizerId, title, theme, description, location, maxCapacity, day, month, year, hour, minutes, duration, id);
 	}
 
 
