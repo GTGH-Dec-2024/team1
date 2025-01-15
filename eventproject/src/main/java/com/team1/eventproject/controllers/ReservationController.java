@@ -60,7 +60,7 @@ public class ReservationController {
 		return reservationServices.getReservationsByEvent(eventId);
 	}
 
-	@GetMapping("/cancelAllForReservationsForVisitor")
+	@DeleteMapping("/cancelAllForReservationsForVisitor")
 	public String cancelAllReservationsForVisitor(@RequestParam Integer visitorID) {
 		return reservationServices.cancelAllReservationsForVisitor(visitorID);
 	}
