@@ -32,7 +32,7 @@ public class ReservationManagerServices {
 	/*
 	 * This method returns the titles of all the events that have been added,
 	 * together with the visitors' list for each event. This is done by using a
-	 * "visitorsperevent" and updating it each time.
+	 * "visitorsperevent" String and updating it each time.
 	 * 
 	 */
 	public String visitorsPerEvent() {
