@@ -70,7 +70,7 @@ public class ReservationServices {
         Integer id;  
         if (reservations.isEmpty()) {
             id = 1;
-        } else {
+        }else{
             id = reservations.get(reservations.size() - 1).getId() + 1;
         }
 
@@ -279,10 +279,11 @@ public class ReservationServices {
      * (In case of the event not being found, the Event id will be 0. So when the "original" addReservation checks,
      * it will return an error message) 
      */
-    public void addReservation (Integer visitorID, String title)
+    public String addReservation (Integer visitorID, String title)
     {
     	Integer eventID = eventServices.getEventIDFromTitle(title);
     	addReservation(visitorID, eventID);
+        return "Reservation made successfully for event: " + eventID;
     	
     }
     

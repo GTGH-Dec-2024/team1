@@ -84,6 +84,8 @@ public class VisitorServices {
     	for (Visitor visitor : allVisitors)
         {
         	if (visitor.getId().equals(id)) {
+//        		if (!visitor.getStatus().equals("active"))
+//        			return "The visitor has been deleted, you can no longer update them";
         		if (newName != null)
 					visitor.setName(newName);
         		if (newSurname!=null)
@@ -103,7 +105,9 @@ public class VisitorServices {
      *  When a visitor gets deleted, his reservations do not get affected, as his tickets have already
      *  been bought.
      */
-       public String deleteVisitor(Integer visitorId) {
+
+    // Method to delete a visitor
+    public String deleteVisitor(Integer visitorId) {
         Visitor visitor = getVisitorUsingID(visitorId);
         if (visitor == null || visitor.getStatus().equalsIgnoreCase("deleted")) {
             return "The Visitor with ID " +visitorId+ " doesn't exist or has already been deleted";
