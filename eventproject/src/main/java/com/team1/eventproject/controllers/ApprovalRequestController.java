@@ -19,11 +19,11 @@ public class ApprovalRequestController {
 	@Autowired 
 	ApprovalRequestServices approvalrequestservices;
 	
-	@PostMapping("/add")
-	public String addApprovalRequest(@RequestParam String type,@RequestParam Integer OrganizerID,@RequestParam Integer eventID, @RequestParam(required = false) String comments)
-	{
-		return approvalrequestservices.addApprovalRequest(type, OrganizerID, eventID, comments);
-	}
+//	@PostMapping("/add")
+//	public String addApprovalRequest(@RequestParam String type,@RequestParam Integer OrganizerID,@RequestParam Integer eventID, @RequestParam(required = false) String comments)
+//	{
+//		return approvalrequestservices.addApprovalRequest(type, OrganizerID, eventID, comments);
+//	}
 	
 	@GetMapping("/pendingRequests")
 	public List<ApprovalRequest> getPendingRequests()
