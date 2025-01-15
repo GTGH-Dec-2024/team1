@@ -202,7 +202,7 @@ public class ReservationServices {
             }
         }
 
-        return "The Event with id " +eventId+" has "+count+" reservations!";
+        return "The Event with id " +eventId+" has "+count+ " reservations!";
     }
     
     
