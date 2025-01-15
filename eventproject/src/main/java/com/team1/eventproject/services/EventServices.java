@@ -57,8 +57,8 @@ public class EventServices {
 			return "Event already exists in the events list!";
 		} else {
 			allEvents.add(event);
-			approvalRequestServices.addApprovalRequest("delete", organizerId, id, comments);
-			return "The registration for the event " + event.getId() + " have been sent for approval.";
+			approvalRequestServices.addApprovalRequest("add", organizerId, id, comments);
+			return "The registration for the event " + event.getId() + " has been sent for approval.";
 		}
 	
 	}

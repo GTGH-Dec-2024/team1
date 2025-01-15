@@ -46,16 +46,15 @@ public class EmployeeServices {
 		        id = allEmployees.get(allEmployees.size() - 1).getId() + 1;
 		    }
 
-		   
-		    Employee temp = new Employee(email, name, surname, id);
-
-		    
+		    /*
+		     * We consider the email to be unique, so we check if the employee is already on the list using the email.
+		     */
 		    for (Employee employee : allEmployees) {
-		        if (employee.getEmail().equals(email)) {
+		        if (employee.getEmail().equalsIgnoreCase(email)) {
 		            return "The Employee: " + name + " " + surname + " has already been added.";
 		        }
 		    }
-
+		    Employee temp = new Employee(name, surname,email, id);
 		   
 		    allEmployees.add(temp);
 		    

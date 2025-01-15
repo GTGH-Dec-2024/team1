@@ -55,14 +55,14 @@ public class EventController {
 		return eventServices.getAllEvents();
 	}
 
-	@GetMapping("/eventsUsingId")
-	public Event getEventUsingID(@RequestParam Integer eventId) {
-		return eventServices.getEventUsingID(eventId);
+	@GetMapping("/eventUsingId")
+	public Event getEventUsingID(@RequestParam Integer id) {
+		return eventServices.getEventUsingID(id);
 	}
 
-	@GetMapping("/getEventsForOrganizerId")
-	public ArrayList<Event> getEventsForOrganizer(@RequestParam Integer organizerId) {
-		return eventServices.getEventsForOrganizer(organizerId);
+	@GetMapping("/eventsForOrganizerId")
+	public ArrayList<Event> getEventsForOrganizer(@RequestParam Integer id) {
+		return eventServices.getEventsForOrganizer(id);
 	}
 
 	@GetMapping("/searchEvents")
@@ -71,9 +71,9 @@ public class EventController {
 		return eventServices.searchEvents(id, day, month, year, location, theme);
 	}
 
-	@GetMapping("/getUpcomingEventsGivenOrganizerId")
-	public ArrayList<Event> getUpcomingEventsPerOrganizer(@RequestParam Integer organizerId) {
-		return eventServices.getUpcomingEventsPerOrganizer(organizerId);
+	@GetMapping("/upcomingEventsGivenOrganizerId")
+	public ArrayList<Event> getUpcomingEventsPerOrganizer(@RequestParam Integer id) {
+		return eventServices.getUpcomingEventsPerOrganizer(id);
 	}
 
 }

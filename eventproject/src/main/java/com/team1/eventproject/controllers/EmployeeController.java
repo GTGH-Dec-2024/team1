@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -50,6 +51,11 @@ public class EmployeeController {
 	public String denyRequest(@RequestParam Integer requestID, @RequestParam Integer employeeID)
 	{
 		return employeeservices.denyRequest(requestID, employeeID);
+	}
+	
+	@PutMapping("/update")
+	public String updateOrganizer(Integer id, String name, String surname, String email){
+		return employeeservices.updateEmployee(id, name, surname,email);
 	}
 	
 
