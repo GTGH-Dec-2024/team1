@@ -57,7 +57,7 @@ public class ReservationServices {
 
         // Check if a reservation already exists for the same visitor and event
         for (Reservation reservation : reservations) {
-            if (reservation.getVisitorId() == visitorId && reservation.getEventId() == eventId) {
+            if (reservation.getVisitorId().equals(visitorId) && reservation.getEventId().equals(eventId)) {
                 return "This reservation already exists.";
             }
         }
@@ -81,15 +81,19 @@ public class ReservationServices {
 
         // Call the decreaseCurrentCapacity method from EventServices
         String capacityUpdateMessage = eventServices.decreaseCurrentCapacity(eventId);
+       
         if (!capacityUpdateMessage.contains("successfully")) {
             // If capacity decrease fails, remove the reservation to maintain consistency
             reservations.remove(newReservation);
             return capacityUpdateMessage;
         }
 
-        return "Reservation made successfully for event: " + event.getTitle();
+        return "Reservation made successfully for event: " + event.getTitle() +" The ID of the"
+        		+ "reservation is: " + id;
     }
 
+    
+    
  // Method which cancels a reservation given the reservation id
     public String cancelReservation(Integer reservationId) {
         // Find the reservation using its ID
@@ -100,50 +104,41 @@ public class ReservationServices {
             return "Reservation with ID " + reservationId + " not found.";
         }
 
+        // Get the event of the reservation to update its capacity
+        Event event = eventServices.getEventUsingID(reservationToCancel.getEventId());
+
+        // Check if the event exists
+        if (event == null) {
+            return "Event with ID " + reservationToCancel.getEventId() + " not found.";
+        }
+
+        // Remove the reservation from the list
         reservations.remove(reservationToCancel);
-        increaseCapacity()
+
         // Call increaseCurrentCapacity from EventServices
-        
+        String capacityUpdateMessage = eventServices.increaseCurrentCapacity(event.getId());
+
         // Return the final message
-        return "Reservation with ID " + reservationId + " has been cancelled successfully";
+        return "Reservation with ID " + reservationId + " cancelled successfully for event: " 
+                + event.getTitle() + ". " + capacityUpdateMessage;
     }
-    
-    
 
+    
     public String updateReservation(Integer reservationId, Integer newVisitorId, Integer newEventId) {
-        // Find the reservation based on the provided ID
-        Reservation reservationToUpdate = getReservationUsingID(reservationId);
-
-        // If the reservation doesn't exist, return silently without an error
-        if (reservationToUpdate == null) {
-            return "Reservation update failed.";
+        
+    	for (Reservation reservation : reservations) {
+            if (reservation.getId().equals(reservationId)) {
+                
+            	if (newVisitorId != null) {
+                    reservation.setVisitorId(newVisitorId);
+                }
+                if (newEventId != null) {
+                    reservation.setEventId(newEventId);
+                }
+                return "The reservation has been updated.";
+            }
         }
-
-        // Find the new visitor and the new event based on their IDs
-        Visitor newVisitor = visitorServices.getVisitorUsingID(newVisitorId);
-        Event newEvent = eventServices.getEventUsingID(newEventId);
-
-        // If the new visitor or event doesn't exist, return silently without an error
-        if (newVisitor == null || newEvent == null) {
-            return "Reservation update failed.";
-        }
-
-        // Check if the new event has available capacity before updating
-        if (newEvent.getCurrentCapacity() <= 0) {
-            return "Event is fully booked.";
-        }
-
-        // Update the visitor and event for the reservation
-        reservationToUpdate.setVisitorId(newVisitorId);
-        reservationToUpdate.setEventId(newEventId);
-
-        // Call the decreaseCurrentCapacity method to update the new event's capacity
-        String capacityUpdateMessage = eventServices.decreaseCurrentCapacity(newEventId);
-        if (!capacityUpdateMessage.contains("successfully")) {
-            return capacityUpdateMessage;
-        }
-
-        return "Reservation updated successfully.";
+        return "The reservation ID you provided is not correct.";
     }
 
     // Methodos gia epistrofi olwn twn kratisewn
