@@ -14,11 +14,7 @@ public class VisitorServices {
 	// The class VisitorServices stores all the visitors in the list allVisitors.
 	private ArrayList<Visitor> allVisitors;  
 	
-	@Autowired
-    @Lazy
-    private ReservationServices reservationServices;
-	
-	
+		
 	// Constructor
 	public VisitorServices(ArrayList<Visitor> allVisitors) {
 		this.allVisitors = allVisitors;

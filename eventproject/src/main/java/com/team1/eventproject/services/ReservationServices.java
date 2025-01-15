@@ -28,11 +28,9 @@ public class ReservationServices {
     private List<Reservation> reservations; // Lista pou apothikeuei oles tis kratiseis
 
     @Autowired
-    @Lazy
     private EventServices eventServices; // Exartisi gia ta event services
 
     @Autowired
-    @Lazy
     private VisitorServices visitorServices; // Exartisi gia ta visitor services
 
     
@@ -42,7 +40,6 @@ public class ReservationServices {
     }
 
     
-    // Methodos gia prosthiki neas kratisis tou visitor sto event.
     public String addReservation(int visitorId, Integer eventId) {
         // Find the Visitor and Event using their IDs
         Visitor visitor = visitorServices.getVisitorUsingID(visitorId);
@@ -60,7 +57,7 @@ public class ReservationServices {
 
         // Check if a reservation already exists for the same visitor and event
         for (Reservation reservation : reservations) {
-            if (reservation.getVisitor().equals(visitor) && reservation.getEvent().equals(event)) {
+            if (reservation.getVisitorId() == visitorId && reservation.getEventId() == eventId) {
                 return "This reservation already exists.";
             }
         }
@@ -70,12 +67,8 @@ public class ReservationServices {
             return "Event with ID " + eventId + " is fully booked.";
         }
 
-        /*
-         * Generate a new ID for the reservation.
-         * If the reservations list is empty, the ID will be set to 1.
-         * Otherwise, the ID is set to the last reservation's ID + 1.
-         */
-        Integer id;  // xreiazetai? afou ta id xekinan upoxrewtika apo to 1.
+        // Generate a new ID for the reservation
+        Integer id;  
         if (reservations.isEmpty()) {
             id = 1;
         } else {
@@ -83,7 +76,7 @@ public class ReservationServices {
         }
 
         // Create a new reservation for the visitor and add it to the list
-        Reservation newReservation = new Reservation(visitor, event, id);
+        Reservation newReservation = new Reservation(visitorId, eventId, id);
         reservations.add(newReservation);
 
         // Call the decreaseCurrentCapacity method from EventServices
@@ -96,8 +89,8 @@ public class ReservationServices {
 
         return "Reservation made successfully for event: " + event.getTitle();
     }
-    
-    // Method which cancels a reservation given the reservation id    
+
+ // Method which cancels a reservation given the reservation id
     public String cancelReservation(Integer reservationId) {
         // Find the reservation using its ID
         Reservation reservationToCancel = getReservationUsingID(reservationId);
@@ -108,7 +101,12 @@ public class ReservationServices {
         }
 
         // Get the event of the reservation to update its capacity
-        Event event = reservationToCancel.getEvent();
+        Event event = eventServices.getEventUsingID(reservationToCancel.getEventId());
+
+        // Check if the event exists
+        if (event == null) {
+            return "Event with ID " + reservationToCancel.getEventId() + " not found.";
+        }
 
         // Remove the reservation from the list
         reservations.remove(reservationToCancel);
@@ -120,42 +118,46 @@ public class ReservationServices {
         return "Reservation with ID " + reservationId + " cancelled successfully for event: " 
                 + event.getTitle() + ". " + capacityUpdateMessage;
     }
-    
+
     public String updateReservation(Integer reservationId, Integer newVisitorId, Integer newEventId) {
         // Find the reservation based on the provided ID
         Reservation reservationToUpdate = getReservationUsingID(reservationId);
 
-        // Check if the reservation exists
+        // If the reservation doesn't exist, return silently without an error
         if (reservationToUpdate == null) {
-            return "Reservation with ID " + reservationId + " not found.";
+            return "Reservation update failed.";
         }
 
         // Find the new visitor and the new event based on their IDs
         Visitor newVisitor = visitorServices.getVisitorUsingID(newVisitorId);
         Event newEvent = eventServices.getEventUsingID(newEventId);
 
-        // Check if the new visitor exists
-        if (newVisitor == null) {
-            return "Visitor with ID " + newVisitorId + " not found.";
+        // If the new visitor or event doesn't exist, return silently without an error
+        if (newVisitor == null || newEvent == null) {
+            return "Reservation update failed.";
         }
 
-        // Check if the new event exists
-        if (newEvent == null) {
-            return "Event with ID " + newEventId + " not found.";
+        // Check if the new event has available capacity before updating
+        if (newEvent.getCurrentCapacity() <= 0) {
+            return "Event is fully booked.";
         }
 
         // Update the visitor and event for the reservation
-        reservationToUpdate.setVisitor(newVisitor);
-        reservationToUpdate.setEvent(newEvent);
+        reservationToUpdate.setVisitorId(newVisitorId);
+        reservationToUpdate.setEventId(newEventId);
 
-        return "Reservation with ID " + reservationId + " updated successfully.";
+        // Call the decreaseCurrentCapacity method to update the new event's capacity
+        String capacityUpdateMessage = eventServices.decreaseCurrentCapacity(newEventId);
+        if (!capacityUpdateMessage.contains("successfully")) {
+            return capacityUpdateMessage;
+        }
+
+        return "Reservation updated successfully.";
     }
-    
-    
 
     // Methodos gia epistrofi olwn twn kratisewn
     public List<Reservation> getAllReservations() {
-        return new ArrayList<>(reservations); // Epistrofi antigrafou tis listas gia asfaleia
+        return reservations; // Epistrofi antigrafou tis listas gia asfaleia
     }
 
     // Methodos gia anazitisi kratisewn sugkekrimenou visitor
@@ -169,7 +171,7 @@ public class ReservationServices {
 
         // Prosthiki kratisewn tou sugkekrimenou visitor sti lista.
         for (Reservation reservation : reservations) {
-            if (reservation.getVisitor().equals(visitor)) { // We use equals() instead of '=='
+            if (reservation.getVisitorId().equals(visitor)) { // We use equals() instead of '=='
                 visitorReservations.add(reservation);
             }
         }
@@ -188,7 +190,7 @@ public class ReservationServices {
 
         // Prosthiki kratisewn tou event sti lista
         for (Reservation reservation : reservations) {
-            if (reservation.getEvent().equals(event)) {
+            if (reservation.getEventId().equals(event)) {
                 eventReservations.add(reservation);
             }
         }
@@ -207,7 +209,7 @@ public class ReservationServices {
 
         // Auxisi tou metriti gia kathe kratisi pou antistoixei sto event
         for (Reservation reservation : reservations) {
-            if (reservation.getEvent().equals(event)) {
+            if (reservation.getEventId().equals(event)) {
                 count++;
             }
         }
