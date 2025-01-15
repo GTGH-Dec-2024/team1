@@ -18,119 +18,119 @@ import com.team1.eventproject.entities.Visitor;
 @Service
 public class ReservationManagerServices {
 
-    @Autowired
-    private EventServices EventServices;
-
-    @Autowired
-    private EventServices ApprovalRequestServices;
-    @Autowired
-    private ReservationServices ReservationServices;
-
-    @Autowired
-    private VisitorServices VisitorServices;
-
-
-    
-    public String visitorsPerEvent() {
-        // Loop through all events
-    	String visitorsperevent = "";
-        for (Event event : EventServices.getAllEvents()) {
-            visitorsperevent+="--Event: " + event.getTitle()+"--\n";
-            
-            // Get the reservations for the current event using the eventId
-            List<Reservation> reservationsForThisEvent = ReservationServices.getReservationsByEvent(event.getId());
-            
-            if (reservationsForThisEvent.isEmpty()) {
-            	visitorsperevent+= "No visitors yet!\n";
-            } else {
-                // Loop through each reservation and get visitor details
-                for (Reservation reservation : reservationsForThisEvent) {
-                    // Fetch the visitor by the visitorId from VisitorServices
-                	
-                	Visitor visitor = VisitorServices.getVisitorUsingID(reservation.getVisitorId());
-                    
-                    if (visitor != null) {
-                        // Print the visitor's details
-                    	visitorsperevent+= visitor.getName() + " " + visitor.getSurname() + " (id = " + visitor.getId() + ")";
-                    } 
-                }
-            }
-        }
-        return visitorsperevent;
-    }
-
-
-
+	@Autowired
+	private EventServices eventServices;
+	@Autowired
+	private ReservationServices reservationServices;
 	
-		public void getReservationsForOrganizersEvents(Integer organizerId) {
-		    // Get the events of the organizer using EventServices
-		    List<Event> organizerEvents = EventServices.getEventsForOrganizer(organizerId);
+	@Autowired
+	private ApprovalRequestServices approvalRequestServices;
+	
+	@Autowired
+	private VisitorServices visitorServices;
 
-		    // Create a list to store reservations for the organizer's events
-		    List<Reservation> reservationsForOrganizerEvents = new ArrayList<>();
+	/*
+	 * This method returns the titles of all the events that have been added,
+	 * together with the visitors' list for each event. This is done by using a
+	 * "visitorsperevent" and updating it each time.
+	 * 
+	 */
+	public String visitorsPerEvent() {
+		String visitorsperevent = "";
 
-		    // Loop through each event to get the reservations
-		    for (Event event : organizerEvents) {
-		        // Get the reservations for the current event
-		        List<Reservation> eventReservations = ReservationServices.getReservationsByEvent(event.getId());
+		for (Event event : eventServices.getAllEvents()) {
+			visitorsperevent += "--Event: " + event.getTitle() + "--\n";
+			// Get all the reservations for the event
+			List<Reservation> reservationsForThisEvent = reservationServices.getReservationsByEvent(event.getId());
 
-		        // Add the reservations of the event to the list
-		        reservationsForOrganizerEvents.addAll(eventReservations);
-		    }
+			// if there are no reservations, inform the user
+			if (reservationsForThisEvent.isEmpty()) {
+				visitorsperevent += "No visitors yet!\n";
+			} else {
+				//for each reservation, find the visitors using their ID
+				for (Reservation reservation : reservationsForThisEvent) {
+					Visitor visitor = visitorServices.getVisitorUsingID(reservation.getVisitorId());
+
+					if (visitor != null) {
+						visitorsperevent += visitor.getName() + " " + visitor.getSurname() + " (id = " + visitor.getId()
+								+ ")";
+					}
+				}
+			}
+		}
+		return visitorsperevent;
 	}
-	
-	
-	
-		public String writeEventAgendaToFile() {
-			String message;
-			try (BufferedWriter writer = new BufferedWriter(new FileWriter("event-agenda.txt"))) {
 
-				writer.write("********UPCOMING EVENTS FOR EACH ORGANIZER*********");
-				List<Organizer> allOrganizers = organizerServices.getAllOrganizers();
-				for (Organizer organizer : allOrganizers) {
-					writer.write("Organizer: " + organizer.getName() + " " + organizer.getSurname() + " ("
-							+ organizer.getId() + ")");
-					List<Event> upcomingEvents = EventServices.getUpcomingEventsPerOrganizer(organizer.getId());
-					if (upcomingEvents.isEmpty()) {
-						writer.write("No upcoming events!\n");
-					} else {
-						for (Event event : upcomingEvents) {
-							writer.write("-" + event.toString() + "\n");
-						}
-					}
-				}
+	/*
+	 * Based on the ID of an organizer, this method returns a list of reservations
+	 * for all the events they have organized
+	 * 
+	 */
+	public List<Reservation> getReservationsForOrganizersEvents(Integer organizerId) {
+		// Get the events of the organizer using EventServices
+		List<Event> organizerEvents = eventServices.getEventsForOrganizer(organizerId);
 
-				writer.write("********RESERVATIONS FOR EACH EVENT*********");
-				List<Event> allEvents = EventServices.getAllEvents();
-				for (Event event : allEvents) {
-					writer.write("Event: " + event.getTitle() + " (" + event.getId() + ")");
-					List<Reservation> reservations = ReservationServices.getReservationsByEvent(event.getId());
-					if (reservations.isEmpty()) {
-						writer.write("No reservations for that event!\n");
-					} else {
-						for (Reservation reservation : reservations) {
-							writer.write("-" + reservation.toString() + "\n");
-						}
-					}
-				}
+		// Create a list to store reservations for the organizer's events
+		List<Reservation> reservationsForOrganizerEvents = new ArrayList<>();
 
-				writer.write("********ALL PENDING REQUESTS*********");
-				List<ApprovalRequest> pendingRequests = ApprovalRequestServices.getPendingRequests();
-				
-				if (pendingRequests.isEmpty()) {
-					writer.write("No pending requests!");
+		// Loop through each event to get the reservations
+		for (Event event : organizerEvents) {
+			// Get the reservations for the current event
+			reservationsForOrganizerEvents.add(reservationServices.getReservationsByEvent(event.getId()));
+		}
+
+	}
+
+	public String writeEventAgendaToFile() {
+		String message;
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter("event-agenda.txt"))) {
+
+			writer.write("********UPCOMING EVENTS FOR EACH ORGANIZER*********");
+			List<Organizer> allOrganizers = organizerServices.getAllOrganizers();
+			for (Organizer organizer : allOrganizers) {
+				writer.write("Organizer: " + organizer.getName() + " " + organizer.getSurname() + " ("
+						+ organizer.getId() + ")");
+				List<Event> upcomingEvents = eventServices.getUpcomingEventsPerOrganizer(organizer.getId());
+				if (upcomingEvents.isEmpty()) {
+					writer.write("No upcoming events!\n");
 				} else {
-					for (ApprovalRequest request : pendingRequests) {
-						writer.write("Request: " + request.toString() + "\n");
+					for (Event event : upcomingEvents) {
+						writer.write("-" + event.toString() + "\n");
 					}
 				}
-
-				message = "The event agenda was succesfully written to event-agenda.txt file";
-			} catch (IOException e) {
-				message = "Error while writing the file: " + e.getMessage();
 			}
 
-			return message;
+			writer.write("********RESERVATIONS FOR EACH EVENT*********");
+			List<Event> allEvents = eventServices.getAllEvents();
+			for (Event event : allEvents) {
+				writer.write("Event: " + event.getTitle() + " (" + event.getId() + ")");
+				List<Reservation> reservations = reservationServices.getReservationsByEvent(event.getId());
+				if (reservations.isEmpty()) {
+					writer.write("No reservations for that event!\n");
+				} else {
+					for (Reservation reservation : reservations) {
+						writer.write("-" + reservation.toString() + "\n");
+					}
+				}
+			}
+
+			writer.write("********ALL PENDING REQUESTS*********");
+			List<ApprovalRequest> pendingRequests = approvalRequestServices.getPendingRequests();
+
+			if (pendingRequests.isEmpty()) {
+				writer.write("No pending requests!");
+			} else {
+				for (ApprovalRequest request : pendingRequests) {
+					writer.write("Request: " + request.toString() + "\n");
+				}
+			}
+
+			message = "The event agenda was succesfully written to event-agenda.txt file";
+		} catch (IOException e) {
+			message = "Error while writing the file: " + e.getMessage();
 		}
-			
+
+		return message;
+	}
+
 }
