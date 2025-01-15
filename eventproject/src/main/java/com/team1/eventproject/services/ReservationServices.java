@@ -84,7 +84,7 @@ public class ReservationServices {
         if (!capacityUpdateMessage.contains("successfully")) {
             // If capacity decrease fails, remove the reservation to maintain consistency
             reservations.remove(newReservation);
-            return capacityUpdateMessage;
+            return "The reservation has been added "+capacityUpdateMessage;
         }
 
         return "Reservation made successfully for event: " + event.getTitle() +" The ID of the"

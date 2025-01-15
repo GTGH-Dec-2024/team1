@@ -35,8 +35,8 @@ public class ReservationController {
 	}
 
 	@PutMapping("/update")
-	public String updateReservation(@RequestParam (required=false) Integer reservationId, @RequestParam (required=false) Integer newVisitorId,
-			@RequestParam Integer newEventId) {
+	public String updateReservation(@RequestParam Integer reservationId, @RequestParam (required=false) Integer newVisitorId,
+			@RequestParam (required=false)  Integer newEventId) {
 		return reservationServices.updateReservation(reservationId, newVisitorId, newEventId);
 	}
 
