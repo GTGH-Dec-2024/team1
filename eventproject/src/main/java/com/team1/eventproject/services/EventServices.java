@@ -86,12 +86,73 @@ public class EventServices {
 	}
 
 	// method to update an event's status
-	public String updateEvent(Integer eventId, String newEventStatus) {
+	public String updateEventStatus(Integer eventId, String newEventStatus) {
 		String message = "Event with id " + eventId + " updated succesfully!";
 		Event event = getEventUsingID(eventId);
 		event.setStatus(newEventStatus);
 		return message;
 	}
+
+	// method to update an event's info
+
+	public String (Integer eventId, Integer organizerId, String title, String theme, String description, String location,
+	  Integer maxCapacity, Integer day, Integer month, Integer year, Integer hour,
+	  Integer minutes, Integer duration, Integer id) {
+		 Event event = getEventUsingId(eventdId);
+		 String message;
+		 if(event!=null) {
+			 
+			 if(organizerId!=null) {
+				 event.setOrganizerId(organizerId);
+			 }
+			 
+			 if(title!=null) {
+				 event.setTitle(title);
+			 }
+			 
+			 if(description!=null) {
+				 event.setDescription(description);
+			 }
+			 
+			 if(location!=null) {
+				 event.setLocation(location);
+			 }
+			 
+			 if(maxCapacity!=null) {
+				 event.setMaxCapacity(maxCapacity);
+			 }
+			 
+			 if(day!=null) {
+				 event.setDay(day);
+			 }
+			 
+			 if(month!=null) {
+				 event.setMonth(month);
+			 }
+			 
+			 if(year!=null) {
+				 event.setYear(year);
+			 }
+			 
+			 if(hour!=null) {
+				 event.setHour(hour);
+			 }
+			 
+			 if(minutes!=null) {
+				 event.setMinutes(minutes);
+			 }
+			 
+			 if(duration!=null) {
+				 event.setDuration(duration);
+			 }
+			 
+			 message="Event has been updated";
+			 return message;
+		 }else {
+			 message="Event not found!";
+			 return message;
+		 }
+	 }
 
 	public ArrayList<Event> getEventsForOrganizer(Integer organizerId) {
 		ArrayList<Event> organizerEvents = new ArrayList<>();
@@ -119,7 +180,8 @@ public class EventServices {
 					}
 				}
 			} catch (Exception e) {
-				System.err.println("Error trying to retrieve upcomming events(date or organizer not valid): "+e.getMessage());
+				System.err.println(
+						"Error trying to retrieve upcomming events(date or organizer not valid): " + e.getMessage());
 			}
 
 		}
@@ -204,8 +266,6 @@ public class EventServices {
 		}
 		return message;
 	}
-
-	
 
 	/*
 	 * This method takes the ID of an organizer, and utilizes the
