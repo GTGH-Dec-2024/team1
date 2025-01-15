@@ -126,7 +126,7 @@ public class EmployeeServices {
 
 			if (tempRequest.getType().equalsIgnoreCase("register")) 
 			{
-				eventServices.updateEvent(tempRequest.getEventID(), "approved");
+				eventServices.updateEventStatus(tempRequest.getEventID(), "approved");
 			}
 
 			else {
@@ -164,7 +164,7 @@ public class EmployeeServices {
 
 			ApprovalRequest tempRequest = validationResult.getRequest();
 			if (tempRequest.getType().equalsIgnoreCase("register")) {
-				eventServices.updateEvent(tempRequest.getEventID(), "not-approved");
+				eventServices.updateEventStatus(tempRequest.getEventID(), "not-approved");
 
 			}
 			// no change when the request type is "delete"
