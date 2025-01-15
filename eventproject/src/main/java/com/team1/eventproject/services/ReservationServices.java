@@ -187,13 +187,13 @@ public class ReservationServices {
     }
 
     // Methodos gia metrisis kratisewn enos sugkekrimenou event
-    public int countReservationsForEvent(Integer eventId) {
+    public String countReservationsForEvent(Integer eventId) {
         Event event = eventServices.getEventUsingID(eventId);
         if (event == null) {
-            return 0; // An to Event den vrethei, epistrefetai 0
+            return "Event not found, the id you entered is not valid"; // An to Event den vrethei, epistrefetai 0
         }
 
-        int count = 0;
+        Integer count = 0;
 
         // Auxisi tou metriti gia kathe kratisi pou antistoixei sto event
         for (Reservation reservation : reservations) {
@@ -202,8 +202,9 @@ public class ReservationServices {
             }
         }
 
-        return count;
+        return "The Event with id " +eventId+" has "+count+" reservations!";
     }
+    
     
     //Vriskei reservation me vash to id tou reservation 
     public Reservation getReservationUsingID (Integer id)
