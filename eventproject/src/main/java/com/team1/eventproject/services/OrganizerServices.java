@@ -27,10 +27,10 @@ public class OrganizerServices {
 	}
 
 	public String addOrganizer(String name, String surname, String afm, String description) {
-		
+
 		/*
-		 * AFM is unique to each organizer. Therefore, we use it to check if an organizer has
-		 * already been added to the database
+		 * AFM is unique to each organizer. Therefore, we use it to check if an
+		 * organizer has already been added to the database
 		 */
 		for (Organizer organizer : allOrganizers) {
 			if (organizer.getAfm().equals(afm)) {
@@ -57,7 +57,7 @@ public class OrganizerServices {
 		Organizer temp = new Organizer(name, surname, afm, description, id);
 
 		allOrganizers.add(temp);
-		return "The Organizer: " + temp.getName() +" " + temp.getSurname() + " has been added succesfully"
+		return "The Organizer: " + temp.getName() + " " + temp.getSurname() + " has been added succesfully"
 				+ " and given the ID " + id;
 
 	}
@@ -79,7 +79,7 @@ public class OrganizerServices {
 	public String deleteOrganizer(Integer organizerId) {
 		Organizer temp = getOrganizerUsingID(organizerId);
 
-		if (temp.equals(null) || temp.getStatus().equalsIgnoreCase("deleted"))
+		if (temp == null || temp.getStatus().equalsIgnoreCase("deleted"))
 			return "Organizer not found or has already been deleted";
 
 		temp.setStatus("deleted");
@@ -92,34 +92,52 @@ public class OrganizerServices {
 	public ArrayList<Organizer> getAllOrganizers() {
 		return allOrganizers;
 	}
-	
+
 	/*
-	 * The organizer list contains all the organizers, even the 
-	 * ones that have been deleted (status.equalsIgnoreCase("deleted")
-	 * The following method returns a list with the organizers that
-	 * are active
+	 * The organizer list contains all the organizers, even the ones that have been
+	 * deleted (status.equalsIgnoreCase("deleted") The following method returns a
+	 * list with the organizers that are active
 	 * 
 	 */
 	public List<Organizer> getAllActiveOrganizers() {
 
-	    List<Organizer> activeOrganizers = new ArrayList<>();
+		List<Organizer> activeOrganizers = new ArrayList<>();
 
-	    for (Organizer om : allOrganizers) {
-	        if (om.getStatus().equalsIgnoreCase("active")) {
-	        	activeOrganizers.add(om);
-	        }
-	    }
+		for (Organizer om : allOrganizers) {
+			if (om.getStatus().equalsIgnoreCase("active")) {
+				activeOrganizers.add(om);
+			}
+		}
 
-	    return activeOrganizers;
+		return activeOrganizers;
 	}
 
 	/*
-	 * public String deleteOrganizer(Integer organizerId) { String message;
-	 * 
-	 * for(Organizer organizer : allOrganizers) {
-	 * if(organizerId.equals(organizer.getId())) { allOrganizers.remove(organizer);
-	 * message="Organizer removed successfully!"; }else {
-	 * message="Organizer not found!"; } } return message; }
+	 * Updates an organizer's details. Returns a success or error message.
 	 */
 
+	public String updateOrganizer(Integer id, String newName, String newSurname, String newAfm, String newDescription) {
+
+		for (Organizer organizer : allOrganizers) {
+			if (organizer.getId().equals(id)) {
+				if (newName != null) {
+					organizer.setName(newName);
+				}
+				if (newSurname != null) {
+					organizer.setSurname(newSurname);
+				}
+				if (newAfm != null) {
+					organizer.setAfm(newAfm);
+				}
+				if (newDescription != null) {
+					organizer.setDescription(newDescription);
+				}
+
+				return "The organizer has been updated successfully.";
+			}
+
+			
+		}
+		return "The organizer ID you provided is not correct.";
+	}
 }

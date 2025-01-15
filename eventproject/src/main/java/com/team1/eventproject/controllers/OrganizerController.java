@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,5 +45,11 @@ public class OrganizerController {
 	public List<Organizer> getAllActiveOrganizers(){
 		return organizerServices.getAllActiveOrganizers();
 	}
+	
+	@PutMapping("/update")
+	public String updateOrganizer(Integer id, String name, String surname, String afm, String description){
+		return organizerServices.updateOrganizer(id, name, surname, afm, description);
+	}
+	
 	
 }
