@@ -24,8 +24,6 @@ import com.team1.eventproject.entities.Reservation;
 public class EventServices {
 
 	@Autowired
-	ApprovalRequestServices approvalRequestServices;
-	@Autowired
 	ReservationServices reservationServices;
 	
 	@Autowired
@@ -166,27 +164,27 @@ public class EventServices {
 	}
 
 	public ArrayList<Event> getUpcomingEventsPerOrganizer(Integer organizerId) {
-		ArrayList<Event> upcomingEvents = new ArrayList<>();
+	    ArrayList<Event> upcomingEvents = new ArrayList<>();
 
-		LocalDate currentDate = LocalDate.now();
+	    LocalDate currentDate = LocalDate.now();
 
-		for (Event event : allEvents) {
-			try {
-				if (isValidDate(event.getYear(), event.getMonth(), event.getDay()) && isValidOrganizer(organizerId)) {
-					LocalDate date = LocalDate.of(event.getYear(), event.getMonth(), event.getDay());
-					if (currentDate.isBefore(date) && organizerId.equals(event.getOrganizerId())) {
-						upcomingEvents.add(event);
-					}
-				}
-			} catch (Exception e) {
-				System.err.println(
-						"Error trying to retrieve upcomming events(date or organizer not valid): " + e.getMessage());
-			}
-			
-		}
-			return upcomingEvents;
-		}
+	    for (Event event : allEvents) {
+	        try {
+	            if (isValidDate(event.getYear(), event.getMonth(), event.getDay())) {
+	                LocalDate date = LocalDate.of(event.getYear(), event.getMonth(), event.getDay());
+	                if (currentDate.isBefore(date) && organizerId.equals(event.getOrganizerId())) {
+	                    upcomingEvents.add(event);
+	                }
+	            }
+	        } catch (Exception e) {
+	            System.err.println(
+	                    "Error trying to retrieve upcoming events (date or organizer not valid): " + e.getMessage());
+	        }
+	    }
 
+	    return upcomingEvents;
+	}
+	
 	/*
 	 * public void visitorsPerEvent() {
 	 * 
@@ -332,20 +330,9 @@ public class EventServices {
 		} catch (Exception e) {
 			return false;
 		}
+
 	}
+}
 
  
 	
-//
-//	private Boolean isValidOrganizer(Integer organizerId) {
-//		boolean isValid = false;
-//		for (Organizer organizer : organizerServices.getAllOrganizers()) {
-//			if (organizerId.equals(organizer.getId())) {
-//				isValid = true;
-//			} else {
-//				isValid = false;
-//			}
-//		}
-//		return isValid;
-//	}
-//}
