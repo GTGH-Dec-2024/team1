@@ -217,7 +217,7 @@ public class ReservationServices {
 		return null;
     }
     
-    // Method which deletes all reservations of one event. Called when Event is Deleted?
+    // Method which deletes all reservations of one event. Called when Event is Deleted.
     // Den prepei na kanoume alli mia  delete all events of Visitor, otan diagrafetai o Visitor?
     public String cancelAllReservationsForEvent (Integer eventID)
     {
