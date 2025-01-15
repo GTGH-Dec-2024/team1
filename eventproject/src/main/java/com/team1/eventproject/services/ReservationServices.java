@@ -143,13 +143,14 @@ public class ReservationServices {
 
     // Methodos gia epistrofi olwn twn kratisewn
     public List<Reservation> getAllReservations() {
-        return reservations; // Epistrofi antigrafou tis listas gia asfaleia
+        return reservations;
     }
 
     
     // Methodos gia anazitisi kratisewn sugkekrimenou visitor
     public List<Reservation> getReservationsByVisitor(Integer visitorId) {
-        Visitor visitor = visitorServices.getVisitorUsingID(visitorId);
+        
+    	Visitor visitor = visitorServices.getVisitorUsingID(visitorId);
         if (visitor == null) {
             return new ArrayList<>(); // An o Visitor den vrethei, epistrefetai adeia lista
         }
@@ -158,7 +159,7 @@ public class ReservationServices {
 
         // Prosthiki kratisewn tou sugkekrimenou visitor sti lista.
         for (Reservation reservation : reservations) {
-            if (reservation.getVisitorId().equals(visitor)) { // We use equals() instead of '=='
+            if (reservation.getVisitorId().equals(visitorId)) { // We use equals() instead of '=='
                 visitorReservations.add(reservation);
             }
         }
