@@ -104,19 +104,27 @@ public class VisitorServices {
     
     
     /*
-     *  Method to delete a visitor. When a visitor gets deleted, all the
-     *  reservations they have made get cancelled automatically.
+     *  Method to delete a visitor. When a visitor gets deleted, their
+     *  reservations do not get affected, as their tickets have already
+     *  been bought.
      */
+<<<<<<< Updated upstream
    
     // Method to delete a visitor
     public String deleteVisitor(Integer visitorId) {
+=======
+       public String deleteVisitor(Integer visitorId) {
+>>>>>>> Stashed changes
         Visitor visitor = getVisitorUsingID(visitorId);
         if (visitor == null || visitor.getStatus().equalsIgnoreCase("deleted")) {
             return "The Visitor with ID " +visitorId+ " doesn't exist or has already been deleted";
         }
         
         visitor.setStatus("deleted"); // Mark as deleted
+<<<<<<< Updated upstream
         reservationServices.cancelAllReservationsForVisitor(visitorId); // Cancel all related reservations
+=======
+>>>>>>> Stashed changes
         return "The Visitor with ID " +visitorId+ " has been deleted";
     }
     

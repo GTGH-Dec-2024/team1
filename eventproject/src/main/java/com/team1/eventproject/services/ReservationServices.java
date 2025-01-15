@@ -42,8 +42,12 @@ public class ReservationServices {
     }
 
     
+<<<<<<< Updated upstream
     // Methodos gia prosthiki neas kratisis tou visitor sto event.
     public String addReservation(int visitorId, Integer eventId) {
+=======
+    public String addReservation(Integer visitorId, Integer eventId) {
+>>>>>>> Stashed changes
         // Find the Visitor and Event using their IDs
         Visitor visitor = visitorServices.getVisitorUsingID(visitorId);
         Event event = eventServices.getEventUsingID(eventId);
@@ -294,10 +298,11 @@ public class ReservationServices {
      * So when the "original" addReservation checks, it will return
      * an error message) 
      */
-    public void addReservation (Integer visitorID, String title)
+    public String addReservation (Integer visitorID, String title)
     {
     	Integer eventID = eventServices.getEventIDFromTitle(title);
     	addReservation(visitorID, eventID);
+        return "Reservation made successfully for event: " + eventID;
     	
     }
     

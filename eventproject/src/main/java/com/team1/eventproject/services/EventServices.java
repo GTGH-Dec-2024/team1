@@ -3,6 +3,7 @@ package com.team1.eventproject.services;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -224,34 +225,7 @@ public class EventServices {
 		return allEvents;
 	}
 
-	// We need a method to increase currentCapacity of Event
-	// AND another one to decrease it
-	// (they will be called by reservationServices when a reservation
-	// is made or cancelled)
-
-	public String decreaseCurrentCapacity(Integer eventId) {
-		Event event = getEventUsingID(eventId);
-		String message;
-		if (event != null) {
-			event.setCurrentCapacity(event.getCurrentCapacity() - 1);
-			message = "Current capacity of event decreased succesfully!";
-		} else {
-			message = "Event not found!";
-		}
-		return message;
-	}
-
-	public String increaseCurrentCapacity(Integer eventId) {
-		Event event = getEventUsingID(eventId);
-		String message;
-		if (event != null && event.getCurrentCapacity() > 0) {
-			event.setCurrentCapacity(event.getCurrentCapacity() + 1);
-			message = "Current capacity of event decreased succesfully!";
-		} else {
-			message = "Event not found or the capacity if full!";
-		}
-		return message;
-	}
+	
 
 	/*
 	 * This method takes the ID of an organizer, and utilizes the
