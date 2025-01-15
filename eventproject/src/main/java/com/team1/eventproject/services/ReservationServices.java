@@ -1,5 +1,7 @@
 package com.team1.eventproject.services;
 
+import java.util.ArrayList;
+
 /*import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.layout.Document;
@@ -7,17 +9,14 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import java.io.FileOutputStream;*/
 
-import java.util.ArrayList;
+
 import java.util.List;
 
-import javax.swing.text.Document;
+// import javax.swing.text.Document;
 
 import org.springframework.stereotype.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Service;
-
 import com.team1.eventproject.entities.Event;
 import com.team1.eventproject.entities.Reservation;
 import com.team1.eventproject.entities.Visitor;
@@ -25,21 +24,21 @@ import com.team1.eventproject.entities.Visitor;
 @Service 
 public class ReservationServices {
 
-    private List<Reservation> reservations; // Lista pou apothikeuei oles tis kratiseis
+    private List<Reservation> reservations; // A list which stores all the reservations
 
     @Autowired
-    private EventServices eventServices; // Exartisi gia ta event services
+    private EventServices eventServices; // Dependency injection from the class EventServices
 
     @Autowired
-    private VisitorServices visitorServices; // Exartisi gia ta visitor services
+    private VisitorServices visitorServices; // Dependency injection from the class VisitorServices
 
     
-    // Constructor gia tin arxikopoiisi tis listas
+    // Constructor for the list 
     public ReservationServices() {
         this.reservations = new ArrayList<>();
     }
 
-    
+    // Method which adds a new reservation to the list reservation by taking the visitor id and event id.
     public String addReservation(int visitorId, Integer eventId) {
         // Find the Visitor and Event using their IDs
         Visitor visitor = visitorServices.getVisitorUsingID(visitorId);
@@ -75,7 +74,7 @@ public class ReservationServices {
             id = reservations.get(reservations.size() - 1).getId() + 1;
         }
 
-        // Create a new reservation for the visitor and add it to the list
+        // Create a new reservation for the visitor and the event and add it to the list
         Reservation newReservation = new Reservation(visitorId, eventId, id);
         reservations.add(newReservation);
 
@@ -94,7 +93,7 @@ public class ReservationServices {
 
     
     
- // Method which cancels a reservation given the reservation id
+    // Method which cancels a reservation given the reservation id
     public String cancelReservation(Integer reservationId) {
         // Find the reservation using its ID
         Reservation reservationToCancel = getReservationUsingID(reservationId);
@@ -123,7 +122,7 @@ public class ReservationServices {
                 + event.getTitle() + ". " + capacityUpdateMessage;
     }
 
-    
+    // Method which updates a Reservation
     public String updateReservation(Integer reservationId, Integer newVisitorId, Integer newEventId) {
         
     	for (Reservation reservation : reservations) {
@@ -141,23 +140,23 @@ public class ReservationServices {
         return "The reservation ID you provided is not correct.";
     }
 
-    // Methodos gia epistrofi olwn twn kratisewn
+    // Method which returns a list with all reservations of all events.
     public List<Reservation> getAllReservations() {
         return reservations;
     }
 
     
-    // Methodos gia anazitisi kratisewn sugkekrimenou visitor
+    // Method to get a visitor's reservation by giving his id.
     public List<Reservation> getReservationsByVisitor(Integer visitorId) {
         
     	Visitor visitor = visitorServices.getVisitorUsingID(visitorId);
         if (visitor == null) {
-            return new ArrayList<>(); // An o Visitor den vrethei, epistrefetai adeia lista
+            return new ArrayList<>(); // If the visitor is not found a null list will be returned.
         }
 
         List<Reservation> visitorReservations = new ArrayList<>();
 
-        // Prosthiki kratisewn tou sugkekrimenou visitor sti lista.
+        // Add reservations of a specific visitor in the list.
         for (Reservation reservation : reservations) {
             if (reservation.getVisitorId().equals(visitorId)) { // We use equals() instead of '=='
                 visitorReservations.add(reservation);
@@ -167,16 +166,16 @@ public class ReservationServices {
         return visitorReservations;
     }
 
-    // Methodos gia anazitisi kratisewn sugkekrimenou event
+    // Method which gets the reservations for a specific event, given the event id.
     public List<Reservation> getReservationsByEvent(Integer eventId) {
         Event event = eventServices.getEventUsingID(eventId);
         if (event == null) {
-            return new ArrayList<>(); // An to Event den vrethei, epistrefetai adeia lista
+            return new ArrayList<>(); // If the Event is not found an empty list will be returned
         }
 
         List<Reservation> eventReservations = new ArrayList<>();
 
-        // Prosthiki kratisewn tou event sti lista
+        // Add reservations of the event in the list.
         for (Reservation reservation : reservations) {
             if (reservation.getEventId().equals(eventId)) {
                 eventReservations.add(reservation);
@@ -186,16 +185,16 @@ public class ReservationServices {
         return eventReservations;
     }
 
-    // Methodos gia metrisis kratisewn enos sugkekrimenou event
+    // Method which counts the reservations of specific event
     public String countReservationsForEvent(Integer eventId) {
         Event event = eventServices.getEventUsingID(eventId);
         if (event == null) {
-            return "Event not found, the id you entered is not valid"; // An to Event den vrethei, epistrefetai 0
+            return "Event not found, the id you entered is not valid"; // If the event in not found return 0.
         }
 
         Integer count = 0;
 
-        // Auxisi tou metriti gia kathe kratisi pou antistoixei sto event
+        // Increase the counter for every reservation which corresponds to the event.
         for (Reservation reservation : reservations) {
             if (reservation.getEventId().equals(eventId)) {
                 count++;
@@ -206,7 +205,7 @@ public class ReservationServices {
     }
     
     
-    //Vriskei reservation me vash to id tou reservation 
+    // Finds a reservation given the reservation's id.
     public Reservation getReservationUsingID (Integer id)
     {
     	for (Reservation temp : reservations) {
@@ -218,7 +217,6 @@ public class ReservationServices {
     }
     
     // Method which deletes all reservations of one event. Called when Event is Deleted.
-    // Den prepei na kanoume alli mia  delete all events of Visitor, otan diagrafetai o Visitor?
     public String cancelAllReservationsForEvent (Integer eventID)
     {
     	Event anEvent = eventServices.getEventUsingID(eventID);
@@ -273,17 +271,13 @@ public class ReservationServices {
 
     
     /*
-     * We want visitors to be able to make reservations to Events 
-     * just by giving their ID and the title of the Event. This
-     * method checks which eventID corresponds to the given title
-     * (by calling the getEventIDFromTitle method).
+     * We want visitors to be able to make reservations to Events just by giving their ID and the title of the Event. This
+     * method checks which eventID corresponds to the given title (by calling the getEventIDFromTitle method).
      * 
-     * Then, it uses the "original" addReservation method of this class,
-     * so that there are no duplicates
+     * Then, it uses the "original" addReservation method of this class, so that there are no duplicates
      * 
-     * (In case of the event not being found, the Event id will be 0.
-     * So when the "original" addReservation checks, it will return
-     * an error message) 
+     * (In case of the event not being found, the Event id will be 0. So when the "original" addReservation checks,
+     * it will return an error message) 
      */
     public void addReservation (Integer visitorID, String title)
     {
@@ -294,8 +288,7 @@ public class ReservationServices {
     
     
     /*
-     * Takes the ID of a visitor and  then, using the cancelReservation
-     * method, it cancels all the reservations they have made.
+     * Takes the ID of a visitor and  then, using the cancelReservation method, it cancels all the reservations they have made.
      */
     public String cancelAllReservationsForVisitor (Integer visitorID)
     {
