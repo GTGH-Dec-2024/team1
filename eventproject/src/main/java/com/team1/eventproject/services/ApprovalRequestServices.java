@@ -76,8 +76,7 @@ public class ApprovalRequestServices {
 			id = allRequests.get(allRequests.size() - 1).getId() + 1;
 		}
 
-		ApprovalRequest aRequest = new ApprovalRequest(type, LocalDateTime.now(), tempOrganizer, tempEvent, comments,
-				id);
+		ApprovalRequest aRequest = new ApprovalRequest(type, LocalDateTime.now(), tempOrganizer, tempEvent, comments,id);
 
 		allRequests.add(aRequest);
 		
@@ -209,14 +208,19 @@ public class ApprovalRequestServices {
 		}
 	}
 
-	public ApprovalRequest getApprovalRequest(Event anEvent, String requestType) {
-		for (ApprovalRequest i : allRequests) {
-			if (i.getAnEvent().equals(anEvent) && i.getType().equalsIgnoreCase(requestType)) {
-
-				return i;
+	
+	/*
+	 * Returns the ApptovalRequests that have been submitted for a 
+	 * specific event
+	 */
+	public List<ApprovalRequest> getRequestsForEvent(Integer eventID) {
+		ArrayList<ApprovalRequest> requests = new ArrayList<>();
+		for (ApprovalRequest aRequest : allRequests) {
+			if (aRequest.getAnEvent().getId().equals(eventID)) {
+				requests.add(aRequest);
 			}
 		}
-		return null;
+		return requests;
 	}
 
 	/*
