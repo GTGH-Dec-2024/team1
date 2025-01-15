@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.team1.eventproject.entities.Reservation;
+import com.team1.eventproject.services.ReservationManagerServices;
 import com.team1.eventproject.services.ReservationServices;
 
 @RestController
@@ -20,6 +21,8 @@ public class ReservationController {
 
 	@Autowired
 	ReservationServices reservationServices;
+	@Autowired
+	ReservationManagerServices reservationManagerServices; 
 
 	@PostMapping("/addReservationByEvendId")
 	public String addReservation(@RequestParam Integer visitorId, @RequestParam Integer eventId) {
@@ -58,7 +61,7 @@ public class ReservationController {
 	}
 
 	@GetMapping
-	public String cancelAllReservationsForVisitor(Integer visitorID) {
+	public String cancelAllReservationsForVisitor(@RequestParam Integer visitorID) {
 		return reservationServices.cancelAllReservationsForVisitor(visitorID);
 	}
 
@@ -70,6 +73,11 @@ public class ReservationController {
 	@GetMapping
 	public String countReservationsForEvent(@RequestParam Integer eventId) {
 		return reservationServices.countReservationsForEvent(eventId);
+	}
+	
+	@GetMapping
+	public String visitorsPerEvent() {
+		return reservationManagerServices.visitorsPerEvent();
 	}
 
 }
