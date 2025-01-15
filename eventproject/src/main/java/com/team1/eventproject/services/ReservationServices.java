@@ -160,6 +160,7 @@ public class ReservationServices {
         return reservations; // Epistrofi antigrafou tis listas gia asfaleia
     }
 
+    
     // Methodos gia anazitisi kratisewn sugkekrimenou visitor
     public List<Reservation> getReservationsByVisitor(Integer visitorId) {
         Visitor visitor = visitorServices.getVisitorUsingID(visitorId);
