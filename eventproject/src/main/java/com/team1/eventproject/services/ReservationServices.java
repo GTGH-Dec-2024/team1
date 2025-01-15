@@ -39,36 +39,7 @@ public class ReservationServices {
         this.reservations = new ArrayList<>();
     }
 
-    //HERE THE TWO METHODS INCREASE/DECREASE CURRENT CAPACITY WILL BE ADDED
- // We need a method to increase currentCapacity of Event
- 	// AND another one to decrease it
- 	// (they will be called by reservationServices when a reservation
- 	// is made or cancelled)
-
- 	public String decreaseCurrentCapacity(Integer eventId) {
- 		EventServices eventServices = new EventServices();
- 		Event event = eventServices.getEventUsingID(eventId);
- 		String message;
- 		if (event != null) {
- 			event.setCurrentCapacity(event.getCurrentCapacity() - 1);
- 			message = "Current capacity of event decreased succesfully!";
- 		} else {
- 			message = "Event not found!";
- 		}
- 		return message;
- 	}
-
- 	public String increaseCurrentCapacity(Integer eventId) {
- 		Event event = eventServices.getEventUsingID(eventId);
- 		String message;
- 		if (event != null && event.getCurrentCapacity() > 0) {
- 			event.setCurrentCapacity(event.getCurrentCapacity() + 1);
- 			message = "Current capacity of event decreased succesfully!";
- 		} else {
- 			message = "Event not found or the capacity if full!";
- 		}
- 		return message;
- 	}
+    
     public String addReservation(int visitorId, Integer eventId) {
         // Find the Visitor and Event using their IDs
         Visitor visitor = visitorServices.getVisitorUsingID(visitorId);

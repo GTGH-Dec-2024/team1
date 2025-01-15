@@ -74,6 +74,37 @@ public class EventServices {
 	
 	}
 
+	
+	//HERE THE TWO METHODS INCREASE/DECREASE CURRENT CAPACITY WILL BE ADDED
+	 // We need a method to increase currentCapacity of Event
+	 	// AND another one to decrease it
+	 	// (they will be called by reservationServices when a reservation
+	 	// is made or cancelled)
+
+	 	public String decreaseCurrentCapacity(Integer eventId) {
+	 		EventServices eventServices = new EventServices();
+	 		Event event = getEventUsingID(eventId);
+	 		String message;
+	 		if (event != null) {
+	 			event.setCurrentCapacity(event.getCurrentCapacity() - 1);
+	 			message = "Current capacity of event decreased succesfully!";
+	 		} else {
+	 			message = "Event not found!";
+	 		}
+	 		return message;
+	 	}
+
+	 	public String increaseCurrentCapacity(Integer eventId) {
+	 		Event event = getEventUsingID(eventId);
+	 		String message;
+	 		if (event != null && event.getCurrentCapacity() > 0) {
+	 			event.setCurrentCapacity(event.getCurrentCapacity() + 1);
+	 			message = "Current capacity of event decreased succesfully!";
+	 		} else {
+	 			message = "Event not found or the capacity if full!";
+	 		}
+	 		return message;
+	 	}
 	// method to delete an event given its id
 	public String deleteEvent(Integer eventId) {
 		String message = "Event with id " + eventId + " deleted sucessfully";
