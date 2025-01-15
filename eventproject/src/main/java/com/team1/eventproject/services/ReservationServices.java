@@ -42,12 +42,8 @@ public class ReservationServices {
     }
 
     
-<<<<<<< Updated upstream
     // Methodos gia prosthiki neas kratisis tou visitor sto event.
-    public String addReservation(int visitorId, Integer eventId) {
-=======
     public String addReservation(Integer visitorId, Integer eventId) {
->>>>>>> Stashed changes
         // Find the Visitor and Event using their IDs
         Visitor visitor = visitorServices.getVisitorUsingID(visitorId);
         Event event = eventServices.getEventUsingID(eventId);
