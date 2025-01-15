@@ -23,8 +23,6 @@ import com.team1.eventproject.entities.Reservation;
 @Service
 public class EventServices {
 
-	@Autowired
-	ReservationServices reservationServices;
 	
 	@Autowired
 	ApprovalRequestServices approvalRequestServices;
@@ -305,6 +303,31 @@ public class EventServices {
 		}
 
 	}
+	
+	public String decreaseCurrentCapacity(Integer eventId) {
+ 		EventServices eventServices = new EventServices();
+ 		Event event = eventServices.getEventUsingID(eventId);
+ 		String message;
+ 		if (event != null) {
+ 			event.setCurrentCapacity(event.getCurrentCapacity() - 1);
+ 			message = "Current capacity of event decreased succesfully!";
+ 		} else {
+ 			message = "Event not found!";
+ 		}
+ 		return message;
+ 	}
+
+ 	public String increaseCurrentCapacity(Integer eventId) {
+ 		Event event = eventServices.getEventUsingID(eventId);
+ 		String message;
+ 		if (event != null && event.getCurrentCapacity() > 0) {
+ 			event.setCurrentCapacity(event.getCurrentCapacity() + 1);
+ 			message = "Current capacity of event increased succesfully!";
+ 		} else {
+ 			message = "Event not found or the capacity if full!";
+ 		}
+ 		return message;
+ 	}
 }
 
  
