@@ -178,7 +178,7 @@ public class ReservationServices {
 
         // Prosthiki kratisewn tou event sti lista
         for (Reservation reservation : reservations) {
-            if (reservation.getEventId().equals(event)) {
+            if (reservation.getEventId().equals(eventId)) {
                 eventReservations.add(reservation);
             }
         }
@@ -197,7 +197,7 @@ public class ReservationServices {
 
         // Auxisi tou metriti gia kathe kratisi pou antistoixei sto event
         for (Reservation reservation : reservations) {
-            if (reservation.getEventId().equals(event)) {
+            if (reservation.getEventId().equals(eventId)) {
                 count++;
             }
         }
