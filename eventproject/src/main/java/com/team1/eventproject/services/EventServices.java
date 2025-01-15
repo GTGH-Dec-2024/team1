@@ -58,7 +58,7 @@ public class EventServices {
 		} else {
 			allEvents.add(event);
 			approvalRequestServices.addApprovalRequest("add", organizerId, id, comments);
-			return "The registration for the event " + event.getId() + " has been sent for approval.";
+			return "The registration for the event with id: " + event.getId() + " has been sent for approval.";
 		}
 	
 	}

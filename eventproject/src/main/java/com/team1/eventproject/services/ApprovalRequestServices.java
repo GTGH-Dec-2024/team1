@@ -133,15 +133,15 @@ public class ApprovalRequestServices {
 	/*
 	 * Returns all the ApprovalRequests that have been handled by an employee.
 	 * 
-	 * We give an Employee object and it returns a list of all the closed requests
+	 * We give an Employee ID and it returns a list of all the closed requests
 	 * that were handled by him/her
 	 * 
 	 */
-	public ArrayList<ApprovalRequest> getHandlingsBy(Employee anEmployee) {
+	public ArrayList<ApprovalRequest> getHandlingsBy(Integer employeeID) {
 		ArrayList<ApprovalRequest> myHandlings = new ArrayList<>();
 
 		for (ApprovalRequest aRequest : allRequests) {
-			if (aRequest.getStatus().equals("closed") && aRequest.getHandledBy().equals(anEmployee)) {
+			if (aRequest.getStatus().equals("closed") && aRequest.getHandledBy().equals(employeeID)) {
 				myHandlings.add(aRequest);
 			}
 		}
@@ -180,5 +180,24 @@ public class ApprovalRequestServices {
 		else
 			return "The request has already been handled, it can't be removed";
 		
+	}
+	
+	
+	public List<ApprovalRequest> getAllRequests()
+	{
+		return allRequests;
+	}
+	
+	
+	public ArrayList<ApprovalRequest> getDeniedRequests() {
+		ArrayList<ApprovalRequest> deniedRequests = new ArrayList<>();
+
+		for (ApprovalRequest aRequest : allRequests) {
+			if (!aRequest.getIsApproved()) {
+				deniedRequests.add(aRequest);
+			}
+		}
+		return deniedRequests;
+
 	}
 }
