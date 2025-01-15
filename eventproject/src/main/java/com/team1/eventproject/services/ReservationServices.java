@@ -40,7 +40,8 @@ public class ReservationServices {
     }
 
     
-    public String addReservation(int visitorId, Integer eventId) {
+    // Methodos gia prosthiki neas kratisis tou visitor sto event.
+    public String addReservation(Integer visitorId, Integer eventId) {
         // Find the Visitor and Event using their IDs
         Visitor visitor = visitorServices.getVisitorUsingID(visitorId);
         Event event = eventServices.getEventUsingID(eventId);
@@ -71,7 +72,7 @@ public class ReservationServices {
         Integer id;  
         if (reservations.isEmpty()) {
             id = 1;
-        } else {
+        }else{
             id = reservations.get(reservations.size() - 1).getId() + 1;
         }
 
@@ -285,10 +286,11 @@ public class ReservationServices {
      * So when the "original" addReservation checks, it will return
      * an error message) 
      */
-    public void addReservation (Integer visitorID, String title)
+    public String addReservation (Integer visitorID, String title)
     {
     	Integer eventID = eventServices.getEventIDFromTitle(title);
     	addReservation(visitorID, eventID);
+        return "Reservation made successfully for event: " + eventID;
     	
     }
     

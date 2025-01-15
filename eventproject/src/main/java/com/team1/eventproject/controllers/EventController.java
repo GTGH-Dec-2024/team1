@@ -21,34 +21,34 @@ public class EventController {
 
 	@Autowired
 	EventServices eventServices;
-	
+
 	@PostMapping("/add")
-	public String addEvent(@RequestParam Integer organizerId, @RequestParam String title,
-			@RequestParam String theme, @RequestParam String description, @RequestParam String location,
-			@RequestParam Integer maxCapacity, @RequestParam Integer day, @RequestParam Integer month,
-			@RequestParam Integer year, @RequestParam Integer hour, @RequestParam Integer minutes,
-			@RequestParam Integer duration, @RequestParam String comments) {
-		return eventServices.addEvent(organizerId, title, theme, description, location, maxCapacity, day,
-				month, year, hour, minutes, duration, comments);
+	public String addEvent(@RequestParam Integer organizerId, @RequestParam String title, @RequestParam String theme,
+			@RequestParam String description, @RequestParam String location, @RequestParam Integer maxCapacity,
+			@RequestParam Integer day, @RequestParam Integer month, @RequestParam Integer year,
+			@RequestParam Integer hour, @RequestParam Integer minutes, @RequestParam Integer duration,
+			@RequestParam String comments) {
+		return eventServices.addEvent(organizerId, title, theme, description, location, maxCapacity, day, month, year,
+				hour, minutes, duration, comments);
 	}
 
 	@DeleteMapping("/delete")
 	public String deleteEvent(@RequestParam Integer eventId) {
 		return eventServices.deleteEvent(eventId);
 	}
-	
+
 	@PutMapping("/updateEventStatu")
 	public String updateEventStatus(@RequestParam Integer eventId, @RequestParam String newEventStatus) {
 		return eventServices.updateEventStatus(eventId, newEventStatus);
 	}
-		
-	@PutMapping("/updateEvent")
-	public String updateEvent(Integer eventId, Integer organizerId, String title, String theme, String description, String location,
-			  Integer maxCapacity, Integer day, Integer month, Integer year, Integer hour,
-			  Integer minutes, Integer duration, Integer id) {
-		return eventServices.updateEvent(eventId, organizerId, title, theme, description, location, maxCapacity, day, month, year, hour, minutes, duration, id);
-	}
 
+	@PutMapping("/updateEvent")
+	public String updateEvent(Integer eventId, Integer organizerId, String title, String theme, String description,
+			String location, Integer maxCapacity, Integer day, Integer month, Integer year, Integer hour,
+			Integer minutes, Integer duration, Integer id) {
+		return eventServices.updateEvent(eventId, organizerId, title, theme, description, location, maxCapacity, day,
+				month, year, hour, minutes, duration, id);
+	}
 
 	@GetMapping("/all")
 	public ArrayList<Event> getAllEvents() {
@@ -75,5 +75,5 @@ public class EventController {
 	public ArrayList<Event> getUpcomingEventsPerOrganizer(@RequestParam Integer organizerId) {
 		return eventServices.getUpcomingEventsPerOrganizer(organizerId);
 	}
-	
+
 }

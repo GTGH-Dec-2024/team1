@@ -106,7 +106,9 @@ public class VisitorServices {
      *  reservations do not get affected, as their tickets have already
      *  been bought.
      */
-       public String deleteVisitor(Integer visitorId) {
+
+    // Method to delete a visitor
+    public String deleteVisitor(Integer visitorId) {
         Visitor visitor = getVisitorUsingID(visitorId);
         if (visitor == null || visitor.getStatus().equalsIgnoreCase("deleted")) {
             return "The Visitor with ID " +visitorId+ " doesn't exist or has already been deleted";
