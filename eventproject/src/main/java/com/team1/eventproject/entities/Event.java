@@ -134,7 +134,7 @@ public class Event {
 		return String.format("%02d:%02d", hour, minutes);
 	}
 
-	public int getDuration() {
+	public Integer getDuration() {
 		return duration;
 	}
 
@@ -150,7 +150,7 @@ public class Event {
 		this.status = status;
 	}
 
-	public int getCurrentCapacity() {
+	public Integer getCurrentCapacity() {
 		return currentCapacity;
 	}
 

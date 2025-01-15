@@ -24,7 +24,8 @@ import com.team1.eventproject.entities.Reservation;
 public class EventServices {
 
 	@Autowired
-    @Lazy
+	ApprovalRequestServices approvalRequestServices;
+	@Autowired
 	ReservationServices reservationServices;
 	
 	@Autowired
@@ -90,11 +91,73 @@ public class EventServices {
 		return message;
 	}
 
+	// method to update an event's info
+
+	public String updateEvent(Integer eventId, Integer organizerId, String title, String theme, String description, String location,
+	  Integer maxCapacity, Integer day, Integer month, Integer year, Integer hour,
+	  Integer minutes, Integer duration, Integer id) {
+		
+		 Event event = getEventUsingID(eventId);
+		 String message;
+		 if(event!=null) {
+			 
+			 if(organizerId!=null) {
+				 event.setOrganizerId(organizerId);
+			 }
+			 
+			 if(title!=null) {
+				 event.setTitle(title);
+			 }
+			 
+			 if(description!=null) {
+				 event.setDescription(description);
+			 }
+			 
+			 if(location!=null) {
+				 event.setLocation(location);
+			 }
+			 
+			 if(maxCapacity!=null) {
+				 event.setMaxCapacity(maxCapacity);
+			 }
+			 
+			 if(day!=null) {
+				 event.setDay(day);
+			 }
+			 
+			 if(month!=null) {
+				 event.setMonth(month);
+			 }
+			 
+			 if(year!=null) {
+				 event.setYear(year);
+			 }
+			 
+			 if(hour!=null) {
+				 event.setHour(hour);
+			 }
+			 
+			 if(minutes!=null) {
+				 event.setMinutes(minutes);
+			 }
+			 
+			 if(duration!=null) {
+				 event.setDuration(duration);
+			 }
+			 
+			 message="Event has been updated";
+			 return message;
+		 }else {
+			 message="Event not found!";
+			 return message;
+		 }
+	 }
+
 	public ArrayList<Event> getEventsForOrganizer(Integer organizerId) {
 		ArrayList<Event> organizerEvents = new ArrayList<>();
 
 		for (Event event : allEvents) {
-			if (organizerId == event.getOrganizerId()) {
+			if (organizerId.equals(event.getOrganizerId())) {
 				organizerEvents.add(event);
 			}
 		}
@@ -107,12 +170,17 @@ public class EventServices {
 
 		LocalDate currentDate = LocalDate.now();
 
-		for (Event event : allEvents)
-		{
-			LocalDate date = LocalDate.of(event.getYear(), event.getMonth(), event.getDay());
-			if (currentDate.isBefore(date) && organizerId.equals(event.getOrganizerId()))
-			{
-				upcomingEvents.add(event);
+		for (Event event : allEvents) {
+			try {
+				if (isValidDate(event.getYear(), event.getMonth(), event.getDay()) && isValidOrganizer(organizerId)) {
+					LocalDate date = LocalDate.of(event.getYear(), event.getMonth(), event.getDay());
+					if (currentDate.isBefore(date) && organizerId.equals(event.getOrganizerId())) {
+						upcomingEvents.add(event);
+					}
+				}
+			} catch (Exception e) {
+				System.err.println(
+						"Error trying to retrieve upcomming events(date or organizer not valid): " + e.getMessage());
 			}
 			
 		}
@@ -140,15 +208,15 @@ public class EventServices {
 	// searchEvents is the same as getting a certain event-->getEvent
 	public List<Event> searchEvents(Integer id, Integer day, Integer month, Integer year, String location,
 			String theme) {
-		return getAllEvents().stream().filter(event -> id == null || id.equals(event.getId())).filter(event -> {
+		return getAllEvents().stream().filter(event -> id.equals(null) || id.equals(event.getId())).filter(event -> {
 			if (day != null && month != null && year != null) {
 				LocalDate givenDate = LocalDate.of(year, month, day);
 				LocalDate eventDate = LocalDate.of(event.getYear(), event.getMonth(), event.getDay());
 				return givenDate.isEqual(eventDate);
 			}
 			return true;
-		}).filter(event -> location == null || location.equals(event.getLocation()))
-				.filter(event -> theme == null || theme.equals(event.getTheme())).collect(Collectors.toList());
+		}).filter(event -> location.equals(null) || location.equals(event.getLocation()))
+				.filter(event -> theme.equals(null) || theme.equals(event.getTheme())).collect(Collectors.toList());
 	}
 
 	// να βλεπω αναφορες με την κατασταση των εκδηλωσεων 1ο απο το doc
@@ -156,7 +224,7 @@ public class EventServices {
 	// method that finds a specific event given an id as a parameter
 	public Event getEventUsingID(Integer eventId) {
 		for (Event event : allEvents) {
-			if (eventId == event.getId()) {
+			if (eventId.equals(event.getId())) {
 				return event;
 			}
 		}
@@ -197,58 +265,6 @@ public class EventServices {
 		return message;
 	}
 
-	public String writeEventAgendaToFile() {
-		String message;
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter("event-agenda.txt"))) {
-
-			writer.write("********UPCOMING EVENTS FOR EACH ORGANIZER*********");
-			ArrayList<Organizer> allOrganizers = organizerServices.getAllOrganizers();
-			for (Organizer organizer : allOrganizers) {
-				writer.write("Organizer: " + organizer.getName() + " " + organizer.getSurname() + " ("
-						+ organizer.getId() + ")");
-				List<Event> upcomingEvents = getUpcomingEventsPerOrganizer(organizer.getId());
-				if (upcomingEvents.isEmpty()) {
-					writer.write("No upcoming events!\n");
-				} else {
-					for (Event event : upcomingEvents) {
-						writer.write("-" + event.toString() + "\n");
-					}
-				}
-			}
-
-			writer.write("********RESERVATIONS FOR EACH EVENT*********");
-			ArrayList<Event> allEvents = getAllEvents();
-			for (Event event : allEvents) {
-				writer.write("Event: " + event.getTitle() + " (" + event.getId() + ")");
-				List<Reservation> reservations = reservationServices.getReservationsByEvent(event.getId());
-				if (reservations.isEmpty()) {
-					writer.write("No reservations for that event!\n");
-				} else {
-					for (Reservation reservation : reservations) {
-						writer.write("-" + reservation.toString() + "\n");
-					}
-				}
-			}
-
-			writer.write("********ALL PENDING REQUESTS*********");
-			List<ApprovalRequest> pendingRequests = approvalRequestServices.getPendingRequests();
-
-			if (pendingRequests.isEmpty()) {
-				writer.write("No pending requests!");
-			} else {
-				for (ApprovalRequest request : pendingRequests) {
-					writer.write("Request: " + request.toString() + "\n");
-				}
-			}
-
-			message = "The event agenda was succesfully written to event-agenda.txt file";
-		} catch (IOException e) {
-			message = "Error while writing the file: " + e.getMessage();
-		}
-
-		return message;
-	}
-
 	/*
 	 * This method takes the ID of an organizer, and utilizes the
 	 * getUpcomingEventsPerOrganizer method to find and delete all their planned
@@ -285,14 +301,6 @@ public class EventServices {
 		return 0;
 	}
 
-//	private Boolean isValidDate(Integer year, Integer month, Integer day) {
-//		try {
-//			LocalDate.of(year, month, day);
-//			return true;
-//		} catch (Exception e) {
-//			return false;
-//		}
-//	}
 	
 	/*
 	 * Checks if the event has already been registered. Since the ID is given
@@ -314,9 +322,17 @@ public class EventServices {
 	        	return true;	        
 	    }
 	    return false;
+
 	}
-}
-	
+
+	private Boolean isValidDate(Integer year, Integer month, Integer day) {
+		try {
+			LocalDate.of(year, month, day);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 
  
 	

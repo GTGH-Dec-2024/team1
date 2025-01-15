@@ -79,7 +79,7 @@ public class OrganizerServices {
 	public String deleteOrganizer(Integer organizerId) {
 		Organizer temp = getOrganizerUsingID(organizerId);
 
-		if (temp == null || temp.getStatus().equalsIgnoreCase("deleted"))
+		if (temp.equals(null) || temp.getStatus().equalsIgnoreCase("deleted"))
 			return "Organizer not found or has already been deleted";
 
 		temp.setStatus("deleted");
