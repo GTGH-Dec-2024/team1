@@ -85,6 +85,8 @@ public class VisitorServices {
     	for (Visitor visitor : allVisitors)
         {
         	if (visitor.getId().equals(id)) {
+//        		if (!visitor.getStatus().equals("active"))
+//        			return "The visitor has been deleted, you can no longer update them";
         		if (newName != null)
 					visitor.setName(newName);
         		if (newSurname!=null)

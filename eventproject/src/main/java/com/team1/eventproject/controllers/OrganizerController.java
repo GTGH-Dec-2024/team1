@@ -31,8 +31,8 @@ public class OrganizerController {
 	}
 	
 	@DeleteMapping("/delete")
-	public String deleteOrganizer(@RequestParam Integer organizerId) {
-		return organizerServices.deleteOrganizer(organizerId);
+	public String deleteOrganizer(@RequestParam Integer id) {
+		return organizerServices.deleteOrganizer(id);
 	}
 	
 	@GetMapping("/allOrganizers")
@@ -40,7 +40,7 @@ public class OrganizerController {
 		return organizerServices.getAllOrganizers();
 	}
 	
-	@GetMapping("/activeOrganizes")
+	@GetMapping("/activeOrganizers")
 	public List<Organizer> getAllActiveOrganizers(){
 		return organizerServices.getAllActiveOrganizers();
 	}

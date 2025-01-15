@@ -57,7 +57,7 @@ public class OrganizerServices {
 		Organizer temp = new Organizer(name, surname, afm, description, id);
 
 		allOrganizers.add(temp);
-		return "The Organizer: " + temp.getName() + temp.getSurname() + " has been added succesfully"
+		return "The Organizer: " + temp.getName() +" " + temp.getSurname() + " has been added succesfully"
 				+ " and given the ID " + id;
 
 	}
