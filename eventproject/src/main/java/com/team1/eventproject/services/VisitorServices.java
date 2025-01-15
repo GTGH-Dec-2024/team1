@@ -3,14 +3,13 @@ package com.team1.eventproject.services;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.team1.eventproject.entities.Visitor;
 
 @Service
 public class VisitorServices {
+	
 	// The class VisitorServices stores all the visitors in the list allVisitors.
 	private ArrayList<Visitor> allVisitors;  
 	
@@ -20,31 +19,27 @@ public class VisitorServices {
 		this.allVisitors = allVisitors;
 	}
 
-
+    // The method addVisitor creates a new visitor and adds it in the list allVisitors
 	public String addVisitor(String name, String surname, String email)
 	{
 	    /*
-	     * We want all IDs to be given automatically. Therefore, we
-	     * use the allVisitors list to help us. If the list is empty,
-	     * then we know it is the first object that will be made so its
-	     * id will be set to 1.
+	     * We want all IDs to be given automatically. We use a list to help us. If the list is empty, then we know
+	     * that it is the first object that will be made so its id will be set to 1.
 	     * 
-	     * Otherwise, we find the ID of the last object that was added,
-	     * and by increasing it by 1 we get the new id!
+	     * Otherwise, we find the ID of the last object that was added, and by increasing it by 1 we get the new id!
 	     */
 	    Integer id; 
 	    if(allVisitors.isEmpty()){
-	        id = 1;
+	        id = 1; // If the list allVisitors is empty, then it will be the first object, so id=1
 	    }else{
-	        id = allVisitors.get(allVisitors.size() - 1).getId() + 1;
+	        id = allVisitors.get(allVisitors.size() - 1).getId() + 1; // If the list is not empty the id will be equal to the id of the last object +1.
 	    }
 
 	    // We create a new Visitor object
 	    Visitor temp = new Visitor(name, surname, email, id); 
 
 	    /*
-	     * We consider the email to be unique, so we check if the visitor is
-	     * already on the list using the email.
+	     * We consider the email to be unique, so we check if the visitor is already on the list using the email.
 	     */
 	    for (Visitor visitor : allVisitors) {
 	        if (visitor.getEmail().equals(email)) {
@@ -63,23 +58,27 @@ public class VisitorServices {
 	// Method which returns visitor based on his id
 	public Visitor getVisitorUsingID(Integer id)
 	{
-		for (Visitor visitor : allVisitors) 
+		for (Visitor visitor : allVisitors) // for every visitor in the list all visitor
 		{
 			if (visitor.getId().equals(id)) {  // Changed == to .equals() for Integer comparison
 	        
 	            return visitor;
 	        }
 	    }
-	    return null;
+	    return null; 
 	    } 
 	
 
-	// Method to get all visitors
+	// Method to get all visitors, returns a list with all the visitors of all events.
     public List<Visitor> getAllVisitors() {
-        return new ArrayList<>(allVisitors); // Return a copy to ensure immutability
+        return new ArrayList<>(allVisitors); // Returns a copy of the list AllVisitors to ensure that the list will not be changed.
+        //Returns a list whivh has the same elements as the allVisitors list but is independent from it.
     }
 
- // Method to update a visitor
+   /*  Method to update a visitor
+    *  This methods takes as attributes the id of the visitor that will be changed, his new Name, Surname and Email
+    *  and returns a visitor with new attributes. 
+    */
     public String updateVisitor(Integer id, String newName, String newSurname, String newEmail) {
     
     	for (Visitor visitor : allVisitors)
@@ -102,8 +101,8 @@ public class VisitorServices {
     
     
     /*
-     *  Method to delete a visitor. When a visitor gets deleted, their
-     *  reservations do not get affected, as their tickets have already
+     *  Method to delete a visitor.
+     *  When a visitor gets deleted, his reservations do not get affected, as his tickets have already
      *  been bought.
      */
 

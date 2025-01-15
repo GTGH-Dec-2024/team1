@@ -1,15 +1,13 @@
 package com.team1.eventproject.entities;
 /* The class Reservation represents one reservation that one visitor has made for an Event */
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class Reservation {
-	 private Integer id;          // ID της κράτησης
-	    private Integer visitorId;   // ID του επισκέπτη
-	    private Integer eventId;     // ID της εκδήλωσης
+	 private Integer id;          // id of the reservation
+	    private Integer visitorId;   // id of the visitor
+	    private Integer eventId;     // id of the event
 
-	    // Constructor που δέχεται visitorId και eventId
+	    // Constructor
 	    public Reservation(Integer visitorId, Integer eventId, Integer id) {
 	        this.visitorId = visitorId;
 	        this.eventId = eventId;
@@ -17,7 +15,7 @@ public class Reservation {
 	    }
 
 	  
-	 // Getters και setters
+	 // Getters and Setters
 	    public Integer getId() {
 	        return id;
 	    }
