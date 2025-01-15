@@ -157,7 +157,7 @@ public class ReservationServices {
 
     // Methodos gia epistrofi olwn twn kratisewn
     public List<Reservation> getAllReservations() {
-        return new ArrayList<>(reservations); // Epistrofi antigrafou tis listas gia asfaleia
+        return reservations; // Epistrofi antigrafou tis listas gia asfaleia
     }
 
     // Methodos gia anazitisi kratisewn sugkekrimenou visitor
