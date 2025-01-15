@@ -49,34 +49,14 @@ public class ReservationManagerServices {
                     if (visitor != null) {
                         // Print the visitor's details
                         System.out.println(visitor.getName() + " " + visitor.getSurname() + " (" + visitor.getId() + ")");
-                    } else {
-                        System.out.println("Visitor with ID " + reservation.getVisitorId() + " not found.");
-                    }
+                    } 
                 }
             }
         }
     }
 
     
- // Method to delete a visitor
-    public boolean deleteVisitor(Integer visitorId) {
-        // Retrieve the visitor by ID
-        Visitor visitor = VisitorServices.getVisitorUsingID(visitorId);
-
-        // If the visitor is not found or is already deleted
-        if (visitor == null || visitor.getStatus().equalsIgnoreCase("deleted")) {
-            return false; // Visitor not found or already deleted
-        }
-
-        // Mark the visitor as deleted
-        visitor.setStatus("deleted");
-
-        // Call ReservationServices to cancel all related reservations for this visitor
-        ReservationServices.cancelAllReservationsForVisitor(visitorId);
-        //SOS AUTO EDW DEN DHMIOURGEI KUKLO?
-
-        return true; // Successful deletion
-    }
+ 
 
 	
 		public void getReservationsForOrganizersEvents(Integer organizerId) {

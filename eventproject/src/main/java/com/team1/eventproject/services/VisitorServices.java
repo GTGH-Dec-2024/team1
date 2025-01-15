@@ -89,10 +89,8 @@ public class VisitorServices {
         return Boolean.FALSE; // Visitor not found
     }
 
-    /*
-     *  Method to delete a visitor. When a visitor gets deleted, all the
-     *  reservations they have made get cancelled automatically.
-     */
    
+
+
     
 }
