@@ -95,10 +95,11 @@ public class EventServices {
 
 	// method to update an event's info
 
-	public String (Integer eventId, Integer organizerId, String title, String theme, String description, String location,
+	public String updateEvent(Integer eventId, Integer organizerId, String title, String theme, String description, String location,
 	  Integer maxCapacity, Integer day, Integer month, Integer year, Integer hour,
 	  Integer minutes, Integer duration, Integer id) {
-		 Event event = getEventUsingId(eventdId);
+		
+		 Event event = getEventUsingID(eventId);
 		 String message;
 		 if(event!=null) {
 			 
