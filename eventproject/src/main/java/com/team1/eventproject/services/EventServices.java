@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,9 +63,9 @@ public class EventServices {
 
 		Event event = new Event(organizerId, title, theme, description, location, maxCapacity, day, month, year, hour,
 				minutes, duration, id);
+		
 
-
-		if (allEvents.contains(event)) {
+		if (isEventDuplicate(event)) {
 			return "Event already exists in the events list!";
 		} else {
 			allEvents.add(event);
@@ -77,13 +78,12 @@ public class EventServices {
 	// method to delete an event given its id
 	public String deleteEvent(Integer eventId) {
 		String message = "Event with id " + eventId + " deleted sucessfully";
-		Event event = getEventUsingID(eventId);
-		event.setStatus("deleted");
+		updateEventStatus(eventId, "deleted");
 		return message;
 	}
 
 	// method to update an event's status
-	public String updateEvent(Integer eventId, String newEventStatus) {
+	public String updateEventStatus(Integer eventId, String newEventStatus) {
 		String message = "Event with id " + eventId + " updated succesfully!";
 		Event event = getEventUsingID(eventId);
 		event.setStatus(newEventStatus);
@@ -285,15 +285,40 @@ public class EventServices {
 		return 0;
 	}
 
-	private Boolean isValidDate(Integer year, Integer month, Integer day) {
-		try {
-			LocalDate.of(year, month, day);
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-	}
+//	private Boolean isValidDate(Integer year, Integer month, Integer day) {
+//		try {
+//			LocalDate.of(year, month, day);
+//			return true;
+//		} catch (Exception e) {
+//			return false;
+//		}
+//	}
 	
+	/*
+	 * Checks if the event has already been registered. Since the ID is given
+	 * automatically, another way of checking for duplicates had to be implemented.
+	 * 
+	 * If the same organizer has made an event with the same Title at the same
+	 * date and time, then the isEventDuplicate is true
+	 */
+	private Boolean isEventDuplicate(Event event) {
+	    for (Event ev : allEvents) {
+	        if (ev.getOrganizerId().equals(event.getOrganizerId()) &&
+	            ev.getTitle().equals(event.getTitle()) &&
+	            ev.getDay().equals(event.getDay()) &&
+	            ev.getMonth().equals(event.getMonth()) &&
+	            ev.getYear().equals(event.getYear()) &&
+	            ev.getHour().equals(event.getHour()) &&
+	            ev.getMinutes().equals(event.getMinutes())) 
+	           
+	        	return true;	        
+	    }
+	    return false;
+	}
+}
+	
+
+ 
 	
 //
 //	private Boolean isValidOrganizer(Integer organizerId) {
@@ -307,4 +332,4 @@ public class EventServices {
 //		}
 //		return isValid;
 //	}
-}
+//}
