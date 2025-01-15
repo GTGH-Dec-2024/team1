@@ -20,16 +20,6 @@ public class Employee extends User {
 		//deletionsHistory = new ArrayList<>();
 	}
 	
-	/*
-	 * a method for the "nice to have" feature of keeping
-	 * an archive of all the Events an employee has deleted.
-	 * Probably will not be implemented
-	 * 
-	public void addDeletion(Event anEvent)
-	{
-		deletionsHistory.add(anEvent);
-	}
-*/
 
 	public Integer getId() {
 		return id;

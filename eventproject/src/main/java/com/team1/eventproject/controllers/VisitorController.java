@@ -49,6 +49,11 @@ public class VisitorController {
     	return visitorServices.updateVisitor(id, name, surname, email);
     }
     
+    @GetMapping ("/allActiveVisitors")
+    public List<Visitor> getAllActiveVisitors()
+    {
+    	return visitorServices.getAllActiveVisitors();
+    }
      
     
 
