@@ -1,17 +1,17 @@
 package com.team1.eventproject.services;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+//import java.io.BufferedWriter;
+//import java.io.FileWriter;
+//import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.team1.eventproject.entities.ApprovalRequest;
+//import com.team1.eventproject.entities.ApprovalRequest;
 import com.team1.eventproject.entities.Event;
-import com.team1.eventproject.entities.Organizer;
+//import com.team1.eventproject.entities.Organizer;
 import com.team1.eventproject.entities.Reservation;
 import com.team1.eventproject.entities.Visitor;
 
@@ -20,20 +20,16 @@ public class ReservationManagerServices {
 
 	@Autowired
 	private EventServices eventServices;
-	@Autowired
-	private ReservationServices reservationServices;
 	
 	@Autowired
-	private ApprovalRequestServices approvalRequestServices;
+	private ReservationServices reservationServices;
 	
 	@Autowired
 	private VisitorServices visitorServices;
 
 	/*
-	 * This method returns the titles of all the events that have been added,
-	 * together with the visitors' list for each event. This is done by using a
-	 * "visitorsperevent" String and updating it each time.
-	 * 
+	 * This method returns the titles of all the events that have been added, together with the visitors' list for each event. 
+	 * This is done by using a "visitorsperevent" String and updating it each time. 
 	 */
 	public String visitorsPerEvent() {
 		String visitorsperevent = "";
@@ -62,8 +58,7 @@ public class ReservationManagerServices {
 	}
 
 	/*
-	 * Based on the ID of an organizer, this method returns a list of reservations
-	 * for all the events they have organized
+	 * Based on the ID of an organizer, this method returns a list of reservations for all the events they have organized
 	 * 
 	 */
 	public List<Reservation> getReservationsForOrganizersEvents(Integer organizerId) {
