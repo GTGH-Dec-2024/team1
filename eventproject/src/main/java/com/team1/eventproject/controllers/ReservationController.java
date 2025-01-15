@@ -66,8 +66,8 @@ public class ReservationController {
 	public List<Reservation> getReservationsByEvent(@RequestParam Integer eventId) {
 		return reservationServices.getReservationsByEvent(eventId);
 	}
-
-	@DeleteMapping("/cancelAllForReservationsForVisitor")
+    
+	@DeleteMapping("/cancelAllReservationsForVisitor")
 	public String cancelAllReservationsForVisitor(@RequestParam Integer visitorID) {
 		return reservationServices.cancelAllReservationsForVisitor(visitorID);
 	}
@@ -86,5 +86,15 @@ public class ReservationController {
 	public String visitorsPerEvent() {
 		return reservationManagerServices.visitorsPerEvent();
 	}
-
+    
+	@GetMapping("/getReservationsByVisitor")
+    public List<Reservation> getReservationsByVisitor(@RequestParam Integer visitorId) {
+        return reservationServices.getReservationsByVisitor(visitorId);
+    }
+	
+	@PostMapping("/addReservationByTitle")
+    public String addReservation2(@RequestParam Integer visitorID, @RequestParam String title) {
+        // Call the service method to add reservation based on visitor ID and event title
+        return reservationServices.addReservation2(visitorID, title);
+    }
 }
