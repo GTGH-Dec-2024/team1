@@ -38,8 +38,9 @@ public class ReservationServices {
         this.reservations = new ArrayList<>();
     }
 
-    // Method which adds a new reservation to the list reservation by taking the visitor id and event id.
-    public String addReservation(int visitorId, Integer eventId) {
+    public String addReservation(Integer visitorId, Integer eventId) {
+        System.out.println("Adding reservation for visitorId: " + visitorId + " and eventId: " + eventId);
+
         // Find the Visitor and Event using their IDs
         Visitor visitor = visitorServices.getVisitorUsingID(visitorId);
         Event event = eventServices.getEventUsingID(eventId);
@@ -67,10 +68,10 @@ public class ReservationServices {
         }
 
         // Generate a new ID for the reservation
-        Integer id;  
+        Integer id;
         if (reservations.isEmpty()) {
             id = 1;
-        }else{
+        } else {
             id = reservations.get(reservations.size() - 1).getId() + 1;
         }
 
@@ -80,19 +81,19 @@ public class ReservationServices {
 
         // Call the decreaseCurrentCapacity method from EventServices
         String capacityUpdateMessage = eventServices.decreaseCurrentCapacity(eventId);
-       
+        System.out.println("Capacity update message: " + capacityUpdateMessage);
+
+        // If capacity decrease fails, remove the reservation and return the failure message
         if (!capacityUpdateMessage.contains("successfully")) {
-            // If capacity decrease fails, remove the reservation to maintain consistency
-            reservations.remove(newReservation);
-            return capacityUpdateMessage;
+           reservations.remove(newReservation);
+           return capacityUpdateMessage;
         }
 
-        return "Reservation made successfully for event: " + event.getTitle() +" The ID of the"
-        		+ "reservation is: " + id;
+        // Return the success message for reservation without the capacity update message
+        return "Reservation made successfully for event: " + event.getTitle() + ". The ID of the reservation is: " + id;
     }
 
-    
-    
+
     // Method which cancels a reservation given the reservation id
     public String cancelReservation(Integer reservationId) {
         // Find the reservation using its ID
@@ -205,16 +206,25 @@ public class ReservationServices {
     }
     
     
-    // Finds a reservation given the reservation's id.
-    public Reservation getReservationUsingID (Integer id)
-    {
-    	for (Reservation temp : reservations) {
-    		if (temp.getId().equals(id)) { 
-				return temp;
-			}
-		}
-		return null;
+    public Reservation getReservationUsingID(Integer id) {
+        // Check if the provided id is null
+        if (id == null) {
+            // Throw an exception if the id is null to avoid processing invalid data
+            throw new IllegalArgumentException("The provided reservation ID is null.");
+        }
+
+        // Loop through all reservations to find the one with the matching ID
+        for (Reservation temp : reservations) {
+            // Use equals() for safe comparison of Integer objects
+            if (id.equals(temp.getId())) { 
+                return temp; // Return the reservation if a match is found
+            }
+        }
+
+        // Return null if no matching reservation is found
+        return null;
     }
+
     
     // Method which deletes all reservations of one event. Called when Event is Deleted.
     public String cancelAllReservationsForEvent (Integer eventID)
@@ -279,7 +289,7 @@ public class ReservationServices {
      * (In case of the event not being found, the Event id will be 0. So when the "original" addReservation checks,
      * it will return an error message) 
      */
-    public String addReservation (Integer visitorID, String title)
+    public String addReservation2 (Integer visitorID, String title)
     {
     	Integer eventID = eventServices.getEventIDFromTitle(title);
     	addReservation(visitorID, eventID);

@@ -24,14 +24,21 @@ public class ReservationController {
 	@Autowired
 	ReservationManagerServices reservationManagerServices; 
 
-	@PostMapping("/addReservationByEvendId")
-	public String addReservation(@RequestParam Integer visitorId, @RequestParam Integer eventId) {
+	
+	@PostMapping("/addReservation")
+    public String addReservation(@RequestParam Integer visitorId,@RequestParam Integer eventId) {
+        return reservationServices.addReservation(visitorId, eventId);
+    }
+	
+	
+	@PostMapping("/addReservationByEventId")
+	public String addReservation2(@RequestParam Integer visitorId, @RequestParam Integer eventId) {
 		return reservationServices.addReservation(visitorId, eventId);
 	}
 
 	@PostMapping("/addReservationByEventTitle")
 	public String addReservation(@RequestParam Integer visitorID, @RequestParam String title) {
-		return reservationServices.addReservation(visitorID, title);
+		return reservationServices.addReservation2(visitorID, title);
 	}
 
 	@PutMapping("/update")
@@ -40,7 +47,7 @@ public class ReservationController {
 		return reservationServices.updateReservation(reservationId, newVisitorId, newEventId);
 	}
 
-	@DeleteMapping("/cancelReservationWithId")
+	@DeleteMapping("/cancelReservation")
 	public String cancelReservation(@RequestParam Integer reservationId) {
 		return reservationServices.cancelReservation(reservationId);
 	}
