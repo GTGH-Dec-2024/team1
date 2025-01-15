@@ -29,54 +29,37 @@ public class ReservationManagerServices {
     @Autowired
     private VisitorServices VisitorServices;
 
-    //EDW THA MPEI H METHODOS VISITORSPEREVENT
-    public void visitorsPerEvent() {
+
+    
+    public String visitorsPerEvent() {
         // Loop through all events
+    	String visitorsperevent = "";
         for (Event event : EventServices.getAllEvents()) {
-            System.out.println("Event: " + event.getTitle());
+            visitorsperevent+="--Event: " + event.getTitle()+"--\n";
             
             // Get the reservations for the current event using the eventId
             List<Reservation> reservationsForThisEvent = ReservationServices.getReservationsByEvent(event.getId());
             
             if (reservationsForThisEvent.isEmpty()) {
-                System.out.println("No visitors yet!");
+            	visitorsperevent+= "No visitors yet!\n";
             } else {
                 // Loop through each reservation and get visitor details
                 for (Reservation reservation : reservationsForThisEvent) {
                     // Fetch the visitor by the visitorId from VisitorServices
-                    Visitor visitor = VisitorServices.getVisitorUsingID(reservation.getVisitorId());
+                	
+                	Visitor visitor = VisitorServices.getVisitorUsingID(reservation.getVisitorId());
                     
                     if (visitor != null) {
                         // Print the visitor's details
-                        System.out.println(visitor.getName() + " " + visitor.getSurname() + " (" + visitor.getId() + ")");
-                    } else {
-                        System.out.println("Visitor with ID " + reservation.getVisitorId() + " not found.");
-                    }
+                    	visitorsperevent+= visitor.getName() + " " + visitor.getSurname() + " (id = " + visitor.getId() + ")";
+                    } 
                 }
             }
         }
+        return visitorsperevent;
     }
 
-    
- // Method to delete a visitor
-    public boolean deleteVisitor(Integer visitorId) {
-        // Retrieve the visitor by ID
-        Visitor visitor = VisitorServices.getVisitorUsingID(visitorId);
 
-        // If the visitor is not found or is already deleted
-        if (visitor == null || visitor.getStatus().equalsIgnoreCase("deleted")) {
-            return false; // Visitor not found or already deleted
-        }
-
-        // Mark the visitor as deleted
-        visitor.setStatus("deleted");
-
-        // Call ReservationServices to cancel all related reservations for this visitor
-        ReservationServices.cancelAllReservationsForVisitor(visitorId);
-        //SOS AUTO EDW DEN DHMIOURGEI KUKLO?
-
-        return true; // Successful deletion
-    }
 
 	
 		public void getReservationsForOrganizersEvents(Integer organizerId) {
