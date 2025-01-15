@@ -32,7 +32,8 @@ public class ReservationController {
 	}
 
 	@PutMapping("/update")
-	public String updateReservation(@RequestParam Integer reservationId, @RequestParam Integer newVisitorId, @RequestParam Integer newEventId) {
+	public String updateReservation(@RequestParam Integer reservationId, @RequestParam Integer newVisitorId,
+			@RequestParam Integer newEventId) {
 		return reservationServices.updateReservation(reservationId, newVisitorId, newEventId);
 	}
 
@@ -57,15 +58,18 @@ public class ReservationController {
 	}
 
 	@GetMapping
+	public String cancelAllReservationsForVisitor(Integer visitorID) {
+		return reservationServices.cancelAllReservationsForVisitor(visitorID);
+	}
+
+	@GetMapping
 	public Reservation getReservationUsingID(@RequestParam Integer id) {
 		return reservationServices.getReservationUsingID(id);
 	}
-	
+
 	@GetMapping
-	public int countReservationsForEvent(@RequestParam Integer eventId) {
+	public String countReservationsForEvent(@RequestParam Integer eventId) {
 		return reservationServices.countReservationsForEvent(eventId);
 	}
-
-	
 
 }

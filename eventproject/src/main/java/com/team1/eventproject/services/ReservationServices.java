@@ -72,7 +72,7 @@ public class ReservationServices {
         Integer id;  
         if (reservations.isEmpty()) {
             id = 1;
-        } else {
+        }else{
             id = reservations.get(reservations.size() - 1).getId() + 1;
         }
 
