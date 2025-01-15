@@ -63,7 +63,7 @@ public class ReservationServices {
  		String message;
  		if (event != null && event.getCurrentCapacity() > 0) {
  			event.setCurrentCapacity(event.getCurrentCapacity() + 1);
- 			message = "Current capacity of event decreased succesfully!";
+ 			message = "Current capacity of event increased succesfully!";
  		} else {
  			message = "Event not found or the capacity if full!";
  		}
@@ -129,24 +129,15 @@ public class ReservationServices {
             return "Reservation with ID " + reservationId + " not found.";
         }
 
-        // Get the event of the reservation to update its capacity
-        Event event = eventServices.getEventUsingID(reservationToCancel.getEventId());
-
-        // Check if the event exists
-        if (event == null) {
-            return "Event with ID " + reservationToCancel.getEventId() + " not found.";
-        }
-
-        // Remove the reservation from the list
         reservations.remove(reservationToCancel);
-
+        increaseCapacity()
         // Call increaseCurrentCapacity from EventServices
-        String capacityUpdateMessage = eventServices.increaseCurrentCapacity(event.getId());
-
+        
         // Return the final message
-        return "Reservation with ID " + reservationId + " cancelled successfully for event: " 
-                + event.getTitle() + ". " + capacityUpdateMessage;
+        return "Reservation with ID " + reservationId + " has been cancelled successfully";
     }
+    
+    
 
     public String updateReservation(Integer reservationId, Integer newVisitorId, Integer newEventId) {
         // Find the reservation based on the provided ID
