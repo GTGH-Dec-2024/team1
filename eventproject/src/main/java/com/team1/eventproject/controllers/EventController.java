@@ -37,13 +37,16 @@ public class EventController {
 		return eventServices.deleteEvent(eventId);
 	}
 	
-	@PutMapping("/update")
-	public String updateEvent(@RequestParam Integer eventId, @RequestParam(required=false)  Integer organizerId,@RequestParam(required=false) String title,@RequestParam(required=false) String theme,
-			@RequestParam(required=false)String description, @RequestParam(required=false) String location,@RequestParam(required=false) Integer maxCapacity,
-			@RequestParam(required=false) Integer day,@RequestParam(required=false) Integer month,@RequestParam(required=false) Integer year,@RequestParam(required=false) Integer hour,
-			@RequestParam(required=false) Integer minutes,@RequestParam(required=false) Integer duration, @RequestParam(required=false) String comments) {
-		return eventServices.updateEvent(eventId, organizerId, title, theme, description, location,maxCapacity, 
-				day, month, year, hour, minutes, duration, comments);
+	@PutMapping("/updateEventStatu")
+	public String updateEventStatus(@RequestParam Integer eventId, @RequestParam String newEventStatus) {
+		return eventServices.updateEventStatus(eventId, newEventStatus);
+	}
+		
+	@PutMapping("/updateEvent")
+	public String updateEvent(Integer eventId, Integer organizerId, String title, String theme, String description, String location,
+			  Integer maxCapacity, Integer day, Integer month, Integer year, Integer hour,
+			  Integer minutes, Integer duration, Integer id) {
+		return eventServices.updateEvent(eventId, organizerId, title, theme, description, location, maxCapacity, day, month, year, hour, minutes, duration, id);
 	}
 
 
@@ -63,24 +66,14 @@ public class EventController {
 	}
 
 	@GetMapping("/searchEvents")
-	public List<Event> searchEvents(@RequestParam Integer id, @RequestParam(required=false) Integer day, @RequestParam(required=false) Integer month,
-			@RequestParam(required=false) Integer year, @RequestParam(required=false) String location, @RequestParam(required=false) String theme) {
+	public List<Event> searchEvents(@RequestParam Integer id, @RequestParam Integer day, @RequestParam Integer month,
+			@RequestParam Integer year, @RequestParam String location, @RequestParam String theme) {
 		return eventServices.searchEvents(id, day, month, year, location, theme);
 	}
 
-	@GetMapping("/upcomingEventsGivenOrganizerId")
+	@GetMapping("/getUpcomingEventsGivenOrganizerId")
 	public ArrayList<Event> getUpcomingEventsPerOrganizer(@RequestParam Integer organizerId) {
 		return eventServices.getUpcomingEventsPerOrganizer(organizerId);
 	}
 	
-	@DeleteMapping("/cancelAllEventsForOrganizer")
-	public String cancelAllEventsForOrganizer (@RequestParam Integer organizerId) {
-		return eventServices.cancelAllEventsForOrganizer(organizerId);
-	}
-	
-	@GetMapping ("/eventIDFromTitle")
-	public Integer getEventIDFromTitle(@RequestParam String title)
-	{
-		return eventServices.getEventIDFromTitle(title);
-	}
 }
