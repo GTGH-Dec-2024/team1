@@ -35,47 +35,47 @@ public class ReservationController {
 	}
 
 	@PutMapping("/update")
-	public String updateReservation(@RequestParam Integer reservationId, @RequestParam Integer newVisitorId,
+	public String updateReservation(@RequestParam (required=false) Integer reservationId, @RequestParam (required=false) Integer newVisitorId,
 			@RequestParam Integer newEventId) {
 		return reservationServices.updateReservation(reservationId, newVisitorId, newEventId);
 	}
 
-	@DeleteMapping
+	@DeleteMapping("/cancelReservationWithId")
 	public String cancelReservation(@RequestParam Integer reservationId) {
 		return reservationServices.cancelReservation(reservationId);
 	}
 
-	@DeleteMapping
+	@DeleteMapping("/cancelAllForReservationsForEvent")
 	public String cancelAllReservationsForEvent(@RequestParam Integer eventID) {
 		return reservationServices.cancelAllReservationsForEvent(eventID);
 	}
 
-	@GetMapping
+	@GetMapping("/getAllReservations")
 	public List<Reservation> getAllReservations() {
 		return reservationServices.getAllReservations();
 	}
 
-	@GetMapping
+	@GetMapping("/getReservationForEvent")
 	public List<Reservation> getReservationsByEvent(@RequestParam Integer eventId) {
 		return reservationServices.getReservationsByEvent(eventId);
 	}
 
-	@GetMapping
+	@GetMapping("/cancelAllForReservationsForVisitor")
 	public String cancelAllReservationsForVisitor(@RequestParam Integer visitorID) {
 		return reservationServices.cancelAllReservationsForVisitor(visitorID);
 	}
 
-	@GetMapping
+	@GetMapping("/getReservationWithId")
 	public Reservation getReservationUsingID(@RequestParam Integer id) {
 		return reservationServices.getReservationUsingID(id);
 	}
 
-	@GetMapping
+	@GetMapping("/getNumberOfReservationsForEvent")
 	public String countReservationsForEvent(@RequestParam Integer eventId) {
 		return reservationServices.countReservationsForEvent(eventId);
 	}
 	
-	@GetMapping
+	@GetMapping("/getVisitorsPerEvent")
 	public String visitorsPerEvent() {
 		return reservationManagerServices.visitorsPerEvent();
 	}
