@@ -55,8 +55,7 @@ public class EventServices {
 		
 
 		if (isEventDuplicate(event)) {
-			return "Event already exists in the events list! If you had previously"
-					+ " deleted it, its status is now again active!";
+			return "Event already exists in the events list!";
 		} else {
 			allEvents.add(event);
 			approvalRequestServices.addApprovalRequest("add", organizerId, id, comments);
@@ -330,20 +329,14 @@ public class EventServices {
 	            ev.getHour().equals(event.getHour()) &&
 	            ev.getMinutes().equals(event.getMinutes())) 
 	        {
-	        	if (ev.getStatus().equalsIgnoreCase("deleted"))
-	        	{
-	        		ev.setStatus("pending");
-		        	return true;	        
-
-	        	}
 	        	return true;
 	        }
+	        	
+	        }
 	           
-	        		        
+	    	return false;        
 	    }
-	    return false;
 
-	}
 
 	private Boolean isValidDate(Integer year, Integer month, Integer day) {
 		try {

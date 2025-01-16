@@ -70,7 +70,5 @@ public class EventController {
 	public ArrayList<Event> getUpcomingEventsPerOrganizer(@RequestParam Integer id) {
 		return eventServices.getUpcomingEventsPerOrganizer(id);
 	}
-	
-	
 
 }
