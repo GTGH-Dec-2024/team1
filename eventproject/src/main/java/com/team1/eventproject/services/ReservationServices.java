@@ -250,34 +250,6 @@ public class ReservationServices {
     	 return "All reservations for this event have been cancelled";
     }
         
-/*
- * public String exportReservationsToPdf(String filepath) { String message;
- * 
- * try{
- * 
- * PdfWriter writer = new PdfWriter(filepath); PdfDocument pdfDocument = new
- * PdfDocument(writer); Document document = new Document(pdfDocument);
- * 
- * document.add(new Paragraph("Event Reservations").setBold().setFontSize(16));
- * 
- * float[] columnWidths= {1,3,3}; Table table = new Table(columnWidths);
- * 
- * table.addHeaderCell("RESERVATION ID"); table.addHeaderCell("VISITOR NAME");
- * table.addHeaderCell("EVENT TITLE");
- * 
- * for(Reservation reservation : reservations) {
- * table.addCell(String.valueOf(reservation.getId()));
- * table.addCell(String.valueOf(reservation.getVisitor().getName()));
- * table.addCell(String.valueOf(reservation.getEvent().getTitle())); }
- * 
- * document.add(table); document.close();
- * 
- * message="Reservations for each event exported succesfully to "+filepath;
- * }catch(Exception e) { e.printStackTrace(); message =
- * "Error exporting reservations to PDF: "+e.getMessage(); }
- * 
- * return message; }
- */
 
     
     /*
