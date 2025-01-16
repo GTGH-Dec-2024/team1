@@ -82,10 +82,6 @@ public class ReservationController {
 		return reservationServices.countReservationsForEvent(eventId);
 	}
 	
-	@GetMapping("/getVisitorsPerEvent")
-	public String visitorsPerEvent() {
-		return reservationManagerServices.visitorsPerEvent();
-	}
     
 	@GetMapping("/getReservationsByVisitor")
     public List<Reservation> getReservationsByVisitor(@RequestParam Integer visitorId) {
@@ -97,12 +93,6 @@ public class ReservationController {
         // Call the service method to add reservation based on visitor ID and event title
         return reservationServices.addReservation2(visitorID, title);
     }
-	
-	@GetMapping ("/visitorsPerEvent")
-	public String getVisitorsPerEvent()
-	{
-		return reservationManagerServices.visitorsPerEvent();
-	}
 	
 	@GetMapping("/reservationsForOrganizersEvents")
 	public List<Reservation >getReservationsForOrganizersEvents(@RequestParam Integer id)
