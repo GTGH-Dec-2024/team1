@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.team1.eventproject.entities.Event;
 import com.team1.eventproject.services.EventAgendaServices;
 import com.team1.eventproject.services.EventServices;
+import com.team1.eventproject.services.ReservationManagerServices;
 
 @RestController
 @RequestMapping("events")
@@ -24,6 +25,9 @@ public class EventController {
 	EventServices eventServices;
 	@Autowired
 	EventAgendaServices eventAgendaServices;
+	
+	@Autowired
+	ReservationManagerServices reservationManagerServices;
 
 	@PostMapping("/add")
 	public String addEvent(@RequestParam Integer organizerId, @RequestParam String title, @RequestParam String theme,
@@ -96,6 +100,13 @@ public class EventController {
 	@GetMapping("/getEventAgendaServices")
 	public String writeEventAgendaToFile() {
 		return eventAgendaServices.writeEventAgendaToFile();
+	}
+	
+	
+	@GetMapping ("/visitorsPerEvent")
+	public String getVisitorsPerEvent()
+	{
+		return reservationManagerServices.visitorsPerEvent();
 	}
 
 }

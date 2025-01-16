@@ -4,14 +4,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
+
 import org.springframework.stereotype.Service;
 
 import com.team1.eventproject.entities.ApprovalRequest;
-import com.team1.eventproject.entities.Employee;
-import com.team1.eventproject.entities.Event;
-import com.team1.eventproject.entities.Organizer;
+
 
 @Service
 public class ApprovalRequestServices {
