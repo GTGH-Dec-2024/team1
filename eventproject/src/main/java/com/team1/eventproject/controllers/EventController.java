@@ -38,25 +38,12 @@ public class EventController {
 	}
 
 	@PutMapping("/updateEvent")
-	public String updateEvent(
-	        @RequestParam Integer eventId,
-	        @RequestParam(required = false) Integer organizerId,
-	        @RequestParam String title,
-	        @RequestParam String theme,
-	        @RequestParam String description,
-	        @RequestParam String location,
-	        @RequestParam(required = false) Integer maxCapacity,
-	        @RequestParam(required = false) Integer day,
-	        @RequestParam(required = false) Integer month,
-	        @RequestParam(required = false) Integer year,
-	        @RequestParam(required = false) Integer hour,
-	        @RequestParam(required = false) Integer minutes,
-	        @RequestParam(required = false) Integer duration,
-	        @RequestParam(required = false) Integer id) {
-	    return eventServices.updateEvent(eventId, organizerId, title, theme, description, location, maxCapacity, day,
-	            month, year, hour, minutes, duration, id);
+	public String updateEvent(Integer eventId, Integer organizerId, String title, String theme, String description,
+			String location, Integer maxCapacity, Integer day, Integer month, Integer year, Integer hour,
+			Integer minutes, Integer duration, Integer id) {
+		return eventServices.updateEvent(eventId, organizerId, title, theme, description, location, maxCapacity, day,
+				month, year, hour, minutes, duration, id);
 	}
-
 
 	@GetMapping("/all")
 	public ArrayList<Event> getAllEvents() {
