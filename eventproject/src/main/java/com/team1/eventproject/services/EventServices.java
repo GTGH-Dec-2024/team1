@@ -59,7 +59,7 @@ public class EventServices {
 		} else {
 			allEvents.add(event);
 			approvalRequestServices.addApprovalRequest("add", organizerId, id, comments);
-			return "The registration for the event with id: " + event.getId() + " has been sent for approval.";
+			return "The registration for the event " + event.getId() + " has been sent for approval.";
 		}
 	
 	}
@@ -112,20 +112,17 @@ public class EventServices {
 	 	}
 	// method to delete an event given its id
 	public String deleteEvent(Integer eventId) {
-		Event event = getEventUsingID(eventId);
-			if (event ==null || event.getStatus().equalsIgnoreCase("deleted"))
-			{
-				return "The event with ID " +eventId+ " doesn't exist or has already been deleted";
-			}
-			updateEventStatus(eventId, "deleted");
-			return "Event with id " + eventId + " deleted sucessfully";
-		}
-	
+		String message = "Event with id " + eventId + " deleted sucessfully";
+		updateEventStatus(eventId, "deleted");
+		return message;
+	}
 
 	// method to update an event's status
-	public void updateEventStatus(Integer eventId, String newEventStatus) {
+	public String updateEventStatus(Integer eventId, String newEventStatus) {
+		String message = "Event with id " + eventId + " updated succesfully!";
 		Event event = getEventUsingID(eventId);
 		event.setStatus(newEventStatus);
+		return message;
 	}
 
 	// method to update an event's info
@@ -245,15 +242,15 @@ public class EventServices {
 	// searchEvents is the same as getting a certain event-->getEvent
 	public List<Event> searchEvents(Integer id, Integer day, Integer month, Integer year, String location,
 			String theme) {
-		return getAllEvents().stream().filter(event -> id.equals(null) || id.equals(event.getId())).filter(event -> {
+		return getAllEvents().stream().filter(event -> id==null || id==event.getId()).filter(event -> {
 			if (day != null && month != null && year != null) {
 				LocalDate givenDate = LocalDate.of(year, month, day);
 				LocalDate eventDate = LocalDate.of(event.getYear(), event.getMonth(), event.getDay());
 				return givenDate.isEqual(eventDate);
 			}
 			return true;
-		}).filter(event -> location.equals(null) || location.equals(event.getLocation()))
-				.filter(event -> theme.equals(null) || theme.equals(event.getTheme())).collect(Collectors.toList());
+		}).filter(event -> location==null || location.equals(event.getLocation()))
+				.filter(event -> theme==null || theme.equals(event.getTheme())).collect(Collectors.toList());
 	}
 
 
@@ -327,15 +324,12 @@ public class EventServices {
 	            ev.getYear().equals(event.getYear()) &&
 	            ev.getHour().equals(event.getHour()) &&
 	            ev.getMinutes().equals(event.getMinutes())) 
-	        {
-	        	return true;
-	        }
-	        	
-	        }
 	           
-	    	return false;        
+	        	return true;	        
 	    }
+	    return false;
 
+	}
 
 	private Boolean isValidDate(Integer year, Integer month, Integer day) {
 		try {
