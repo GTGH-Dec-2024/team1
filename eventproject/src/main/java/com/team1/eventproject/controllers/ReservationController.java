@@ -24,14 +24,21 @@ public class ReservationController {
 	@Autowired
 	ReservationManagerServices reservationManagerServices; 
 
-	@PostMapping("/addReservationByEvendId")
-	public String addReservation(@RequestParam Integer visitorId, @RequestParam Integer eventId) {
+	
+	@PostMapping("/addReservation")
+    public String addReservation(@RequestParam Integer visitorId,@RequestParam Integer eventId) {
+        return reservationServices.addReservation(visitorId, eventId);
+    }
+	
+	
+	@PostMapping("/addReservationByEventId")
+	public String addReservation2(@RequestParam Integer visitorId, @RequestParam Integer eventId) {
 		return reservationServices.addReservation(visitorId, eventId);
 	}
 
 	@PostMapping("/addReservationByEventTitle")
 	public String addReservation(@RequestParam Integer visitorID, @RequestParam String title) {
-		return reservationServices.addReservation(visitorID, title);
+		return reservationServices.addReservation2(visitorID, title);
 	}
 
 	@PutMapping("/update")
@@ -40,7 +47,7 @@ public class ReservationController {
 		return reservationServices.updateReservation(reservationId, newVisitorId, newEventId);
 	}
 
-	@DeleteMapping("/cancelReservationWithId")
+	@DeleteMapping("/cancelReservation")
 	public String cancelReservation(@RequestParam Integer reservationId) {
 		return reservationServices.cancelReservation(reservationId);
 	}
@@ -59,8 +66,8 @@ public class ReservationController {
 	public List<Reservation> getReservationsByEvent(@RequestParam Integer eventId) {
 		return reservationServices.getReservationsByEvent(eventId);
 	}
-
-	@DeleteMapping("/cancelAllForReservationsForVisitor")
+    
+	@DeleteMapping("/cancelAllReservationsForVisitor")
 	public String cancelAllReservationsForVisitor(@RequestParam Integer visitorID) {
 		return reservationServices.cancelAllReservationsForVisitor(visitorID);
 	}
@@ -79,5 +86,15 @@ public class ReservationController {
 	public String visitorsPerEvent() {
 		return reservationManagerServices.visitorsPerEvent();
 	}
-
+    
+	@GetMapping("/getReservationsByVisitor")
+    public List<Reservation> getReservationsByVisitor(@RequestParam Integer visitorId) {
+        return reservationServices.getReservationsByVisitor(visitorId);
+    }
+	
+	@PostMapping("/addReservationByTitle")
+    public String addReservation2(@RequestParam Integer visitorID, @RequestParam String title) {
+        // Call the service method to add reservation based on visitor ID and event title
+        return reservationServices.addReservation2(visitorID, title);
+    }
 }

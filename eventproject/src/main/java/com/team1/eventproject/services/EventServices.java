@@ -70,18 +70,33 @@ public class EventServices {
 	 	// (they will be called by reservationServices when a reservation
 	 	// is made or cancelled)
 
-	 	public String decreaseCurrentCapacity(Integer eventId) {
-	 		EventServices eventServices = new EventServices();
-	 		Event event = getEventUsingID(eventId);
-	 		String message;
-	 		if (event != null) {
-	 			event.setCurrentCapacity(event.getCurrentCapacity() - 1);
-	 			message = "Current capacity of event decreased succesfully!";
-	 		} else {
-	 			message = "Event not found!";
-	 		}
-	 		return message;
-	 	}
+	public String decreaseCurrentCapacity(Integer eventId) {
+	    // If EventServices is already injected, no need to create a new instance
+	    // EventServices eventServices = new EventServices(); // This line is unnecessary
+	    
+	    // Find the Event with the given eventId
+	    Event event = getEventUsingID(eventId);
+	    String message;
+
+	    // Check if the event exists
+	    if (event != null) {
+	        // Check if there is available capacity before decreasing
+	        if (event.getCurrentCapacity() > 0) {
+	            // Decrease the capacity of the event by 1
+	            event.setCurrentCapacity(event.getCurrentCapacity() - 1);
+	            message = "Current capacity of event decreased successfully!";
+	        } else {
+	            // If the event is already fully booked, do not allow capacity decrease
+	            message = "Event is fully booked, cannot decrease capacity.";
+	        }
+	    } else {
+	        // If the event doesn't exist, return an error message
+	        message = "Event not found!";
+	    }
+
+	    return message;
+	}
+
 
 	 	public String increaseCurrentCapacity(Integer eventId) {
 	 		Event event = getEventUsingID(eventId);
