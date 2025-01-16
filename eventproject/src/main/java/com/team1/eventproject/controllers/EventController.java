@@ -77,10 +77,16 @@ public class EventController {
 	}
 
 	@GetMapping("/searchEvents")
-	public List<Event> searchEvents(@RequestParam Integer id, @RequestParam Integer day, @RequestParam Integer month,
-			@RequestParam Integer year, @RequestParam String location, @RequestParam String theme) {
-		return eventServices.searchEvents(id, day, month, year, location, theme);
+	public List<Event> searchEvents(
+	        @RequestParam(required = false) Integer id,
+	        @RequestParam(required = false) Integer day,
+	        @RequestParam(required = false) Integer month,
+	        @RequestParam(required = false) Integer year,
+	        @RequestParam(required = false) String location,
+	        @RequestParam(required = false) String theme) {
+	    return eventServices.searchEvents(id, day, month, year, location, theme);
 	}
+
 
 	@GetMapping("/upcomingEventsGivenOrganizerId")
 	public ArrayList<Event> getUpcomingEventsPerOrganizer(@RequestParam Integer id) {
