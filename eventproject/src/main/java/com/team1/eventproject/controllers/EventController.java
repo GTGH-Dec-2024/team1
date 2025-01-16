@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.team1.eventproject.entities.Event;
+import com.team1.eventproject.services.EventAgendaServices;
 import com.team1.eventproject.services.EventServices;
 
 @RestController
@@ -21,6 +22,8 @@ public class EventController {
 
 	@Autowired
 	EventServices eventServices;
+	@Autowired
+	EventAgendaServices eventAgendaServices;
 
 	@PostMapping("/add")
 	public String addEvent(@RequestParam Integer organizerId, @RequestParam String title, @RequestParam String theme,
@@ -69,6 +72,11 @@ public class EventController {
 	@GetMapping("/upcomingEventsGivenOrganizerId")
 	public ArrayList<Event> getUpcomingEventsPerOrganizer(@RequestParam Integer id) {
 		return eventServices.getUpcomingEventsPerOrganizer(id);
+	}
+	
+	@GetMapping("/getEventAgendaServices")
+	public String writeEventAgendaToFile() {
+		return eventAgendaServices.writeEventAgendaToFile();
 	}
 
 }
