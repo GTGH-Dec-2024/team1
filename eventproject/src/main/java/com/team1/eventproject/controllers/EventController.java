@@ -72,5 +72,9 @@ public class EventController {
 	}
 	
 	
+	@GetMapping("/getEventIDFromTitle")
+	public Integer getEventIDFromTitle(@RequestParam String title) {
+		return eventServices.getEventIDFromTitle(title);
+	}
 
 }
