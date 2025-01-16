@@ -37,10 +37,7 @@ public class EventController {
 		return eventServices.deleteEvent(eventId);
 	}
 
-	@PutMapping("/updateEventStatu")
-	public String updateEventStatus(@RequestParam Integer eventId, @RequestParam String newEventStatus) {
-		return eventServices.updateEventStatus(eventId, newEventStatus);
-	}
+	
 
 	@PutMapping("/updateEvent")
 	public String updateEvent(Integer eventId, Integer organizerId, String title, String theme, String description,
@@ -74,6 +71,12 @@ public class EventController {
 	@GetMapping("/upcomingEventsGivenOrganizerId")
 	public ArrayList<Event> getUpcomingEventsPerOrganizer(@RequestParam Integer id) {
 		return eventServices.getUpcomingEventsPerOrganizer(id);
+	}
+	
+	
+	@GetMapping("/getEventIDFromTitle")
+	public Integer getEventIDFromTitle(@RequestParam String title) {
+		return eventServices.getEventIDFromTitle(title);
 	}
 
 }

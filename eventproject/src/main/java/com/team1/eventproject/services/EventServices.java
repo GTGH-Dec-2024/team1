@@ -220,24 +220,7 @@ public class EventServices {
 	    return upcomingEvents;
 	}
 	
-	/*
-	 * public void visitorsPerEvent() {
-	 * 
-	 * for (Event event : allEvents) { System.out.println("Event: " +
-	 * event.getTitle()); List<Reservation> reservationsForThisEvent =
-	 * reservationServices.getReservationsByEvent(event.getId()); if
-	 * (reservationsForThisEvent.isEmpty()) {
-	 * System.out.println("No visitors yet!"); } else { for (Reservation reservation
-	 * : reservationsForThisEvent) {
-	 * System.out.println(reservation.getVisitor().getName() + " " +
-	 * reservation.getVisitor().getSurname() + " (" +
-	 * reservation.getVisitor().getId() + ")"); } } } }
-	 */
-	/*
-	 * public void getReservationsForOrganizersEvents() {
-	 * 
-	 * }
-	 */
+	
 	// searchEvents is the same as getting a certain event-->getEvent
 	public List<Event> searchEvents(Integer id, Integer day, Integer month, Integer year, String location,
 			String theme) {
@@ -252,8 +235,7 @@ public class EventServices {
 				.filter(event -> theme.equals(null) || theme.equals(event.getTheme())).collect(Collectors.toList());
 	}
 
-	// να βλεπω αναφορες με την κατασταση των εκδηλωσεων 1ο απο το doc
-
+	
 	// method that finds a specific event given an id as a parameter
 	public Event getEventUsingID(Integer eventId) {
 		for (Event event : allEvents) {
