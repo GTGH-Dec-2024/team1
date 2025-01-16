@@ -47,8 +47,14 @@ public class OrganizerController {
 	}
 	
 	@PutMapping("/update")
-	public String updateOrganizer(Integer id, String name, String surname, String afm, String description){
+	public String updateOrganizer(@RequestParam Integer id, @RequestParam String name, @RequestParam String surname, @RequestParam String afm, @RequestParam String description){
 		return organizerServices.updateOrganizer(id, name, surname, afm, description);
 	}
+	
+	@DeleteMapping("/deleteOrganizerEventById")
+	public String deleteOrganizerEvent(@RequestParam Integer eventId, @RequestParam Integer organizerId) {
+		return organizerServices.deleteOrganizerEvent(eventId, organizerId);
+	}
+	
 	
 }
