@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team1.eventproject.entities.Event;
+import com.team1.eventproject.entities.Visitor;
 
 @Service
 public class EventServices {
@@ -111,17 +112,20 @@ public class EventServices {
 	 	}
 	// method to delete an event given its id
 	public String deleteEvent(Integer eventId) {
-		String message = "Event with id " + eventId + " deleted sucessfully";
-		updateEventStatus(eventId, "deleted");
-		return message;
-	}
+		Event event = getEventUsingID(eventId);
+			if (event ==null || event.getStatus().equalsIgnoreCase("deleted"))
+			{
+				return "The event with ID " +eventId+ " doesn't exist or has already been deleted";
+			}
+			updateEventStatus(eventId, "deleted");
+			return "Event with id " + eventId + " deleted sucessfully";
+		}
+	
 
 	// method to update an event's status
-	public String updateEventStatus(Integer eventId, String newEventStatus) {
-		String message = "Event with id " + eventId + " updated succesfully!";
+	public void updateEventStatus(Integer eventId, String newEventStatus) {
 		Event event = getEventUsingID(eventId);
 		event.setStatus(newEventStatus);
-		return message;
 	}
 
 	// method to update an event's info
