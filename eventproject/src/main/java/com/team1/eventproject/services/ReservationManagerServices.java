@@ -49,7 +49,7 @@ public class ReservationManagerServices {
 
 					if (visitor != null) {
 						visitorsperevent += visitor.getName() + " " + visitor.getSurname() + " (id = " + visitor.getId()
-								+ ")";
+								+ ")\n";
 					}
 				}
 			}

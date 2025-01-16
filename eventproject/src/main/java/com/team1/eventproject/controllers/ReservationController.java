@@ -97,4 +97,16 @@ public class ReservationController {
         // Call the service method to add reservation based on visitor ID and event title
         return reservationServices.addReservation2(visitorID, title);
     }
+	
+	@GetMapping ("/visitorsPerEvent")
+	public String getVisitorsPerEvent()
+	{
+		return reservationManagerServices.visitorsPerEvent();
+	}
+	
+	@GetMapping("/reservationsForOrganizersEvents")
+	public List<Reservation >getReservationsForOrganizersEvents(@RequestParam Integer id)
+	{
+		return reservationManagerServices.getReservationsForOrganizersEvents(id);
+	}
 }
