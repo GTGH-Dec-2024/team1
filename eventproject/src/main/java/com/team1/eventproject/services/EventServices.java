@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team1.eventproject.entities.Event;
+import com.team1.eventproject.entities.Organizer;
 
 @Service
 public class EventServices {
@@ -252,7 +253,6 @@ public class EventServices {
 				.filter(event -> theme.equals(null) || theme.equals(event.getTheme())).collect(Collectors.toList());
 	}
 
-	// να βλεπω αναφορες με την κατασταση των εκδηλωσεων 1ο απο το doc
 
 	// method that finds a specific event given an id as a parameter
 	public Event getEventUsingID(Integer eventId) {

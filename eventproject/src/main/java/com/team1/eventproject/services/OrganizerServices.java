@@ -1,5 +1,6 @@
 package com.team1.eventproject.services;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public class OrganizerServices {
 
 	@Autowired
 	private EventServices eventServices;
+	@Autowired ApprovalRequestServices approvalRequestServices;
 
 	public OrganizerServices(ArrayList<Organizer> allOrganizers) {
 		this.allOrganizers = new ArrayList<>();
@@ -140,4 +142,13 @@ public class OrganizerServices {
 		}
 		return "The organizer ID you provided is not correct.";
 	}
+	
+	public String deleteOrganizerEvent(Integer eventId, Integer organizerId) {
+		String message = "The request for the deletion for event with id "+eventId+" has been made succesfully!";
+		LocalDate createdAt = LocalDate.now();
+		approvalRequestServices.addApprovalRequest("delete", organizerId, eventId, "Approve the request for deletion for the event ");
+		return message;
+	}
+	
+	
 }

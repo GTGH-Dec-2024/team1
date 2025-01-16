@@ -51,5 +51,4 @@ public class OrganizerController {
 		return organizerServices.updateOrganizer(id, name, surname, afm, description);
 	}
 	
-	
 }
